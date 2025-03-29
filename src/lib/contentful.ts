@@ -189,8 +189,8 @@ export async function getActivities(): Promise<Activity[]> {
   try {
     const response = await client.getEntries({
       content_type: 'activity',
-      order: ['fields.date'],
-      include: 10, // 解析嵌入资产的引用
+      order: ['-fields.date'],
+      include: 10,
     });
 
     if (!response.items || !response.items.length) {

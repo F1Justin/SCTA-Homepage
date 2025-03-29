@@ -13,7 +13,13 @@ export default function Home() {
   const [activities, setActivities] = useState<Activity[]>([]);
 
   useEffect(() => {
-    getActivities().then(setActivities);
+    getActivities().then(activities => {
+      // 按日期降序排序
+      const sortedActivities = activities.sort((a, b) => 
+        new Date(b.date).getTime() - new Date(a.date).getTime()
+      );
+      setActivities(sortedActivities);
+    });
   }, []);
 
   return (
@@ -131,9 +137,9 @@ export default function Home() {
             viewport={{ once: true }}
           >
             <h2 className="section-title dark:text-white">活动<span className="text-brand-gold dark:text-yellow-400">展示</span></h2>
-            <div className="columns-1 md:columns-2 lg:columns-3 gap-8 [column-fill:_balance]">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {activities.slice(0, 6).map((activity, index) => (
-                <div key={activity.id} className="break-inside-avoid mb-8 inline-block w-full">
+                <div key={activity.id} className="mb-8">
                   <ActivityCard activity={activity} index={index} />
                 </div>
               ))}

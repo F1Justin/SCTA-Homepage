@@ -13,7 +13,11 @@ export default function ActivitiesPage() {
     const fetchActivities = async () => {
       try {
         const activitiesData = await getActivities();
-        setActivities(activitiesData);
+        // 按日期降序排序
+        const sortedActivities = activitiesData.sort((a, b) => 
+          new Date(b.date).getTime() - new Date(a.date).getTime()
+        );
+        setActivities(sortedActivities);
       } catch (error) {
         console.error('Error fetching activities:', error);
       } finally {
@@ -57,9 +61,9 @@ export default function ActivitiesPage() {
           <p className="text-gray-500 dark:text-gray-400">请稍后再来查看</p>
         </div>
       ) : (
-        <div className="columns-1 sm:columns-2 lg:columns-3 gap-8 [column-fill:_balance]">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {activities.map((activity, index) => (
-            <div key={activity.id} className="break-inside-avoid mb-8 inline-block w-full">
+            <div key={activity.id} className="mb-8">
               <ActivityCard activity={activity} index={index} />
             </div>
           ))}
