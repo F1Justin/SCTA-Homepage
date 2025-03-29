@@ -14,11 +14,28 @@ export default function Home() {
 
   useEffect(() => {
     getActivities().then(activities => {
-      // 按日期降序排序
-      const sortedActivities = activities.sort((a, b) => 
+      // 1. 按日期降序排序
+      const sortedByDate = activities.sort((a, b) => 
         new Date(b.date).getTime() - new Date(a.date).getTime()
       );
-      setActivities(sortedActivities);
+      
+      // 2. 仅处理前6个活动
+      const itemsToDisplay = sortedByDate.slice(0, 6);
+      
+      // 3. 重新排序为水平方向优先 (让 CSS columns 正确填充)
+      const numColumns = 3; // 基于最大列数计算
+      const numRows = Math.ceil(itemsToDisplay.length / numColumns);
+      const result = [];
+      for (let col = 0; col < numColumns; col++) {
+        for (let row = 0; row < numRows; row++) {
+          const index = row * numColumns + col;
+          if (index < itemsToDisplay.length) {
+            result.push(itemsToDisplay[index]);
+          }
+        }
+      }
+      
+      setActivities(result); // 设置重排后的数组
     });
   }, []);
 
@@ -137,30 +154,34 @@ export default function Home() {
             viewport={{ once: true }}
           >
             <h2 className="section-title dark:text-white">活动<span className="text-brand-gold dark:text-yellow-400">展示</span></h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {activities.slice(0, 6).map((activity, index) => (
-                <div key={activity.id} className="mb-8">
-                  <ActivityCard activity={activity} index={index} />
-                </div>
-              ))}
-            </div>
-            <div className="text-center mt-12">
-              <Link href="/activities" className="btn-primary">
-                查看更多活动
-              </Link>
+            <div className="relative">
+              <div className="columns-1 md:columns-2 lg:columns-3 gap-8 [column-fill:_balance]">
+                {activities.map((activity, index) => (
+                  <div key={activity.id} className="break-inside-avoid mb-8 inline-block w-full">
+                    <ActivityCard activity={activity} index={index} />
+                  </div>
+                ))}
+              </div>
+              <div className="absolute bottom-0 left-0 right-0 h-[35%] bg-gradient-to-t from-white via-white to-transparent dark:from-gray-900 dark:via-gray-900 pointer-events-none"></div>
+              <div className="absolute bottom-48 left-0 right-0 flex justify-center">
+                <Link href="/activities" className="btn-primary z-10">
+                  查看更多活动
+                </Link>
+              </div>
             </div>
           </motion.div>
         </div>
       </section>
 
       {/* Schools Section */}
-      <section id="schools" className="py-20 bg-gray-50 dark:bg-gray-800 transition-colors duration-300">
+      <section id="schools" className="py-8 -mt-48 bg-gray-50 dark:bg-gray-800 transition-colors duration-300 relative z-20">
         <div className="container-custom">
           <motion.div
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
+            className="pt-8"
           >
             <h2 className="section-title dark:text-white">成员<span className="text-brand-blue dark:text-blue-400">社团</span></h2>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
