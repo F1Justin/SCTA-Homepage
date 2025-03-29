@@ -12,6 +12,9 @@ module.exports = {
         'brand-gold': '#ffb310',
         'brand-blue': '#56a0d3',
       },
+      fontFamily: {
+        'smiley': ['SmileySans', 'sans-serif'],
+      },
     },
   },
   plugins: [],

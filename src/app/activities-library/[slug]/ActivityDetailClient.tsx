@@ -15,23 +15,10 @@ export default function ActivityDetailClient({ activity }: ActivityDetailClientP
   const fields = activity.fields as ActivityBlueprintFields;
 
   // 调试日志
-  console.log('活动方案详情字段:', {
-    title: fields.title,
-    hardwareRequirements: {
-      type: typeof fields.hardwareRequirements,
-      value: fields.hardwareRequirements,
-      isStr: typeof fields.hardwareRequirements === 'string',
-    },
-    softwareRequirements: {
-      type: typeof fields.softwareRequirements,
-      value: fields.softwareRequirements,
-      isStr: typeof fields.softwareRequirements === 'string',
-    },
-    materialsNeeded: {
-      type: typeof fields.materialsNeeded,
-      value: fields.materialsNeeded,
-      isStr: typeof fields.materialsNeeded === 'string',
-    },
+  console.log('需求字段:', {
+    硬件需求: fields.hardwareRequirements,
+    软件需求: fields.softwareRequirements,
+    物料需求: fields.materialsNeeded,
   });
 
   // 格式化需求字段
@@ -229,52 +216,67 @@ export default function ActivityDetailClient({ activity }: ActivityDetailClientP
             </section>
 
             {/* 准备事项 */}
-            {(fields.hardwareRequirements || fields.softwareRequirements || fields.materialsNeeded) && (
-              <section className="mb-12">
-                <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">准备事项</h2>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                  {fields.hardwareRequirements && (
-                    <div className="bg-gray-50 dark:bg-gray-700/50 p-6 rounded-xl">
-                      <h3 className="font-medium text-gray-900 dark:text-white mb-4">硬件需求</h3>
-                      <ul className="space-y-2 text-gray-600 dark:text-gray-300">
-                        {formatRequirement(fields.hardwareRequirements).map((item: string, index: number) => (
-                          <li key={index} className="flex items-start">
-                            <span className="mr-2">•</span>
-                            <span>{item}</span>
-                          </li>
-                        ))}
-                      </ul>
+            <div className="mb-8">
+              <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">准备事项</h2>
+              <div className="space-y-4">
+                {/* 硬件需求 */}
+                {fields.hardwareRequirements && (
+                  <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-4">
+                    <h3 className="text-lg font-medium mb-2 flex items-center gap-2 text-gray-900 dark:text-white">
+                      <svg className="w-5 h-5 text-brand-red dark:text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                      </svg>
+                      硬件需求
+                    </h3>
+                    <div className="flex flex-wrap gap-2">
+                      {Array.isArray(fields.hardwareRequirements) && fields.hardwareRequirements.map((item: string, index: number) => (
+                        <span key={index} className="px-3 py-1 bg-white dark:bg-gray-700 rounded-full text-sm text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-600">
+                          {item}
+                        </span>
+                      ))}
                     </div>
-                  )}
-                  {fields.softwareRequirements && (
-                    <div className="bg-gray-50 dark:bg-gray-700/50 p-6 rounded-xl">
-                      <h3 className="font-medium text-gray-900 dark:text-white mb-4">软件需求</h3>
-                      <ul className="space-y-2 text-gray-600 dark:text-gray-300">
-                        {formatRequirement(fields.softwareRequirements).map((item: string, index: number) => (
-                          <li key={index} className="flex items-start">
-                            <span className="mr-2">•</span>
-                            <span>{item}</span>
-                          </li>
-                        ))}
-                      </ul>
+                  </div>
+                )}
+
+                {/* 软件需求 */}
+                {fields.softwareRequirements && (
+                  <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-4">
+                    <h3 className="text-lg font-medium mb-2 flex items-center gap-2 text-gray-900 dark:text-white">
+                      <svg className="w-5 h-5 text-brand-blue dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4" />
+                      </svg>
+                      软件需求
+                    </h3>
+                    <div className="flex flex-wrap gap-2">
+                      {Array.isArray(fields.softwareRequirements) && fields.softwareRequirements.map((item: string, index: number) => (
+                        <span key={index} className="px-3 py-1 bg-white dark:bg-gray-700 rounded-full text-sm text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-600">
+                          {item}
+                        </span>
+                      ))}
                     </div>
-                  )}
-                  {fields.materialsNeeded && (
-                    <div className="bg-gray-50 dark:bg-gray-700/50 p-6 rounded-xl">
-                      <h3 className="font-medium text-gray-900 dark:text-white mb-4">物料需求</h3>
-                      <ul className="space-y-2 text-gray-600 dark:text-gray-300">
-                        {formatRequirement(fields.materialsNeeded).map((item: string, index: number) => (
-                          <li key={index} className="flex items-start">
-                            <span className="mr-2">•</span>
-                            <span>{item}</span>
-                          </li>
-                        ))}
-                      </ul>
+                  </div>
+                )}
+
+                {/* 物料需求 */}
+                {fields.materialsNeeded && (
+                  <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-4">
+                    <h3 className="text-lg font-medium mb-2 flex items-center gap-2 text-gray-900 dark:text-white">
+                      <svg className="w-5 h-5 text-brand-gold dark:text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                      </svg>
+                      物料需求
+                    </h3>
+                    <div className="flex flex-wrap gap-2">
+                      {Array.isArray(fields.materialsNeeded) && fields.materialsNeeded.map((item: string, index: number) => (
+                        <span key={index} className="px-3 py-1 bg-white dark:bg-gray-700 rounded-full text-sm text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-600">
+                          {item}
+                        </span>
+                      ))}
                     </div>
-                  )}
-                </div>
-              </section>
-            )}
+                  </div>
+                )}
+              </div>
+            </div>
 
             {/* 注意事项 */}
             {fields.tips && (

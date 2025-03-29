@@ -2,7 +2,17 @@
 @tailwind components;
 @tailwind utilities;
 
+@import './fonts.css';
+
 @layer base {
+  @font-face {
+    font-family: 'SmileySans';
+    src: url('/fonts/SmileySans-Oblique.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+
   body {
     @apply bg-white text-gray-900;
     font-family: 'Noto Sans SC', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
