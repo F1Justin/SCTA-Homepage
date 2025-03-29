@@ -115,8 +115,8 @@ export const schools: School[] = [
     name: "上海应用技术大学",
     logo: "/School-Logos/上海应用技术大学.png",
     groupInfo: {
-      name: "映姬带project",
-      number: "942212061",
+      name: "映姬东方project",
+      number: "1043620753",
       description: "欢迎大家加入"
     }
   },
