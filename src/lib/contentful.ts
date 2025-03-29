@@ -1,6 +1,7 @@
 import { createClient } from 'contentful';
 import { Document } from '@contentful/rich-text-types';
 import { BLOCKS, MARKS } from '@contentful/rich-text-types';
+import { ActivityBlueprint, ActivityBlueprintFields } from '@/types/contentful';
 
 // 定义活动数据结构
 export interface Activity {
@@ -125,16 +126,57 @@ const useContentful = !!(spaceId && accessToken);
 
 // 如果环境变量有效，则创建Contentful客户端
 let client: any = null;
+let initializationError: Error | null = null;
+
 if (useContentful) {
   try {
+    console.log('正在初始化Contentful客户端...');
+    console.log('环境变量状态:', {
+      hasSpaceId: !!spaceId,
+      hasAccessToken: !!accessToken,
+      spaceIdLength: spaceId?.length,
+      accessTokenLength: accessToken?.length
+    });
+
     client = createClient({
       space: spaceId!,
       accessToken: accessToken!,
+      retryOnError: true,
+      retryLimit: 3,
+      timeout: 30000, // 30秒超时
     });
+
+    // 测试连接
+    client.getSpace()
+      .then(() => {
+        console.log('Contentful客户端初始化成功，已连接到空间');
+      })
+      .catch((error: Error) => {
+        console.error('Contentful空间连接测试失败:', error);
+        initializationError = error;
+      });
+
   } catch (error) {
-    console.error('Contentful初始化失败:', error);
+    console.error('Contentful客户端初始化失败:', error);
+    if (error instanceof Error) {
+      console.error('初始化错误详情:', {
+        name: error.name,
+        message: error.message,
+        stack: error.stack
+      });
+    }
+    initializationError = error as Error;
   }
 }
+
+// 导出初始化状态，方便调试
+export const contentfulStatus = {
+  isEnabled: useContentful,
+  hasClient: !!client,
+  initializationError: initializationError?.message || null,
+  spaceId: spaceId ? '已设置' : '未设置',
+  accessToken: accessToken ? '已设置' : '未设置'
+};
 
 const emptyRichText: Document = {
   nodeType: BLOCKS.DOCUMENT,
@@ -272,5 +314,240 @@ export async function getActivity(id: string): Promise<Activity | null> {
   } catch (error) {
     console.error(`获取活动详情失败 (ID: ${id}):`, error);
     return mockActivities.find(activity => activity.id === id) || null;
+  }
+}
+
+/**
+ * 获取所有活动方案
+ */
+export async function getActivityBlueprints(): Promise<ActivityBlueprint[]> {
+  if (!useContentful || !client) {
+    console.warn('使用模拟数据 - Contentful环境变量未设置或客户端初始化失败', {
+      useContentful,
+      hasClient: !!client,
+      spaceId: !!spaceId,
+      accessToken: !!accessToken
+    });
+    return []; // 暂时没有模拟数据，返回空数组
+  }
+
+  try {
+    console.log('正在从Contentful获取活动方案列表...');
+    const response = await client.getEntries({
+      content_type: 'activityBlueprint',
+      order: ['fields.title'],
+      include: 2,
+    });
+
+    console.log('Contentful响应:', {
+      total: response.total,
+      hasItems: !!response.items,
+      itemsLength: response.items?.length || 0
+    });
+
+    if (!response.items || !response.items.length) {
+      console.warn('未找到活动方案数据');
+      return [];
+    }
+
+    // 验证每个活动方案的数据结构
+    const validBlueprints = response.items.map((item: any) => {
+      try {
+        // 验证必需字段
+        if (!item.fields?.title || !item.fields?.category || !item.fields?.summary) {
+          console.warn('活动方案缺少必需字段:', {
+            id: item.sys?.id,
+            hasTitle: !!item.fields?.title,
+            hasCategory: !!item.fields?.category,
+            hasSummary: !!item.fields?.summary
+          });
+          return null;
+        }
+        return item;
+      } catch (e) {
+        console.error('处理活动方案数据时出错:', e);
+        return null;
+      }
+    }).filter(Boolean) as ActivityBlueprint[];
+
+    console.log(`成功获取 ${validBlueprints.length} 个有效的活动方案`);
+    return validBlueprints;
+  } catch (error) {
+    console.error('获取活动方案列表失败:', error);
+    if (error instanceof Error) {
+      console.error('错误详情:', {
+        name: error.name,
+        message: error.message,
+        stack: error.stack
+      });
+    }
+    return [];
+  }
+}
+
+/**
+ * 根据ID获取单个活动方案
+ */
+export async function getActivityBlueprintById(id: string): Promise<ActivityBlueprint | null> {
+  if (!useContentful || !client) {
+    console.warn('使用模拟数据 - Contentful环境变量未设置或客户端初始化失败');
+    return null;
+  }
+
+  try {
+    const entry = await client.getEntry(id, {
+      include: 10, // 解析嵌入资产的引用，最大深度
+    });
+
+    if (!entry) {
+      console.warn(`未找到ID为${id}的活动方案`);
+      return null;
+    }
+
+    return entry as unknown as ActivityBlueprint;
+  } catch (error) {
+    console.error(`获取活动方案详情失败 (ID: ${id}):`, error);
+    return null;
+  }
+}
+
+/**
+ * 根据slug获取单个活动方案
+ * 注意：此函数既支持slug查询，也支持ID查询，以确保向前兼容性
+ */
+export async function getActivityBlueprintBySlug(slug: string): Promise<ActivityBlueprint | null> {
+  if (!useContentful || !client) {
+    console.warn('[getActivityBlueprintBySlug] 使用模拟数据 - Contentful环境变量未设置或客户端初始化失败', {
+      useContentful,
+      hasClient: !!client,
+      spaceId: spaceId ? '已设置' : '未设置',
+      accessToken: accessToken ? '已设置' : '未设置'
+    });
+    return null;
+  }
+
+  try {
+    // 验证输入参数
+    if (!slug) {
+      console.error('[getActivityBlueprintBySlug] 无效的slug参数');
+      return null;
+    }
+
+    console.log(`[getActivityBlueprintBySlug] 开始获取活动方案，参数:`, {
+      slug,
+      useContentful,
+      hasClient: !!client,
+      clientSpace: client.space,
+      clientEnvironment: client.environment
+    });
+
+    // 首先尝试通过slug字段查询
+    let response;
+    try {
+      response = await client.getEntries({
+        content_type: 'activityBlueprint',
+        'fields.slug': slug,
+        include: 10,
+      });
+
+      console.log(`[getActivityBlueprintBySlug] slug查询结果:`, {
+        total: response.total,
+        hasItems: !!response.items,
+        itemsLength: response.items?.length || 0,
+        query: {
+          content_type: 'activityBlueprint',
+          'fields.slug': slug
+        }
+      });
+    } catch (slugError) {
+      console.error('[getActivityBlueprintBySlug] slug查询失败:', slugError);
+      response = { items: [], total: 0 };
+    }
+
+    // 如果没有找到，则尝试通过ID查询
+    if (!response.items || response.items.length === 0) {
+      console.log(`[getActivityBlueprintBySlug] 未通过slug找到活动方案，尝试使用ID查询：${slug}`);
+      try {
+        const directEntry = await client.getEntry(slug, {
+          include: 10,
+        });
+        
+        console.log(`[getActivityBlueprintBySlug] ID查询结果:`, {
+          hasEntry: !!directEntry,
+          entryId: directEntry?.sys?.id,
+          contentType: directEntry?.sys?.contentType?.sys?.id,
+          hasFields: !!directEntry?.fields,
+          fields: directEntry?.fields ? Object.keys(directEntry.fields) : [],
+          createdAt: directEntry?.sys?.createdAt,
+          updatedAt: directEntry?.sys?.updatedAt
+        });
+        
+        if (directEntry && directEntry.sys && directEntry.sys.contentType && 
+            directEntry.sys.contentType.sys.id === 'activityBlueprint') {
+          response = { items: [directEntry], total: 1 };
+        } else {
+          console.warn('[getActivityBlueprintBySlug] 通过ID找到的条目不是活动方案类型:', {
+            foundType: directEntry?.sys?.contentType?.sys?.id,
+            expectedType: 'activityBlueprint'
+          });
+        }
+      } catch (idError) {
+        console.error('[getActivityBlueprintBySlug] 通过ID查询失败:', {
+          error: idError,
+          slug
+        });
+      }
+    }
+
+    if (!response.items || response.items.length === 0) {
+      console.warn(`[getActivityBlueprintBySlug] 未找到活动方案:`, {
+        slug,
+        searchMethods: ['slug', 'id'],
+        responseStatus: response ? '有响应' : '无响应',
+        itemsStatus: response?.items ? '有items' : '无items'
+      });
+      return null;
+    }
+
+    const activity = response.items[0];
+    
+    console.log(`[getActivityBlueprintBySlug] 找到活动方案:`, {
+      id: activity.sys?.id,
+      hasFields: !!activity.fields,
+      fields: activity.fields ? Object.keys(activity.fields) : [],
+      title: activity.fields?.title,
+      hasCategory: !!activity.fields?.category,
+      hasSummary: !!activity.fields?.summary,
+      sys: {
+        id: activity.sys?.id,
+        contentType: activity.sys?.contentType?.sys?.id,
+        createdAt: activity.sys?.createdAt,
+        updatedAt: activity.sys?.updatedAt
+      }
+    });
+    
+    // 验证必需字段
+    if (!activity.fields?.title || !activity.fields?.category || !activity.fields?.summary) {
+      console.warn('[getActivityBlueprintBySlug] 活动方案缺少必需字段:', {
+        id: activity.sys?.id,
+        hasTitle: !!activity.fields?.title,
+        hasCategory: !!activity.fields?.category,
+        hasSummary: !!activity.fields?.summary,
+        availableFields: activity.fields ? Object.keys(activity.fields) : []
+      });
+      return null;
+    }
+
+    return activity as unknown as ActivityBlueprint;
+  } catch (error) {
+    console.error(`[getActivityBlueprintBySlug] 获取活动方案详情失败:`, {
+      slug,
+      error: error instanceof Error ? {
+        name: error.name,
+        message: error.message,
+        stack: error.stack
+      } : error
+    });
+    return null;
   }
 } 

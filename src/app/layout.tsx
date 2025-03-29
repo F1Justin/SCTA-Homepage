@@ -40,6 +40,9 @@ export default function RootLayout({
               <Link href="/activities" className="text-gray-800 dark:text-gray-200 hover:text-brand-red dark:hover:text-brand-red transition duration-300">
                 活动
               </Link>
+              <Link href="/activities-library" className="text-gray-800 dark:text-gray-200 hover:text-brand-red dark:hover:text-brand-red transition duration-300">
+                活动方案库
+              </Link>
               <Link href="/#schools" className="text-gray-800 dark:text-gray-200 hover:text-brand-red dark:hover:text-brand-red transition duration-300">
                 成员社团
               </Link>
@@ -72,6 +75,7 @@ export default function RootLayout({
                 <ul className="space-y-2">
                   <li><a href="#about" className="text-gray-300 dark:text-gray-400 hover:text-white transition-colors">关于我们</a></li>
                   <li><a href="#activities" className="text-gray-300 dark:text-gray-400 hover:text-white transition-colors">活动展示</a></li>
+                  <li><a href="/activities-library" className="text-gray-300 dark:text-gray-400 hover:text-white transition-colors">活动方案库</a></li>
                   <li><a href="#schools" className="text-gray-300 dark:text-gray-400 hover:text-white transition-colors">成员社团</a></li>
                   <li><a href="#contact" className="text-gray-300 dark:text-gray-400 hover:text-white transition-colors">加入我们</a></li>
                 </ul>
