@@ -189,8 +189,11 @@ export default function Home() {
           >
             <h2 className="section-title dark:text-white">成员<span className="text-brand-blue dark:text-blue-400">社团</span></h2>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
-              {schools.map((school, index) => (
-                <SchoolCard key={school.id} school={school} index={index} />
+              {schools.map((school) => (
+                <SchoolCard 
+                  key={school.id} 
+                  school={school}
+                />
               ))}
             </div>
           </motion.div>
@@ -215,10 +218,12 @@ export default function Home() {
             <div className="bg-white bg-opacity-10 p-8 rounded-lg backdrop-blur-sm">
               <div className="flex flex-col items-center">
                 <div className="bg-white p-4 rounded-lg mb-4">
-                  <img 
-                    src="/scta-qrcode.png" 
-                    alt="上海高校东方联合会QQ群二维码" 
-                    className="w-48 h-48 object-contain"
+                  <Image
+                    src="/scta-qrcode.png"
+                    alt="上海高校东方联合会QQ群二维码"
+                    width={192}
+                    height={192}
+                    className="object-contain"
                   />
                 </div>
                 <p className="text-lg opacity-90">扫描二维码加入上海高校东方联合会</p>

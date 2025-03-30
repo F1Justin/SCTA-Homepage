@@ -1,7 +1,6 @@
 import { getActivity } from '@/lib/contentful';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
 import { BLOCKS, MARKS, INLINES } from '@contentful/rich-text-types';
-import { Activity } from '@/lib/contentful';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
@@ -27,16 +26,32 @@ export default async function ActivityPage({ params }: ActivityPageProps) {
   // 富文本渲染选项
   const options = {
     renderNode: {
-      [BLOCKS.PARAGRAPH]: (node: any, children: any) => {
+      [BLOCKS.PARAGRAPH]: (
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        node: any, 
+        children: any
+      ) => {
         return <p className="mb-4 text-gray-700 dark:text-gray-300 leading-relaxed">{children}</p>;
       },
-      [BLOCKS.HEADING_1]: (node: any, children: any) => (
+      [BLOCKS.HEADING_1]: (
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        node: any, 
+        children: any
+      ) => (
         <h1 className="text-3xl font-bold mb-4 dark:text-gray-100">{children}</h1>
       ),
-      [BLOCKS.HEADING_2]: (node: any, children: any) => (
+      [BLOCKS.HEADING_2]: (
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        node: any, 
+        children: any
+      ) => (
         <h2 className="text-2xl font-bold mb-3 dark:text-gray-100">{children}</h2>
       ),
-      [BLOCKS.HEADING_3]: (node: any, children: any) => (
+      [BLOCKS.HEADING_3]: (
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        node: any, 
+        children: any
+      ) => (
         <h3 className="text-xl font-bold mb-2 dark:text-gray-100">{children}</h3>
       ),
       [BLOCKS.EMBEDDED_ASSET]: (node: any) => {

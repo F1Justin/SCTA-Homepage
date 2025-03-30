@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
 import { BLOCKS, MARKS } from '@contentful/rich-text-types';
 import { ActivityBlueprint, ActivityBlueprintFields } from '@/types/contentful';
@@ -20,26 +21,6 @@ export default function ActivityDetailClient({ activity }: ActivityDetailClientP
     软件需求: fields.softwareRequirements,
     物料需求: fields.materialsNeeded,
   });
-
-  // 格式化需求字段
-  const formatRequirement = (requirement: any): string[] => {
-    if (typeof requirement === 'string') {
-      return requirement.split('\n').filter(Boolean);
-    } else if (requirement && typeof requirement === 'object') {
-      // 处理可能的Contentful对象
-      if (requirement.content && Array.isArray(requirement.content)) {
-        // 富文本格式处理
-        return requirement.content
-          .map((item: any) => 
-            item.content?.map((c: any) => c.value).join('') || '')
-          .filter(Boolean);
-      } else {
-        // 其他对象格式
-        return [JSON.stringify(requirement)];
-      }
-    }
-    return [];
-  };
 
   // 富文本渲染选项
   const options = {
@@ -94,15 +75,19 @@ export default function ActivityDetailClient({ activity }: ActivityDetailClientP
           {/* 封面图 */}
           <div className="relative w-full bg-gray-200 dark:bg-gray-700">
             {fields.coverImage?.fields?.file?.url ? (
-              <img
-                src={typeof fields.coverImage.fields.file.url === 'string' 
-                  ? (fields.coverImage.fields.file.url.startsWith('//') 
-                      ? `https:${fields.coverImage.fields.file.url}` 
-                      : fields.coverImage.fields.file.url)
-                  : ''}
-                alt={fields.title}
-                className="w-full h-auto"
-              />
+              <div className="relative aspect-video">
+                <Image
+                  src={typeof fields.coverImage.fields.file.url === 'string' 
+                    ? (fields.coverImage.fields.file.url.startsWith('//') 
+                        ? `https:${fields.coverImage.fields.file.url}` 
+                        : fields.coverImage.fields.file.url)
+                    : ''}
+                  alt={fields.title}
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 700px) 100vw, 700px"
+                />
+              </div>
             ) : (
               <div className="aspect-video">
                 <TextCoverPlaceholder title={fields.title} />

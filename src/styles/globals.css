@@ -15,7 +15,6 @@
 
   body {
     @apply bg-white text-gray-900;
-    font-family: 'Noto Sans SC', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   }
 }
 

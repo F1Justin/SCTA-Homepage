@@ -2,10 +2,61 @@ import '@/styles/globals.css'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import Image from 'next/image'
+import { Noto_Sans_SC } from 'next/font/google'
+
+const notoSansSC = Noto_Sans_SC({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
+  display: 'swap',
+  variable: '--font-noto-sans-sc',
+  preload: true,
+})
 
 export const metadata: Metadata = {
   title: '上海高校东方联合会 - 东方Project',
   description: '上海高校东方Project同好会联合会官方网站',
+  icons: {
+    icon: [
+      {
+        url: '/icons/favicon-32x32.png',
+        sizes: '32x32',
+        type: 'image/png',
+      },
+      {
+        url: '/icons/favicon-16x16.png',
+        sizes: '16x16',
+        type: 'image/png',
+      }
+    ],
+    apple: [
+      {
+        url: '/icons/apple-touch-icon.png',
+        sizes: '180x180',
+        type: 'image/png',
+      }
+    ],
+  },
+  manifest: '/manifest.json',
+  themeColor: '#ffffff',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'default',
+    title: '上海高校东方联合会',
+  },
+  viewport: 'width=device-width, initial-scale=1, maximum-scale=1',
+  openGraph: {
+    type: 'website',
+    locale: 'zh_CN',
+    url: 'https://scta.moe',
+    title: '上海高校东方联合会 - 东方Project',
+    description: '上海高校东方Project同好会联合会官方网站',
+    images: [{
+      url: '/Logos/上海.png',
+      width: 2989,
+      height: 4094,
+      alt: '上海高校东方联合会',
+    }],
+  },
 }
 
 export default function RootLayout({
@@ -14,46 +65,60 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="zh-CN" className="dark:bg-gray-900">
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet" />
-      </head>
-      <body className="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-300">
+    <html lang="zh-CN" className={`${notoSansSC.variable} dark:bg-gray-900`}>
+      <body className="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-300 font-sans">
         <header className="bg-white dark:bg-gray-800 shadow-sm dark:shadow-gray-700/10 sticky top-0 z-50 transition-colors duration-300">
           <div className="container mx-auto px-4 py-3 flex justify-between items-center">
-            <div className="flex items-center space-x-4">
-              <Link href="/">
-                <Image
-                  src="/Logos/上海.png"
-                  alt="上海高校东方联合会"
-                  width={40}
-                  height={40}
-                  className="dark:brightness-90"
-                  priority
-                />
-              </Link>
-              <h1 className="text-xl font-bold text-gray-900 dark:text-white">上海高校东方联合会</h1>
-            </div>
+            <Link 
+              href="/" 
+              className="flex items-center space-x-4 p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200"
+            >
+              <Image
+                src="/Logos/上海.png"
+                alt="上海高校东方联合会"
+                width={40}
+                height={40}
+                className="dark:brightness-90 flex-shrink-0"
+                priority
+              />
+              <h1 className="text-xl font-bold text-gray-900 dark:text-white whitespace-nowrap">上海高校东方联合会</h1>
+            </Link>
 
-            <nav className="hidden md:flex space-x-6">
-              <Link href="/" className="text-gray-800 dark:text-gray-200 hover:text-brand-red dark:hover:text-brand-red transition duration-300">
+            <nav className="hidden md:flex space-x-2">
+              <Link 
+                href="/" 
+                className="text-gray-800 dark:text-gray-200 hover:text-brand-red dark:hover:text-brand-red hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200 px-3 py-2 rounded-md"
+              >
                 首页
               </Link>
-              <Link href="/activities" className="text-gray-800 dark:text-gray-200 hover:text-brand-red dark:hover:text-brand-red transition duration-300">
+              <Link 
+                href="/activities" 
+                className="text-gray-800 dark:text-gray-200 hover:text-brand-red dark:hover:text-brand-red hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200 px-3 py-2 rounded-md"
+              >
                 活动
               </Link>
-              <Link href="/activities-library" className="text-gray-800 dark:text-gray-200 hover:text-brand-red dark:hover:text-brand-red transition duration-300">
+              <Link 
+                href="/activities-library" 
+                className="text-gray-800 dark:text-gray-200 hover:text-brand-red dark:hover:text-brand-red hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200 px-3 py-2 rounded-md"
+              >
                 活动方案库
               </Link>
-              <Link href="/#schools" className="text-gray-800 dark:text-gray-200 hover:text-brand-red dark:hover:text-brand-red transition duration-300">
+              <Link 
+                href="/#schools" 
+                className="text-gray-800 dark:text-gray-200 hover:text-brand-red dark:hover:text-brand-red hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200 px-3 py-2 rounded-md"
+              >
                 成员社团
               </Link>
-              <Link href="/#about" className="text-gray-800 dark:text-gray-200 hover:text-brand-red dark:hover:text-brand-red transition duration-300">
+              <Link 
+                href="/#about" 
+                className="text-gray-800 dark:text-gray-200 hover:text-brand-red dark:hover:text-brand-red hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200 px-3 py-2 rounded-md"
+              >
                 关于我们
               </Link>
-              <Link href="/#contact" className="text-gray-800 dark:text-gray-200 hover:text-brand-red dark:hover:text-brand-red transition duration-300">
+              <Link 
+                href="/#contact" 
+                className="text-gray-800 dark:text-gray-200 hover:text-brand-red dark:hover:text-brand-red hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200 px-3 py-2 rounded-md"
+              >
                 加入我们
               </Link>
             </nav>

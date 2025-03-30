@@ -1,7 +1,7 @@
 import { createClient } from 'contentful';
 import { Document } from '@contentful/rich-text-types';
-import { BLOCKS, MARKS } from '@contentful/rich-text-types';
-import { ActivityBlueprint, ActivityBlueprintFields } from '@/types/contentful';
+import { BLOCKS } from '@contentful/rich-text-types';
+import { ActivityBlueprint } from '@/types/contentful';
 
 // 定义活动数据结构
 export interface Activity {
@@ -38,90 +38,30 @@ export interface Activity {
   category: string;
 }
 
-// 模拟数据，当环境变量未设置时使用
-const mockActivities: Activity[] = [
-  {
-    id: 'mock1',
-    title: '东方Project主题交流会',
-    description: {
-      nodeType: BLOCKS.DOCUMENT,
+const emptyRichText: Document = {
+  nodeType: BLOCKS.DOCUMENT,
+  data: {},
+  content: [
+    {
+      nodeType: BLOCKS.PARAGRAPH,
       data: {},
       content: [
         {
-          nodeType: BLOCKS.PARAGRAPH,
-          data: {},
-          content: [
-            {
-              nodeType: 'text',
-              value: '一场关于东方Project的主题交流会，欢迎各校爱好者参加！讨论内容包括音乐、游戏和二次创作等。',
-              marks: [],
-              data: {}
-            }
-          ]
+          nodeType: 'text',
+          value: '',
+          marks: [],
+          data: {}
         }
       ]
-    },
-    date: '2023-10-15',
-    image: '/activities/mock1.jpg',
-    category: '交流会',
-  },
-  {
-    id: 'mock2',
-    title: '东方音乐演奏会',
-    description: {
-      nodeType: BLOCKS.DOCUMENT,
-      data: {},
-      content: [
-        {
-          nodeType: BLOCKS.PARAGRAPH,
-          data: {},
-          content: [
-            {
-              nodeType: 'text',
-              value: '由上海高校东方联合会举办的音乐会，将演奏多首东方Project经典曲目。',
-              marks: [],
-              data: {}
-            }
-          ]
-        }
-      ]
-    },
-    date: '2023-11-20',
-    image: '/activities/mock2.jpg',
-    category: '音乐会',
-  },
-  {
-    id: 'mock3',
-    title: '东方同人展',
-    description: {
-      nodeType: BLOCKS.DOCUMENT,
-      data: {},
-      content: [
-        {
-          nodeType: BLOCKS.PARAGRAPH,
-          data: {},
-          content: [
-            {
-              nodeType: 'text',
-              value: '展示东方Project相关的同人作品，包括绘画、手工艺品、音乐作品等。',
-              marks: [],
-              data: {}
-            }
-          ]
-        }
-      ]
-    },
-    date: '2023-12-05',
-    image: '/activities/mock3.jpg',
-    category: '展览',
-  },
-];
+    }
+  ]
+};
 
 // 检查环境变量
 const spaceId = process.env.NEXT_PUBLIC_CONTENTFUL_SPACE_ID;
 const accessToken = process.env.NEXT_PUBLIC_CONTENTFUL_ACCESS_TOKEN;
 
-// 判断是否使用Contentful API或模拟数据
+// 判断是否使用Contentful API
 const useContentful = !!(spaceId && accessToken);
 
 // 如果环境变量有效，则创建Contentful客户端
@@ -176,25 +116,6 @@ export const contentfulStatus = {
   initializationError: initializationError?.message || null,
   spaceId: spaceId ? '已设置' : '未设置',
   accessToken: accessToken ? '已设置' : '未设置'
-};
-
-const emptyRichText: Document = {
-  nodeType: BLOCKS.DOCUMENT,
-  data: {},
-  content: [
-    {
-      nodeType: BLOCKS.PARAGRAPH,
-      data: {},
-      content: [
-        {
-          nodeType: 'text',
-          value: '',
-          marks: [],
-          data: {}
-        }
-      ]
-    }
-  ]
 };
 
 // 处理 Contentful 图片 URL，确保完整的 URL
@@ -298,7 +219,7 @@ export async function getActivityBlueprints(): Promise<ActivityBlueprint[]> {
       spaceId: !!spaceId,
       accessToken: !!accessToken
     });
-    return []; // 暂时没有模拟数据，返回空数组
+    return [];
   }
 
   try {

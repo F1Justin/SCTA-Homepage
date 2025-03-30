@@ -28,14 +28,13 @@ const gradients = [
 
 interface ActivityBlueprintCardProps {
   activity: ActivityBlueprint;
-  index: number;
 }
 
 /**
  * 活动方案卡片组件
  * 展示活动方案的缩略信息，包括标题、分类、简介等
  */
-export default function ActivityBlueprintCard({ activity, index }: ActivityBlueprintCardProps) {
+export default function ActivityBlueprintCard({ activity }: ActivityBlueprintCardProps) {
   const fields = activity.fields as ActivityBlueprintFields;
   const slug = fields.slug || activity.sys.id;
 

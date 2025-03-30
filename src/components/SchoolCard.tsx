@@ -1,13 +1,13 @@
 import { School } from '@/data/schools';
 import { motion } from 'framer-motion';
 import { useState } from 'react';
+import Image from 'next/image';
 
 interface SchoolCardProps {
   school: School;
-  index: number;
 }
 
-export default function SchoolCard({ school, index }: SchoolCardProps) {
+export default function SchoolCard({ school }: SchoolCardProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
@@ -32,10 +32,12 @@ export default function SchoolCard({ school, index }: SchoolCardProps) {
         onClick={() => setIsModalOpen(true)}
       >
         <div className="w-32 h-32 relative mb-4 flex items-center justify-center">
-          <img
+          <Image
             src={school.logo}
             alt={`${school.name} 徽标`}
-            className="w-auto h-auto max-w-full max-h-full object-contain dark:brightness-95"
+            width={128}
+            height={128}
+            className="object-contain dark:brightness-95"
           />
         </div>
         <h3 className="text-xl font-bold text-brand-red dark:text-red-400">{school.name}</h3>
@@ -61,11 +63,13 @@ export default function SchoolCard({ school, index }: SchoolCardProps) {
             </div>
             
             <div className="flex gap-8">
-              <div className="w-64 h-64 flex-shrink-0 flex items-center justify-center">
-                <img 
-                  src={school.logo} 
-                  alt={school.name} 
-                  className="w-auto h-auto max-w-full max-h-full object-contain dark:brightness-95"
+              <div className="w-64 h-64 flex-shrink-0 flex items-center justify-center relative">
+                <Image
+                  src={school.logo}
+                  alt={school.name}
+                  width={256}
+                  height={256}
+                  className="object-contain dark:brightness-95"
                 />
               </div>
               <div className="flex-grow">

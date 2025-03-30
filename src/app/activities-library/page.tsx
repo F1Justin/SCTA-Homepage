@@ -4,7 +4,6 @@ import React, { useState, useEffect } from 'react';
 import { getActivityBlueprints } from '@/lib/contentful';
 import ActivityBlueprintCard from '@/components/ActivityBlueprintCard';
 import { ActivityBlueprint, ActivityBlueprintFields } from '@/types/contentful';
-import Link from 'next/link';
 
 export default function ActivityLibraryPage() {
   // 状态管理
@@ -152,11 +151,10 @@ export default function ActivityLibraryPage() {
               </div>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {filteredActivities.map((activity, index) => (
+                {filteredActivities.map((activity) => (
                   <ActivityBlueprintCard 
                     key={activity.sys.id} 
                     activity={activity} 
-                    index={index}
                   />
                 ))}
               </div>
