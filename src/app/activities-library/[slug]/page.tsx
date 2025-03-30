@@ -2,6 +2,7 @@ import { getActivityBlueprintBySlug } from '@/lib/contentful';
 import { Metadata } from 'next';
 import { ActivityBlueprintFields } from '@/types/contentful';
 import ActivityDetailClient from './ActivityDetailClient';
+import Link from 'next/link';
 
 interface ActivityDetailPageProps {
   params: {
@@ -44,12 +45,12 @@ export default async function ActivityDetailPage({ params }: ActivityDetailPageP
           <p className="text-gray-600 dark:text-gray-300 mb-6">
             您请求的活动方案不存在或已被删除。
           </p>
-          <a
+          <Link
             href="/activities-library"
             className="inline-block px-5 py-2 bg-brand-red text-white rounded-md hover:bg-opacity-90 transition duration-300"
           >
             返回活动方案库
-          </a>
+          </Link>
         </div>
       </div>
     );

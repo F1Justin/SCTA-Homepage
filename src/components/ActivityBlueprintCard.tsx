@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { ActivityBlueprint, ActivityBlueprintFields } from '@/types/contentful';
 
 // 渐变背景样式数组
@@ -56,14 +57,16 @@ export default function ActivityBlueprintCard({ activity, index }: ActivityBluep
       {/* 封面图或渐变背景 */}
       <div className="relative aspect-video w-full">
         {fields.coverImage?.fields?.file?.url ? (
-          <img
+          <Image
             src={typeof fields.coverImage.fields.file.url === 'string' 
               ? (fields.coverImage.fields.file.url.startsWith('//') 
                   ? `https:${fields.coverImage.fields.file.url}` 
                   : fields.coverImage.fields.file.url)
               : ''}
             alt={fields.title}
-            className="absolute inset-0 w-full h-full object-cover"
+            fill
+            className="object-cover"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
         ) : (
           <div className={`absolute inset-0 ${gradients[gradientIndex]} flex items-center justify-center p-6`}>

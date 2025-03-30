@@ -224,8 +224,8 @@ export function normalizeImageUrl(url: string): string {
  */
 export async function getActivities(): Promise<Activity[]> {
   if (!useContentful || !client) {
-    console.warn('使用模拟数据 - Contentful环境变量未设置或客户端初始化失败');
-    return mockActivities;
+    console.error('Contentful环境变量未设置或客户端初始化失败');
+    return [];
   }
 
   try {
@@ -236,28 +236,21 @@ export async function getActivities(): Promise<Activity[]> {
     });
 
     if (!response.items || !response.items.length) {
-      console.warn('未找到活动数据，使用模拟数据');
-      return mockActivities;
+      console.warn('未找到活动数据');
+      return [];
     }
 
-    return response.items.map((item: any) => {
-      try {
-        return {
-          id: item.sys.id || '',
-          title: item.fields.title || '',
-          description: item.fields.description || emptyRichText,
-          date: item.fields.date || '',
-          image: normalizeImageUrl(item.fields.imageUrl || ''),
-          category: item.fields.category || '其他',
-        };
-      } catch (e) {
-        console.error('处理活动数据时出错:', e);
-        return null;
-      }
-    }).filter(Boolean) as Activity[];
+    return response.items.map((item: any) => ({
+      id: item.sys.id || '',
+      title: item.fields.title || '',
+      description: item.fields.description || emptyRichText,
+      date: item.fields.date || '',
+      image: normalizeImageUrl(item.fields.imageUrl || ''),
+      category: item.fields.category || ''
+    }));
   } catch (error) {
     console.error('获取活动列表失败:', error);
-    return mockActivities;
+    throw error;
   }
 }
 
@@ -266,54 +259,31 @@ export async function getActivities(): Promise<Activity[]> {
  */
 export async function getActivity(id: string): Promise<Activity | null> {
   if (!useContentful || !client) {
-    console.warn('使用模拟数据 - Contentful环境变量未设置或客户端初始化失败');
-    return mockActivities.find(activity => activity.id === id) || null;
+    console.error('Contentful环境变量未设置或客户端初始化失败');
+    return null;
   }
 
   try {
-    console.log(`正在获取ID为 ${id} 的活动详情，包含深度为 10 的链接引用`);
-    const activity = await client.getEntry(id, {
-      include: 10, // 解析嵌入资产的引用，最大深度
+    const entry = await client.getEntry(id, {
+      include: 10,
     });
-    
-    console.log('获取到的活动数据结构:', JSON.stringify({ 
-      sys: activity.sys,
-      hasFields: !!activity.fields,
-      fieldKeys: activity.fields ? Object.keys(activity.fields) : [],
-      hasDescription: activity.fields?.description ? true : false,
-      descriptionType: activity.fields?.description ? typeof activity.fields.description : null,
-      descriptionNodeType: activity.fields?.description?.nodeType || null,
-      hasDescriptionContent: activity.fields?.description?.content ? true : false,
-      contentLength: activity.fields?.description?.content?.length || 0
-    }, null, 2));
-    
-    if (!activity || !activity.fields) {
-      console.warn(`未找到ID为${id}的活动，使用模拟数据`);
-      return mockActivities.find(activity => activity.id === id) || null;
-    }
-    
-    // 记录描述内容的结构
-    if (activity.fields.description && activity.fields.description.content) {
-      const contentTypes = activity.fields.description.content.map((item: any) => ({
-        nodeType: item.nodeType,
-        hasTarget: item.data && item.data.target ? true : false,
-        targetType: item.data && item.data.target ? item.data.target.sys.type : null,
-        hasFields: item.data && item.data.target && item.data.target.fields ? true : false
-      }));
-      console.log('描述内容的节点类型:', contentTypes);
+
+    if (!entry || !entry.fields) {
+      console.warn(`未找到ID为 ${id} 的活动`);
+      return null;
     }
 
     return {
-      id: activity.sys.id || '',
-      title: activity.fields.title || '',
-      description: activity.fields.description || emptyRichText,
-      date: activity.fields.date || '',
-      image: normalizeImageUrl(activity.fields.imageUrl || ''),
-      category: activity.fields.category || '其他',
+      id: entry.sys.id || '',
+      title: entry.fields.title || '',
+      description: entry.fields.description || emptyRichText,
+      date: entry.fields.date || '',
+      image: normalizeImageUrl(entry.fields.imageUrl || ''),
+      category: entry.fields.category || ''
     };
   } catch (error) {
-    console.error(`获取活动详情失败 (ID: ${id}):`, error);
-    return mockActivities.find(activity => activity.id === id) || null;
+    console.error(`获取活动 ${id} 失败:`, error);
+    throw error;
   }
 }
 

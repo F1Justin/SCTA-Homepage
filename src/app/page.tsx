@@ -8,6 +8,7 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { Activity } from '@/lib/contentful';
+import Image from 'next/image';
 
 export default function Home() {
   const [activities, setActivities] = useState<Activity[]>([]);
@@ -82,10 +83,13 @@ export default function Home() {
               className="mt-10 md:mt-0 max-w-sm md:max-w-md"
             >
               <div className="p-4">
-                <img 
+                <Image 
                   src="/Logos/submark_1栅格版彩色带边距.png" 
                   alt="上海高校东方联合会徽标" 
+                  width={500}
+                  height={500}
                   className="w-full h-auto" 
+                  priority
                 />
               </div>
             </motion.div>

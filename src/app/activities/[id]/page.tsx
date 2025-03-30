@@ -1,11 +1,10 @@
-'use client';
-
 import { getActivity } from '@/lib/contentful';
-import { useEffect, useState } from 'react';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
 import { BLOCKS, MARKS, INLINES } from '@contentful/rich-text-types';
 import { Activity } from '@/lib/contentful';
 import Link from 'next/link';
+import { notFound } from 'next/navigation';
+import Image from 'next/image';
 
 interface ActivityPageProps {
   params: {
@@ -13,51 +12,12 @@ interface ActivityPageProps {
   };
 }
 
-export default function ActivityPage({ params }: ActivityPageProps) {
-  const [activity, setActivity] = useState<Activity | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [imageAspectRatio, setImageAspectRatio] = useState(16/9); // 默认比例
+export default async function ActivityPage({ params }: ActivityPageProps) {
+  const activity = await getActivity(params.id);
 
-  useEffect(() => {
-    const fetchActivity = async () => {
-      try {
-        const activityData = await getActivity(params.id);
-        setActivity(activityData);
-        
-        console.log('Activity data:', JSON.stringify(activityData, null, 2));
-        if (activityData?.description?.content) {
-          console.log('Description content types:', activityData.description.content.map(item => item.nodeType));
-          
-          // 检查是否有嵌入资产
-          const embeddedAssets = activityData.description.content.filter(
-            item => item.nodeType === BLOCKS.EMBEDDED_ASSET
-          );
-          
-          console.log('Embedded assets found:', embeddedAssets.length);
-          if (embeddedAssets.length > 0) {
-            embeddedAssets.forEach((asset, index) => {
-              console.log(`Asset ${index + 1}:`, JSON.stringify(asset.data, null, 2));
-            });
-          }
-        }
-        
-        // 获取图片实际尺寸
-        if (activityData?.image) {
-          const img = new window.Image();
-          img.src = activityData.image;
-          img.onload = () => {
-            setImageAspectRatio(img.width / img.height);
-          };
-        }
-      } catch (error) {
-        console.error('Error fetching activity:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchActivity();
-  }, [params.id]);
+  if (!activity) {
+    notFound();
+  }
 
   const formatDate = (dateString: string) => {
     const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
@@ -80,37 +40,29 @@ export default function ActivityPage({ params }: ActivityPageProps) {
         <h3 className="text-xl font-bold mb-2 dark:text-gray-100">{children}</h3>
       ),
       [BLOCKS.EMBEDDED_ASSET]: (node: any) => {
-        console.log('Rendering embedded asset:', JSON.stringify(node, null, 2));
         try {
-          // 检查节点的数据结构
           if (!node.data.target || !node.data.target.fields) {
-            console.error('Invalid node structure:', node);
             return <div className="my-4 p-2 bg-red-100 text-red-700 rounded">资源加载失败</div>;
           }
 
-          // 获取资产字段
           const { title, description, file } = node.data.target.fields;
           if (!file || !file.url) {
-            console.error('Missing file URL in asset:', node.data.target.fields);
             return <div className="my-4 p-2 bg-red-100 text-red-700 rounded">图片URL缺失</div>;
           }
 
-          // 确保URL是完整的URL
           let imageUrl = file.url;
           if (imageUrl.startsWith('//')) {
             imageUrl = 'https:' + imageUrl;
           } else if (!imageUrl.startsWith('http')) {
-            imageUrl = 'https:' + imageUrl; // 添加此行，确保所有 URL 都加上协议
+            imageUrl = 'https:' + imageUrl;
           }
-
-          console.log('Rendering image with URL:', imageUrl);
           
           return (
             <div className="my-8">
-              <img
+              <Image
                 src={imageUrl}
-                height={file.details?.image?.height}
-                width={file.details?.image?.width}
+                height={file.details?.image?.height || 400}
+                width={file.details?.image?.width || 600}
                 alt={description || title || '活动图片'}
                 className="max-w-full h-auto rounded-lg shadow-lg dark:shadow-gray-700/30"
               />
@@ -123,17 +75,13 @@ export default function ActivityPage({ params }: ActivityPageProps) {
           );
         } catch (error) {
           console.error('Error rendering embedded asset:', error);
-          console.error('Node data:', node);
           return <div className="my-8 p-4 bg-red-100 text-red-800 rounded-lg">图片加载失败</div>;
         }
       },
-      // 确保处理嵌入式条目 - block和inline两种类型
       [BLOCKS.EMBEDDED_ENTRY]: (node: any) => {
-        console.log('Rendering embedded entry block:', node);
         return <div className="my-4 p-4 bg-gray-100 dark:bg-gray-800 rounded-lg">嵌入式内容</div>;
       },
       [INLINES.EMBEDDED_ENTRY]: (node: any) => {
-        console.log('Rendering embedded entry inline:', node);
         return <span className="bg-gray-100 dark:bg-gray-800 px-1 rounded">嵌入式内容</span>;
       },
       [BLOCKS.UL_LIST]: (node: any, children: any) => (
@@ -166,55 +114,19 @@ export default function ActivityPage({ params }: ActivityPageProps) {
     },
   };
 
-  if (loading) {
-    return (
-      <div className="container mx-auto px-4 py-8">
-        <div className="animate-pulse">
-          <div className="h-64 bg-gray-200 dark:bg-gray-700 rounded-lg mb-6"></div>
-          <div className="h-8 bg-gray-200 dark:bg-gray-700 rounded w-3/4 mb-4"></div>
-          <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-1/4 mb-8"></div>
-          <div className="space-y-3">
-            <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded"></div>
-            <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded"></div>
-            <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded"></div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  if (!activity) {
-    return (
-      <div className="container mx-auto px-4 py-8">
-        <h1 className="text-2xl font-bold text-red-600">活动未找到</h1>
-        <p className="mt-4 dark:text-gray-300">抱歉，我们无法找到您请求的活动。</p>
-        <Link 
-          href="/activities" 
-          className="mt-4 inline-flex items-center text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
-        >
-          ← 返回活动列表
-        </Link>
-      </div>
-    );
-  }
-
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="max-w-6xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
           {/* 左侧图片区域 */}
           <div className="lg:col-span-5">
-            <div 
-              className="relative w-full overflow-hidden rounded-lg sticky top-8"
-              style={{ 
-                aspectRatio: imageAspectRatio,
-                maxHeight: '80vh'
-              }}
-            >
-              <img
+            <div className="relative w-full overflow-hidden rounded-lg sticky top-8">
+              <Image
                 src={activity.image || '/activities/placeholder.jpg'}
                 alt={activity.title}
-                className="w-full h-full object-contain bg-gray-50 dark:bg-gray-800"
+                width={800}
+                height={600}
+                className="w-full h-auto object-contain bg-gray-50 dark:bg-gray-800"
               />
             </div>
           </div>

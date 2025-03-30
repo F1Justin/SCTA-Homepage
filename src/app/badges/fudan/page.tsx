@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function FudanBadgePage() {
   const badgeRef = useRef<HTMLDivElement>(null);
@@ -159,9 +160,11 @@ export default function FudanBadgePage() {
             >
               {/* 使用学校徽标图片 */}
               <div className="w-[85%] h-[85%] flex items-center justify-center overflow-hidden rounded-full">
-                <img 
+                <Image 
                   src="/School-Logos/复旦大学.png" 
                   alt="复旦大学校徽" 
+                  width={200}
+                  height={200}
                   className="w-full h-full object-cover"
                   style={{
                     filter: 'drop-shadow(0 0 5px rgba(56, 178, 166, 0.5))'

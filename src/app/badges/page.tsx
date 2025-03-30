@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import Image from 'next/image';
 
 // 定义徽章数据结构
 interface Badge {
@@ -120,9 +121,11 @@ export default function BadgesPage() {
                             
                             {/* 徽标图片 */}
                             <div className="w-[60%] h-[60%] relative z-10">
-                              <img 
+                              <Image 
                                 src={badge.logoPath} 
                                 alt={`${badge.schoolName}校徽`}
+                                width={100}
+                                height={100}
                                 className="w-full h-full object-contain"
                                 style={{
                                   filter: `drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5))`

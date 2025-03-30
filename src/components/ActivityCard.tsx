@@ -41,14 +41,20 @@ export default function ActivityCard({ activity, index }: ActivityCardProps) {
       transition={{ duration: 0.5, delay: index * 0.1 }}
     >
       <Link href={`/activities/${activity.id}`}>
-        <div className="relative rounded-t-lg overflow-hidden" style={{ aspectRatio: imageAspectRatio }}>
-          <img
+        <div 
+          className="relative rounded-t-lg overflow-hidden bg-gray-50 dark:bg-gray-700"
+          style={{ aspectRatio: imageAspectRatio }}
+        >
+          <Image
             src={activity.image || '/activities/placeholder.jpg'}
             alt={activity.title}
-            className="object-cover w-full h-full bg-gray-50 dark:bg-gray-700 will-change-transform transition-all duration-300 hover:scale-105"
+            fill
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            className="object-cover will-change-transform transition-all duration-300 hover:scale-105"
             style={{ backfaceVisibility: 'hidden' }}
+            priority={index < 6} // 优先加载前6张图片
           />
-          <div className="absolute top-0 right-0 bg-red-50 dark:bg-red-900/30 text-brand-red dark:text-red-400 px-3 py-1 text-sm font-medium rounded-bl-lg">
+          <div className="absolute top-0 right-0 bg-red-50 dark:bg-red-900/30 text-brand-red dark:text-red-400 px-3 py-1 text-sm font-medium rounded-bl-lg z-10">
             {activity.category}
           </div>
         </div>
