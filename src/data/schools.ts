@@ -222,8 +222,8 @@ export const schools: School[] = [
   },
   {
     id: "shupl",
-    name: "上海政法大学",
-    logo: "/School-Logos/上海政法大学.png",
+    name: "上海政法学院",
+    logo: "/School-Logos/上海政法学院.png",
     groupInfo: {
       name: "耀月幻想乡",
       number: "490567412",
@@ -252,8 +252,8 @@ export const schools: School[] = [
   },
   {
     id: "joint-colleges",
-    name: "上海电子信息职业技术学院 & 上海中侨职业技术大学 & 上海城建职业学院",
-    logo: "/School-Logos/电子信息&城建&中侨.png",
+    name: "上海电子信息职业技术学院 & 上海中侨职业技术大学 & 上海城建职业学院 & 上海立达学院",
+    logo: "/School-Logos/电子信息&城建&中侨&立达.png",
     groupInfo: {
       name: "电子信息×城建×中侨×立达の东方根据地",
       number: "117933986",

@@ -43,7 +43,7 @@ export default function Home() {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative h-[90vh] bg-gradient-to-r from-brand-red to-brand-gold flex items-center">
+      <section className="relative min-h-[90vh] bg-gradient-to-r from-brand-red to-brand-gold flex items-center py-8 sm:py-12">
         <div className="absolute inset-0 overflow-hidden">
           <div className="absolute inset-0 bg-black opacity-50"></div>
           <div 
@@ -52,26 +52,26 @@ export default function Home() {
           ></div>
         </div>
         <div className="container-custom relative z-10">
-          <div className="flex flex-col md:flex-row items-center justify-between">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-8">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
-              className="max-w-2xl"
+              className="w-full md:max-w-2xl"
             >
-              <h1 className="text-5xl md:text-6xl font-bold text-white leading-tight mb-6">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight mb-4 sm:mb-6">
                 幻想乡的弹幕
                 <br />
                 现实中的交流
               </h1>
-              <p className="text-xl text-white opacity-90 mb-8">
+              <p className="text-base sm:text-lg md:text-xl text-white opacity-90 mb-6 sm:mb-8">
                 地处上海爱丽丝幻乐团字面上的应许之地（雾），
                 上海高校东方联合会致力于连接各高校东方Project爱好者，
                 促进同人创作交流，共同享受幻想乡的魅力。
               </p>
-              <div className="flex flex-wrap gap-4">
-                <a href="#about" className="btn-primary">了解更多</a>
-                <a href="#activities" className="px-6 py-2 rounded-md bg-white text-brand-red font-medium hover:bg-opacity-90 transition-all duration-300">
+              <div className="flex flex-col sm:flex-row gap-4">
+                <a href="#about" className="btn-primary text-center">了解更多</a>
+                <a href="#activities" className="px-6 py-2 rounded-md bg-white text-brand-red font-medium hover:bg-opacity-90 transition-all duration-300 text-center">
                   探索活动
                 </a>
               </div>
@@ -80,9 +80,9 @@ export default function Home() {
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.8, delay: 0.3 }}
-              className="mt-10 md:mt-0 max-w-sm md:max-w-md"
+              className="w-full md:w-auto md:flex-shrink-0"
             >
-              <div className="p-4">
+              <div className="p-4 max-w-[280px] sm:max-w-[320px] md:max-w-[400px] mx-auto">
                 <Image 
                   src="/Logos/submark_1栅格版彩色带边距.png" 
                   alt="上海高校东方联合会徽标" 

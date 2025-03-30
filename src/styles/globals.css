@@ -45,4 +45,13 @@
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+/* Navigation Links */
+.nav-link {
+  @apply text-gray-800 dark:text-gray-200 hover:text-brand-red dark:hover:text-brand-red hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200 px-3 py-2 rounded-md;
+}
+
+.nav-link-mobile {
+  @apply block w-full py-3 px-4 text-lg text-gray-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors duration-200;
 } 
