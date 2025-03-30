@@ -233,7 +233,12 @@ export const schools: School[] = [
   {
     id: "sues-engineering",
     name: "上海工程技术大学",
-    logo: "/School-Logos/上海工程技术大学.png"
+    logo: "/School-Logos/上海工程技术大学.png",
+    groupInfo: {
+      name: "上海工程技术大学东方同好会",
+      number: "974334274",
+      description: "欢迎加入上海工程技术大学东方同好会"
+    }
   },
   {
     id: "suibe",
