@@ -1,0 +1,13 @@
+# robots.txt for https://www.scta.cc
+
+# 默认允许所有爬虫访问大部分内容
+User-agent: *
+Allow: /
+Disallow: /badges/
+
+# 确保允许索引重要路径
+Allow: /activities
+Allow: /activities-library
+
+# 添加站点地图位置
+Sitemap: https://www.scta.cc/sitemap.xml 

@@ -3,6 +3,7 @@ import { Metadata } from 'next';
 import { ActivityBlueprintFields } from '@/types/contentful';
 import ActivityDetailClient from './ActivityDetailClient';
 import Link from 'next/link';
+import JsonLd from './JsonLd';
 
 interface ActivityDetailPageProps {
   params: {
@@ -56,5 +57,10 @@ export default async function ActivityDetailPage({ params }: ActivityDetailPageP
     );
   }
 
-  return <ActivityDetailClient activity={activity} />;
+  return (
+    <>
+      <JsonLd blueprint={activity} />
+      <ActivityDetailClient activity={activity} />
+    </>
+  );
 } 
