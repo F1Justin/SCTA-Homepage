@@ -4,6 +4,13 @@ import React, { useState, useEffect } from 'react';
 import { getActivityBlueprints } from '@/lib/contentful';
 import ActivityBlueprintCard from '@/components/ActivityBlueprintCard';
 import { ActivityBlueprint, ActivityBlueprintFields } from '@/types/contentful';
+import Masonry from 'react-masonry-css';
+
+// 定义 Masonry 的响应式断点
+const masonryBreakpointsLibrary = {
+  default: 3,    // 默认（电脑端）显示 3 列
+  640: 2         // 屏幕宽度 <= 640px 时（手机端）显示 2 列
+};
 
 export default function ActivityLibraryPage() {
   // 状态管理
@@ -27,13 +34,13 @@ export default function ActivityLibraryPage() {
           return;
         }
         
+        // 直接设置获取到的活动数据
         setActivities(fetchedActivities);
         
         // 提取所有唯一类别
         const allCategories = new Set<string>();
         fetchedActivities.forEach(activity => {
           const fields = activity.fields as ActivityBlueprintFields;
-          // 确保category是数组
           const categories = Array.isArray(fields.category) 
             ? fields.category 
             : fields.category ? [fields.category] : [];
@@ -59,7 +66,6 @@ export default function ActivityLibraryPage() {
     ? activities
     : activities.filter(activity => {
         const fields = activity.fields as ActivityBlueprintFields;
-        // 确保category是数组
         const categories = Array.isArray(fields.category) 
           ? fields.category 
           : fields.category ? [fields.category] : [];
@@ -70,12 +76,44 @@ export default function ActivityLibraryPage() {
   return (
     <div className="min-h-screen py-12 px-4 sm:px-6 lg:px-8 bg-gray-50 dark:bg-gray-900">
       <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">社团活动方案库</h1>
-          <p className="text-lg text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-            为各高校东方社团提供活动策划参考，包含游戏、比赛、交流等多种活动形式，
-            帮助社团组织丰富多彩的同人活动。
-          </p>
+        <div className="mb-12">
+          {/* 修改为flex布局，标题和说明在左，贡献卡片在右 */}
+          <div className="flex flex-col lg:flex-row gap-8 items-center lg:items-start">
+            {/* 左侧：标题和说明 */}
+            <div className="w-full lg:w-1/2 text-center lg:text-left lg:pr-4">
+              <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">社团活动方案库</h1>
+              <p className="text-lg text-gray-600 dark:text-gray-300 mb-6">
+                为各高校东方社团提供活动策划参考，包含游戏、比赛、交流等多种活动形式，
+                帮助社团组织丰富多彩的同人活动。
+              </p>
+            </div>
+            
+            {/* 右侧：贡献卡片 */}
+            <div className="w-full lg:w-1/2">
+              <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+                <h2 className="text-xl font-bold text-brand-red dark:text-red-400 mb-3">贡献您的活动方案</h2>
+                <p className="text-gray-700 dark:text-gray-300 mb-4">
+                  您有好的活动策划方案吗？上传您的创意，为上海高校东方社团的发展做出贡献！
+                  优质的活动方案能帮助其他社团举办更加精彩的活动，推动东方Project文化在高校中的传播。
+                </p>
+                <div className="text-center lg:text-left">
+                  <a 
+                    href="https://docs.qq.com/form/page/DQk1MaEpLQm9HbnRU#/fill" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="inline-block px-6 py-3 bg-brand-red text-white font-medium rounded-md hover:bg-opacity-90 transition-all duration-300 shadow-md hover:shadow-lg hover:-translate-y-0.5 transform"
+                  >
+                    <span className="flex items-center">
+                      <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                      </svg>
+                      提交活动方案
+                    </span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* 加载中状态 */}
@@ -136,7 +174,7 @@ export default function ActivityLibraryPage() {
               </div>
             </div>
 
-            {/* 活动方案列表 */}
+            {/* 活动方案列表 - 使用 Masonry */}
             {filteredActivities.length === 0 ? (
               <div className="text-center py-20">
                 <p className="text-xl text-gray-500 dark:text-gray-400 mb-4">
@@ -150,13 +188,18 @@ export default function ActivityLibraryPage() {
                 </button>
               </div>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {filteredActivities.map((activity) => (
-                  <ActivityBlueprintCard 
-                    key={activity.sys.id} 
-                    activity={activity} 
-                  />
-                ))}
+              <div className="relative">
+                <Masonry
+                  breakpointCols={masonryBreakpointsLibrary}
+                  className="flex w-auto -mx-2 sm:-mx-4"
+                  columnClassName="px-2 sm:px-4"
+                >
+                  {filteredActivities.map((activity) => (
+                    <div key={activity.sys.id} className="mb-4 sm:mb-8">
+                      <ActivityBlueprintCard activity={activity} />
+                    </div>
+                  ))}
+                </Masonry>
               </div>
             )}
           </>
