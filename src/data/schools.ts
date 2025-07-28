@@ -264,5 +264,10 @@ export const schools: School[] = [
       number: "117933986",
       description: "欢迎广大东方众校友进来唠嗑～"
     }
+  },
+  {
+    id: "sbs",
+    name: "上海商学院",
+    logo: "/School-Logos/上海商学院.png"
   }
 ]; 
