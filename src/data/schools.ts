@@ -253,7 +253,12 @@ export const schools: School[] = [
   {
     id: "shanghaitech",
     name: "上海科技大学",
-    logo: "/School-Logos/上海科技大学.png"
+    logo: "/School-Logos/上海科技大学.png",
+    groupInfo: {
+      name: "铁科黑车",
+      number: "█████████",
+      description: "是上科大车车同好会☆~ 仅限本校同学加入，获取群号可通过生活手册的群宣共享表格（生活手册链接可在各校内大群群公告中查看），或者也可直接联系 QQ: 3504058036。"
+    }
   },
   {
     id: "joint-colleges",
