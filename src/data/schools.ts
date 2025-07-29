@@ -22,7 +22,12 @@ export const schools: School[] = [
     groupInfo: {
       name: "普通のFDU东方群",
       number: "305785855",
-      description: "普通のFDU东方群"
+      description: "普通のFDU东方群",
+      extraGroups: [{
+        name: "东方光华语游客群",
+        number: "570042132",
+        description: "复旦大学东方例会群聊"
+      }]
     }
   },
   {
@@ -47,7 +52,12 @@ export const schools: School[] = [
     groupInfo: {
       name: "幻想乡万有引力",
       number: "928225852",
-      description: "原则上仅允许同济学生进入，欢迎加入✧٩(ˊωˋ*)و✧"
+      description: "原则上仅允许同济学生进入，欢迎加入✧٩(ˊωˋ*)و✧（若群号搜索无法进入，请尝试下方的链接或例会群聊【幻想乡‖万有引力】：https://qm.qq.com/q/WEdL13t6mI）",
+      extraGroups: [{
+        name: "同济大学 ❀ 济悠樱",
+        number: "895825069",
+        description: "同济大学东方Project例会群聊"
+      }]
     }
   },
   {
@@ -137,7 +147,12 @@ export const schools: School[] = [
     groupInfo: {
       name: "上财东方牌麻薯厂兼老黄单推群",
       number: "591679113",
-      description: "欢迎上财同好加入～"
+      description: "欢迎上财同好加入～",
+      extraGroups: [{
+        name: "上财东方例会群",
+        number: "950687679",
+        description: "上财东方例会群聊"
+      }]
     }
   },
   {
@@ -267,7 +282,12 @@ export const schools: School[] = [
     groupInfo: {
       name: "电子信息×城建×中侨×立达の东方根据地",
       number: "117933986",
-      description: "欢迎广大东方众校友进来唠嗑～"
+      description: "欢迎广大东方众校友进来唠嗑～",
+      extraGroups: [{
+        name: "东方虹柒录游客集散中心",
+        number: "1038925807",
+        description: "四校联合例会群聊"
+      }]
     }
   },
   {
