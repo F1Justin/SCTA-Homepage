@@ -294,5 +294,10 @@ export const schools: School[] = [
     id: "sbs",
     name: "上海商学院",
     logo: "/School-Logos/上海商学院.png"
+  },
+  {
+    id: "shzq",
+    name: "上海中侨职业技术大学",
+    logo: "/School-Logos/上海中侨职业技术大学.png"
   }
 ]; 
