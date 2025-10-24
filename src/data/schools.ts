@@ -299,5 +299,15 @@ export const schools: School[] = [
     id: "shzq",
     name: "上海中侨职业技术大学",
     logo: "/School-Logos/上海中侨职业技术大学.png"
+  },
+  {
+    id: "sisu",
+    name:"上海外国语大学",
+    logo: "/School-Logos/上海外国语大学.png",
+    groupInfo:{
+      name:"西索国际东方研究院",
+      number:"1064822274",
+      description:"由几个25级学生建立的上外东方群，欢迎上外的各位加入！（本群为非官方群聊）"
+    }
   }
 ]; 
