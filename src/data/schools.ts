@@ -309,5 +309,10 @@ export const schools: School[] = [
       number:"1064822274",
       description:"由几个25级学生建立的上外东方群，欢迎上外的各位加入！（本群为非官方群聊）"
     }
+  },
+  {
+    id: "sumhs",
+    name: "上海健康医学院",
+    logo: "/School-Logos/上海健康医学院.png"
   }
 ]; 
