@@ -16,9 +16,9 @@ export default function ActivityCard({ activity, index }: ActivityCardProps) {
   const [imageAspectRatio, setImageAspectRatio] = useState(3/4); // 默认比例
 
   useEffect(() => {
-    // 预加载图片以获取实际尺寸
+    if (!activity.image) return;
     const img = new window.Image();
-    img.src = activity.image || '/activities/placeholder.jpg';
+    img.src = activity.image;
     img.onload = () => {
       setImageAspectRatio(img.width / img.height);
     };
@@ -42,20 +42,26 @@ export default function ActivityCard({ activity, index }: ActivityCardProps) {
     >
       <Link href={`/activities/${activity.id}`}>
         <div 
-          className="relative rounded-t-lg overflow-hidden bg-gray-50 dark:bg-gray-700"
+          className="relative rounded-t-lg overflow-hidden bg-gray-100 dark:bg-gray-700"
           style={{ 
-            aspectRatio: imageAspectRatio
+            aspectRatio: activity.image ? imageAspectRatio : 16/9
           }}
         >
-          <Image
-            src={activity.image || '/activities/placeholder.jpg'}
-            alt={activity.title}
-            fill
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-            className="object-cover transition-all duration-300 hover:scale-105"
-            priority={index < 6}
-            loading={index < 6 ? 'eager' : 'lazy'}
-          />
+          {activity.image ? (
+            <Image
+              src={activity.image}
+              alt={activity.title}
+              fill
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+              className="object-cover transition-all duration-300 hover:scale-105"
+              priority={index < 6}
+              loading={index < 6 ? 'eager' : 'lazy'}
+            />
+          ) : (
+            <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-brand-red/20 to-brand-blue/20">
+              <span className="text-2xl font-bold text-gray-400 dark:text-gray-500">{activity.title}</span>
+            </div>
+          )}
           <div className="absolute top-0 right-0 bg-red-50 dark:bg-red-900/30 text-brand-red dark:text-red-400 px-3 py-1 text-sm font-medium rounded-bl-lg z-10">
             {activity.category}
           </div>

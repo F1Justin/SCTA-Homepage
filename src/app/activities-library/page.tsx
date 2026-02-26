@@ -34,10 +34,8 @@ export default function ActivityLibraryPage() {
           return;
         }
         
-        // 直接设置获取到的活动数据
         setActivities(fetchedActivities);
         
-        // 提取所有唯一类别
         const allCategories = new Set<string>();
         fetchedActivities.forEach(activity => {
           const fields = activity.fields as ActivityBlueprintFields;
@@ -48,10 +46,8 @@ export default function ActivityLibraryPage() {
           categories.forEach(cat => allCategories.add(cat));
         });
         
-        // 设置类别列表，添加"全部"选项
         setCategories(['全部', ...Array.from(allCategories).sort()]);
-      } catch (err) {
-        console.error("获取活动方案失败:", err);
+      } catch {
         setError("加载活动方案时出错，请稍后再试");
       } finally {
         setIsLoading(false);

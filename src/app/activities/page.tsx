@@ -22,41 +22,27 @@ export default function ActivitiesPage() {
     
     async function fetchActivities() {
       try {
-        console.log('[ActivitiesPage] 开始获取活动数据...');
         setIsLoading(true);
         setError(null);
         
         const activitiesData = await getActivities();
         
         if (!activitiesData || !Array.isArray(activitiesData)) {
-          console.error('[ActivitiesPage] 活动数据无效:', activitiesData);
           throw new Error('获取到的活动数据无效');
         }
         
         if (activitiesData.length === 0) {
-          console.log('[ActivitiesPage] 没有找到活动数据');
           setActivities([]);
           return;
         }
         
-        // 仅按日期降序排序，移除所有重排序逻辑
         const sortedByDate = [...activitiesData].sort((a, b) => 
           new Date(b.date).getTime() - new Date(a.date).getTime()
         );
         
-        // 记录最终数据顺序
-        console.log('[ActivitiesPage] FINAL data set to state (sortedByDate):');
-        sortedByDate.forEach((item, idx) => {
-          console.log(` activities[${idx}]: ${item.title} (${item.date})`);
-        });
-        
         setActivities(sortedByDate);
       } catch (error: any) {
-        if (error.name === 'AbortError') {
-          console.log('[ActivitiesPage] 请求被中止');
-          return;
-        }
-        console.error('[ActivitiesPage] 获取活动数据失败:', error);
+        if (error.name === 'AbortError') return;
         setError('获取活动数据失败，请稍后再试');
       } finally {
         setIsLoading(false);
@@ -66,7 +52,6 @@ export default function ActivitiesPage() {
     fetchActivities();
     
     return () => {
-      console.log('[ActivitiesPage] 清理组件，中止请求');
       abortController.abort();
     };
   }, []);

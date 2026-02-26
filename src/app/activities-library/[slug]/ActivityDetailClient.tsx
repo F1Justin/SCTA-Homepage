@@ -15,13 +15,6 @@ interface ActivityDetailClientProps {
 export default function ActivityDetailClient({ activity }: ActivityDetailClientProps) {
   const fields = activity.fields as ActivityBlueprintFields;
 
-  // 调试日志
-  console.log('需求字段:', {
-    硬件需求: fields.hardwareRequirements,
-    软件需求: fields.softwareRequirements,
-    物料需求: fields.materialsNeeded,
-  });
-
   // 富文本渲染选项
   const options = {
     renderNode: {

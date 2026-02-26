@@ -136,13 +136,19 @@ export default async function ActivityPage({ params }: ActivityPageProps) {
           {/* 左侧图片区域 */}
           <div className="lg:col-span-5">
             <div className="relative w-full overflow-hidden rounded-lg sticky top-8">
-              <Image
-                src={activity.image || '/activities/placeholder.jpg'}
-                alt={activity.title}
-                width={800}
-                height={600}
-                className="w-full h-auto object-contain bg-gray-50 dark:bg-gray-800"
-              />
+              {activity.image ? (
+                <Image
+                  src={activity.image}
+                  alt={activity.title}
+                  width={800}
+                  height={600}
+                  className="w-full h-auto object-contain bg-gray-50 dark:bg-gray-800"
+                />
+              ) : (
+                <div className="w-full aspect-video bg-gradient-to-br from-brand-red/20 to-brand-blue/20 flex items-center justify-center">
+                  <span className="text-2xl font-bold text-gray-400 dark:text-gray-500">{activity.title}</span>
+                </div>
+              )}
             </div>
           </div>
 

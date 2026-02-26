@@ -25,17 +25,8 @@ export default function Home() {
       const sortedByDate = [...fetchedActivities].sort((a, b) => 
         new Date(b.date).getTime() - new Date(a.date).getTime()
       );
-      
-      const itemsToDisplay = sortedByDate.slice(0, 6);
-      
-      // 关键日志：检查传递给 state 的最终数据
-      console.log('[HomePage] FINAL 6 activities to render (Date Sorted):', JSON.parse(JSON.stringify(itemsToDisplay)));
-      
-      setActivities(itemsToDisplay);
-    }).catch(error => {
-      console.error("Error fetching homepage activities:", error);
-      // 您可以在此处设置错误状态并在 UI 中显示错误信息
-    });
+      setActivities(sortedByDate.slice(0, 6));
+    }).catch(() => {});
   }, []);
 
   return (

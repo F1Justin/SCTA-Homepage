@@ -10,13 +10,23 @@ const nextConfig = {
       },
     ],
   },
-  // 添加调试日志
-  onDemandEntries: {
-    // 保持页面缓存时间较短，方便调试
-    maxInactiveAge: 25 * 1000,
+  async headers() {
+    return [
+      {
+        source: '/(.*)',
+        headers: [
+          { key: 'X-Content-Type-Options', value: 'nosniff' },
+          { key: 'X-Frame-Options', value: 'DENY' },
+          { key: 'X-XSS-Protection', value: '1; mode=block' },
+          { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
+          {
+            key: 'Permissions-Policy',
+            value: 'camera=(), microphone=(), geolocation=()',
+          },
+        ],
+      },
+    ];
   },
 }
-
-console.log('加载 Next.js 配置:', nextConfig);
 
 module.exports = nextConfig 
