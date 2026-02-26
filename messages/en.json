@@ -1,0 +1,100 @@
+{
+  "metadata": {
+    "siteName": "Shanghai Collegiate Touhou Alliance",
+    "title": "Shanghai Collegiate Touhou Alliance - Touhou Project",
+    "description": "Official website of the Shanghai Collegiate Touhou Alliance — connecting Touhou Project fans across universities in Shanghai, fostering fan creation and exchange."
+  },
+  "nav": {
+    "home": "Home",
+    "activities": "Events",
+    "library": "Event Library",
+    "schools": "Member Clubs",
+    "about": "About Us",
+    "contact": "Join Us",
+    "navigation": "Menu"
+  },
+  "hero": {
+    "titleLine1Start": "Gensokyo's",
+    "titleLine1End": " Danmaku",
+    "titleLine2Start": "Real World",
+    "titleLine2End": " Connections",
+    "description": "Located in the literal promised land of Shanghai Alice (pun intended), the Shanghai Collegiate Touhou Alliance connects Touhou Project enthusiasts across universities, fostering doujin creation and sharing the magic of Gensokyo.",
+    "highlight1": "Gensokyo's gates are open to all",
+    "middle": " — not just Shanghai university students, we welcome ",
+    "highlight2": "Touhou fans from all over",
+    "descEnd": ". Whether you're a student, professional, or indie creator, there's a danmaku world here for you!",
+    "learnMore": "Learn More",
+    "explore": "Explore Events",
+    "scrollDown": "Scroll Down"
+  },
+  "about": {
+    "title": "About",
+    "titleHighlight": " Us",
+    "intro": "Founded in November 2023, the Shanghai Collegiate Touhou Alliance bridges Touhou Project fans across Shanghai's universities.",
+    "libraryTitle": "Event Library",
+    "libraryDesc": "We've curated event planning templates for Touhou fan gatherings, helping university clubs organise engaging activities. You can contribute your own ideas too!",
+    "browseLibrary": "Browse Library",
+    "contribute": "Contribute",
+    "followTitle": "Follow Us",
+    "followDesc": "Follow us on Bilibili for the latest event footage and Touhou content, or visit our GitHub to suggest improvements and help make the Alliance even better!",
+    "bilibili": "Bilibili",
+    "github": "GitHub"
+  },
+  "activities": {
+    "sectionTitle": "Recent",
+    "sectionHighlight": " Events",
+    "viewMore": "View All Events",
+    "pageTitle": "Events",
+    "noActivities": "No Events Yet",
+    "noActivitiesHint": "Please check back later.",
+    "learnMore": "Read More",
+    "backToList": "← Back to Events",
+    "notFound": "Event Not Found"
+  },
+  "schools": {
+    "title": "Member",
+    "titleHighlight": " Clubs"
+  },
+  "contact": {
+    "title": "Join Us",
+    "desc": "Whether you're a veteran Touhou player or just discovering Gensokyo, you're welcome to join us! Let's explore this wonderful world of danmaku together!",
+    "scanQr": "Scan to join the Shanghai Collegiate Touhou Alliance"
+  },
+  "library": {
+    "pageTitle": "Club Event Library",
+    "pageDesc": "Planning templates for university Touhou clubs, covering games, competitions, meetups and more — helping organise vibrant doujin events.",
+    "contributeTitle": "Submit Your Event Plan",
+    "contributeDesc": "Have a great event idea? Share your plan and help other Touhou clubs create even more exciting activities, spreading Touhou culture across campuses!",
+    "submitBtn": "Submit Plan",
+    "noBlueprints": "No Plans Yet",
+    "noBlueprintsHint": "We're putting together more exciting event plans. Check back soon.",
+    "all": "All",
+    "noCategoryResult": "No plans found for \"{category}\"",
+    "viewAll": "View All Plans",
+    "backToLibrary": "Back to Event Library",
+    "notFound": "Plan Not Found",
+    "notFoundHint": "The event plan you're looking for doesn't exist or has been removed.",
+    "rules": "Rules",
+    "procedure": "Procedure",
+    "tips": "Tips",
+    "preparation": "Preparation",
+    "hardware": "Hardware",
+    "software": "Software",
+    "materials": "Materials",
+    "rewardSuggestion": "Reward Suggestions",
+    "durationPerRound": "Duration / Round",
+    "rounds": "Rounds",
+    "participantsPerRound": "Players / Round",
+    "participantCriteria": "Requirements"
+  },
+  "footer": {
+    "orgName": "Shanghai Collegiate Touhou Alliance",
+    "orgDesc": "Connecting Touhou Project fans across Shanghai's universities for creation and exchange.",
+    "quickLinks": "Quick Links",
+    "contactUs": "Contact Us",
+    "qqGroup": "QQ Group: 949959173",
+    "biliAccount": "Bilibili: 上海高校东方联合会",
+    "copyright": "© {year} Shanghai Collegiate Touhou Alliance. All rights reserved.",
+    "mobileDrawerDesc": "Connecting Touhou Project fans across Shanghai's universities for creation and exchange."
+  }
+}

@@ -43,15 +43,7 @@ cd scta-homepage
 npm install
 ```
 
-3. 配置Contentful（可选）
-```bash
-# 创建.env.local文件并添加以下内容
-# NEXT_PUBLIC_CONTENTFUL_SPACE_ID=您的Space_ID
-# NEXT_PUBLIC_CONTENTFUL_ACCESS_TOKEN=您的Access_Token
-```
-详细的Contentful配置说明请查看 [CONTENTFUL_SETUP.md](./CONTENTFUL_SETUP.md)
-
-4. 启动开发服务器
+3. 启动开发服务器
 ```bash
 npm run dev
 ```
@@ -76,17 +68,26 @@ npm run start
 
 ```
 scta-homepage/
+├── content/         # 内容数据 (Markdown)
+│   ├── activities/  # 活动内容
+│   └── blueprints/  # 活动方案内容
 ├── public/          # 静态资源
+│   ├── content/     # 内容相关图片
 │   ├── Logos/       # 联合会Logo
 │   └── School-Logos/ # 学校Logo
 ├── src/
 │   ├── app/         # Next.js应用页面
 │   ├── components/  # 可复用组件
 │   ├── data/        # 数据文件
+│   ├── lib/         # 内容读取层
 │   └── styles/      # 全局样式
 ├── package.json
 └── README.md
 ```
+
+## 内容管理
+
+活动和方案内容以 Markdown 文件存储在 `content/` 目录中。编辑内容后 push 到 GitHub，Vercel 会自动构建部署。
 
 ## 许可
 

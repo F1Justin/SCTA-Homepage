@@ -1,11 +1,11 @@
 'use client';
 
-import { Activity } from '@/lib/contentful';
+import type { Activity } from '@/types/content';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { documentToPlainTextString } from '@contentful/rich-text-plain-text-renderer';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
+import { useTranslations } from 'next-intl';
 
 interface ActivityCardProps {
   activity: Activity;
@@ -13,7 +13,8 @@ interface ActivityCardProps {
 }
 
 export default function ActivityCard({ activity, index }: ActivityCardProps) {
-  const [imageAspectRatio, setImageAspectRatio] = useState(3/4); // 默认比例
+  const t = useTranslations('activities');
+  const [imageAspectRatio, setImageAspectRatio] = useState(3/4);
 
   useEffect(() => {
     if (!activity.image) return;
@@ -24,14 +25,16 @@ export default function ActivityCard({ activity, index }: ActivityCardProps) {
     };
   }, [activity.image]);
 
-  // Format date 
   const formatDate = (dateString: string) => {
     const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
     return new Date(dateString).toLocaleDateString('zh-CN', options);
   };
 
-  // Convert rich text to plain text for preview
-  const plainTextDescription = documentToPlainTextString(activity.description);
+  const plainPreview = activity.contentHtml
+    .replace(/<[^>]+>/g, '')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .slice(0, 120);
 
   return (
     <motion.div
@@ -40,7 +43,7 @@ export default function ActivityCard({ activity, index }: ActivityCardProps) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
     >
-      <Link href={`/activities/${activity.id}`}>
+      <Link href={`/activities/${activity.slug}`}>
         <div 
           className="relative rounded-t-lg overflow-hidden bg-gray-100 dark:bg-gray-700"
           style={{ 
@@ -69,12 +72,12 @@ export default function ActivityCard({ activity, index }: ActivityCardProps) {
         <div className="p-4">
           <h3 className="text-xl font-bold text-brand-red dark:text-red-400 break-words hyphens-auto mb-2" style={{ wordBreak: 'break-word' }}>{activity.title}</h3>
           <div className="hidden sm:block">
-            <p className="text-gray-700 dark:text-gray-300 mb-4 line-clamp-2">{plainTextDescription}</p>
+            <p className="text-gray-700 dark:text-gray-300 mb-4 line-clamp-2">{plainPreview}</p>
           </div>
           <div className="flex justify-end sm:justify-between items-center">
             <span className="text-sm text-gray-500 dark:text-gray-400">{formatDate(activity.date)}</span>
             <span className="text-brand-blue dark:text-blue-400 font-medium text-sm items-center hidden sm:inline-flex">
-              了解更多
+              {t('learnMore')}
               <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>
@@ -84,4 +87,4 @@ export default function ActivityCard({ activity, index }: ActivityCardProps) {
       </Link>
     </motion.div>
   );
-} 
+}

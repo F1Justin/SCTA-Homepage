@@ -1,0 +1,100 @@
+{
+  "metadata": {
+    "siteName": "上海高校東方連合会",
+    "title": "上海高校東方連合会 - 東方Project",
+    "description": "上海高校東方連合会の公式サイト——上海各大学の東方Project愛好者をつなぎ、同人創作と交流を促進します。"
+  },
+  "nav": {
+    "home": "ホーム",
+    "activities": "イベント",
+    "library": "企画ライブラリ",
+    "schools": "加盟サークル",
+    "about": "私たちについて",
+    "contact": "参加する",
+    "navigation": "メニュー"
+  },
+  "hero": {
+    "titleLine1Start": "幻想郷",
+    "titleLine1End": "の弾幕",
+    "titleLine2Start": "現実世界",
+    "titleLine2End": "の交流",
+    "description": "上海アリス幻樂団の文字通りの約束の地（？）に位置する上海高校東方連合会は、各大学の東方Project愛好者をつなぎ、同人創作と交流を促進し、幻想郷の魅力を共有しています。",
+    "highlight1": "幻想郷の門はすべての人に開かれています",
+    "middle": "。上海の大学生だけでなく、",
+    "highlight2": "全国の東方ファン",
+    "descEnd": "を歓迎します。学生でも社会人でもクリエイターでも、あなたの弾幕の世界がここにあります！",
+    "learnMore": "詳しく見る",
+    "explore": "イベントを探す",
+    "scrollDown": "スクロール"
+  },
+  "about": {
+    "title": "私たち",
+    "titleHighlight": "について",
+    "intro": "上海高校東方連合会は2023年11月に設立され、上海各大学の東方Project愛好者をつなぐ架け橋です。",
+    "libraryTitle": "企画ライブラリ",
+    "libraryDesc": "東方ファン向けの各種イベント企画を収集・整理し、大学サークルの活動参考を提供しています。あなたのアイデアも大歓迎です！",
+    "browseLibrary": "ライブラリを見る",
+    "contribute": "企画を投稿",
+    "followTitle": "フォローする",
+    "followDesc": "Bilibiliで最新のイベント動画や東方関連コンテンツをチェック、またはGitHubでサイト改善のご提案をお待ちしています！",
+    "bilibili": "Bilibili",
+    "github": "GitHub"
+  },
+  "activities": {
+    "sectionTitle": "最近の",
+    "sectionHighlight": "イベント",
+    "viewMore": "すべてのイベントを見る",
+    "pageTitle": "イベント一覧",
+    "noActivities": "イベントはまだありません",
+    "noActivitiesHint": "後ほどご確認ください。",
+    "learnMore": "詳細を見る",
+    "backToList": "← イベント一覧に戻る",
+    "notFound": "イベントが見つかりません"
+  },
+  "schools": {
+    "title": "加盟",
+    "titleHighlight": "サークル"
+  },
+  "contact": {
+    "title": "参加する",
+    "desc": "東方Projectのベテランでも、幻想郷を知ったばかりの方でも、大歓迎です！一緒にこの素晴らしい弾幕の世界を探検しましょう！",
+    "scanQr": "QRコードをスキャンして上海高校東方連合会に参加"
+  },
+  "library": {
+    "pageTitle": "サークル企画ライブラリ",
+    "pageDesc": "大学東方サークル向けの企画テンプレート。ゲーム、大会、交流会など多彩な形式をカバーし、充実した同人イベントの開催を支援します。",
+    "contributeTitle": "企画を投稿しませんか",
+    "contributeDesc": "良い企画がありましたら、ぜひ共有してください！他のサークルの活動をより素晴らしいものにし、キャンパスでの東方文化の普及に貢献できます。",
+    "submitBtn": "企画を投稿",
+    "noBlueprints": "企画はまだありません",
+    "noBlueprintsHint": "現在、もっと面白い企画を準備中です。しばらくお待ちください。",
+    "all": "すべて",
+    "noCategoryResult": "「{category}」カテゴリの企画が見つかりません",
+    "viewAll": "すべての企画を見る",
+    "backToLibrary": "企画ライブラリに戻る",
+    "notFound": "企画が見つかりません",
+    "notFoundHint": "お探しの企画は存在しないか、削除されています。",
+    "rules": "ルール",
+    "procedure": "進行手順",
+    "tips": "注意事項",
+    "preparation": "準備事項",
+    "hardware": "ハードウェア",
+    "software": "ソフトウェア",
+    "materials": "必要物品",
+    "rewardSuggestion": "報酬の提案",
+    "durationPerRound": "各ラウンド時間",
+    "rounds": "ラウンド数",
+    "participantsPerRound": "各ラウンド人数",
+    "participantCriteria": "参加条件"
+  },
+  "footer": {
+    "orgName": "上海高校東方連合会",
+    "orgDesc": "上海各大学の東方Project愛好者をつなぎ、創作と交流を共有します。",
+    "quickLinks": "クイックリンク",
+    "contactUs": "お問い合わせ",
+    "qqGroup": "QQグループ：949959173",
+    "biliAccount": "Bilibili：上海高校东方联合会",
+    "copyright": "© {year} 上海高校東方連合会. All rights reserved.",
+    "mobileDrawerDesc": "上海各大学の東方Project愛好者をつなぎ、創作と交流を共有します。"
+  }
+}

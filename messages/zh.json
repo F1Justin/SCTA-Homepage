@@ -1,0 +1,100 @@
+{
+  "metadata": {
+    "siteName": "上海高校东方联合会",
+    "title": "上海高校东方联合会 - 東方Project",
+    "description": "上海高校东方Project同好会联合会官方网站——连接上海各高校东方Project爱好者，促进同人创作交流"
+  },
+  "nav": {
+    "home": "首页",
+    "activities": "活动",
+    "library": "活动方案库",
+    "schools": "成员社团",
+    "about": "关于我们",
+    "contact": "加入我们",
+    "navigation": "导航"
+  },
+  "hero": {
+    "titleLine1Start": "幻想乡",
+    "titleLine1End": "的弹幕",
+    "titleLine2Start": "现实中",
+    "titleLine2End": "的交流",
+    "description": "地处上海爱丽丝幻乐团字面上的应许之地（雾），上海高校东方联合会致力于连接各高校东方Project爱好者，促进同人创作交流，共同享受幻想乡的魅力。",
+    "highlight1": "幻想乡的大门向所有人敞开",
+    "middle": "，不仅仅是上海高校的莘莘学子，更欢迎",
+    "highlight2": "全国各地的东方爱好者",
+    "descEnd": "，无论您是学生、上班族还是自由创作者，这里都有属于您的弹幕世界！",
+    "learnMore": "了解更多",
+    "explore": "探索活动",
+    "scrollDown": "向下滚动"
+  },
+  "about": {
+    "title": "关于",
+    "titleHighlight": "我们",
+    "intro": "上海高校东方联合会成立于2023年11月，是连接上海各高校东方Project爱好者的纽带。",
+    "libraryTitle": "活动方案库",
+    "libraryDesc": "我们收集整理了各类东方同好活动的策划方案，为高校社团提供活动组织参考。您也可以贡献自己的创意，帮助更多社团举办精彩活动！",
+    "browseLibrary": "浏览方案库",
+    "contribute": "贡献方案",
+    "followTitle": "关注我们",
+    "followDesc": "在B站关注我们获取最新的活动视频和东方Project相关内容，或者在GitHub上为我们的网站提出改进建议，一起让上海高校东方联合会变得更好！",
+    "bilibili": "哔哩哔哩",
+    "github": "GitHub"
+  },
+  "activities": {
+    "sectionTitle": "近期",
+    "sectionHighlight": "活动",
+    "viewMore": "查看更多活动",
+    "pageTitle": "活动列表",
+    "noActivities": "暂无活动",
+    "noActivitiesHint": "请稍后再来查看",
+    "learnMore": "了解更多",
+    "backToList": "← 返回活动列表",
+    "notFound": "未找到活动"
+  },
+  "schools": {
+    "title": "成员",
+    "titleHighlight": "社团"
+  },
+  "contact": {
+    "title": "加入我们",
+    "desc": "无论你是东方Project的老玩家，还是刚刚了解幻想乡的新人，我们都欢迎你的加入！一起探索这个奇妙的弹幕世界吧！",
+    "scanQr": "扫描二维码加入上海高校东方联合会"
+  },
+  "library": {
+    "pageTitle": "社团活动方案库",
+    "pageDesc": "为各高校东方社团提供活动策划参考，包含游戏、比赛、交流等多种活动形式，帮助社团组织丰富多彩的同人活动。",
+    "contributeTitle": "贡献您的活动方案",
+    "contributeDesc": "您有好的活动策划方案吗？上传您的创意，为上海高校东方社团的发展做出贡献！优质的活动方案能帮助其他社团举办更加精彩的活动，推动东方Project文化在高校中的传播。",
+    "submitBtn": "提交活动方案",
+    "noBlueprints": "暂无活动方案",
+    "noBlueprintsHint": "我们正在整理更多有趣的活动方案，请稍后再来查看。",
+    "all": "全部",
+    "noCategoryResult": "没有找到「{category}」类别的活动方案",
+    "viewAll": "查看全部活动方案",
+    "backToLibrary": "返回活动方案库",
+    "notFound": "未找到活动方案",
+    "notFoundHint": "您请求的活动方案不存在或已被删除。",
+    "rules": "活动规则",
+    "procedure": "活动流程",
+    "tips": "注意事项",
+    "preparation": "准备事项",
+    "hardware": "硬件需求",
+    "software": "软件需求",
+    "materials": "物料需求",
+    "rewardSuggestion": "奖励建议",
+    "durationPerRound": "每轮时长",
+    "rounds": "活动轮次",
+    "participantsPerRound": "每轮人数",
+    "participantCriteria": "参与条件"
+  },
+  "footer": {
+    "orgName": "上海高校东方联合会",
+    "orgDesc": "连接上海各高校东方Project爱好者，共同交流创作与游戏乐趣",
+    "quickLinks": "快速链接",
+    "contactUs": "联系我们",
+    "qqGroup": "QQ群：949959173",
+    "biliAccount": "B站：上海高校东方联合会",
+    "copyright": "© {year} 上海高校东方联合会. 保留所有权利.",
+    "mobileDrawerDesc": "连接上海各高校东方Project爱好者，共同交流创作与游戏乐趣"
+  }
+}
