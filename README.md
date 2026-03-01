@@ -89,6 +89,29 @@ scta-homepage/
 
 活动和方案内容以 Markdown 文件存储在 `content/` 目录中。编辑内容后 push 到 GitHub，Vercel 会自动构建部署。
 
+### 从 Contentful 导出内容
+
+`scripts/export-contentful.mjs` 脚本用于将 Contentful 数据一次性导出为本地 Markdown 文件并下载图片。
+
+**⚠️ 注意：运行前请确保 Contentful API 令牌已轮换（原令牌曾泄露，需在 Contentful 控制台撤销并重新生成）。**
+
+1. 复制 `.env.example` 为 `.env` 并填入你的 Contentful 凭据：
+   ```bash
+   cp .env.example .env
+   # 编辑 .env，填入 CONTENTFUL_SPACE_ID 和 CONTENTFUL_ACCESS_TOKEN
+   ```
+2. 运行导出脚本（需要 `dotenv-cli`）：
+   ```bash
+   npx dotenv -e .env -- node scripts/export-contentful.mjs
+   ```
+   或直接通过环境变量传入：
+   ```bash
+   CONTENTFUL_SPACE_ID=xxx CONTENTFUL_ACCESS_TOKEN=yyy node scripts/export-contentful.mjs
+   ```
+
+`.env` 文件已被 `.gitignore` 排除，**请勿将真实凭据提交到 git**。
+
+
 ## 许可
 
 © 2025 上海高校东方联合会. 保留所有权利. 

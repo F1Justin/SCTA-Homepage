@@ -12,8 +12,21 @@ import { fileURLToPath } from 'url';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
 
-const SPACE_ID = 'nfiykxq7wxh1';
-const ACCESS_TOKEN = 'dn5gLEeVXLo3vqXgSZaRbjK7ZQFMziNK0Ydb4UjjG4o';
+const SPACE_ID = process.env.CONTENTFUL_SPACE_ID;
+const ACCESS_TOKEN = process.env.CONTENTFUL_ACCESS_TOKEN;
+
+if (!SPACE_ID || !ACCESS_TOKEN) {
+  console.error('Error: Missing required environment variables.');
+  console.error('Please set the following before running this script:');
+  console.error('  CONTENTFUL_SPACE_ID=<your-space-id>');
+  console.error('  CONTENTFUL_ACCESS_TOKEN=<your-content-delivery-api-token>');
+  console.error('');
+  console.error('Example:');
+  console.error('  CONTENTFUL_SPACE_ID=abc123 CONTENTFUL_ACCESS_TOKEN=xyz456 node scripts/export-contentful.mjs');
+  console.error('Or copy .env.example to .env, fill in the values, and use a tool like dotenv-cli:');
+  console.error('  npx dotenv -e .env -- node scripts/export-contentful.mjs');
+  process.exit(1);
+}
 
 const client = createClient({ space: SPACE_ID, accessToken: ACCESS_TOKEN });
 
