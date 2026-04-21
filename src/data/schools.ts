@@ -314,5 +314,15 @@ export const schools: School[] = [
     id: "sumhs",
     name: "上海健康医学院",
     logo: "/School-Logos/上海健康医学院.png"
+  },
+  {
+    id: "sisu-xianda",
+    name: "上外贤达学院",
+    logo: "/School-Logos/上外贤达学院.png",
+    groupInfo: {
+      name: "上外贤达东方Project同好交流群",
+      number: "1057600633",
+      description: "上外贤达东方Project同好交流群"
+    }
   }
 ]; 
