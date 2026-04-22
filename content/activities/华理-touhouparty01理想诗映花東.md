@@ -2,7 +2,7 @@
 title: "华理 TouhouParty01：理想诗映花東"
 date: "2025-11-15T13:30+08:00"
 category: "例会"
-image: "/content/activities/华理-touhouparty01理想诗映花東.jpg"
+image: "/content/activities/华理-touhouparty01理想诗映花東.webp"
 slug: "华理-touhouparty01理想诗映花東"
 ---
 

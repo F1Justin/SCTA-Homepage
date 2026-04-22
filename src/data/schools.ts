@@ -18,7 +18,7 @@ export const schools: School[] = [
   {
     id: "fudan",
     name: "复旦大学",
-    logo: "/School-Logos/复旦大学.png",
+    logo: "/School-Logos/复旦大学.webp",
     groupInfo: {
       name: "普通のFDU东方群",
       number: "305785855",
@@ -33,7 +33,7 @@ export const schools: School[] = [
   {
     id: "sjtu",
     name: "上海交通大学",
-    logo: "/School-Logos/上海交通大学.png",
+    logo: "/School-Logos/上海交通大学.webp",
     groupInfo: {
       name: "Scarlet Joyful Touhou Univ.",
       number: "326840538",
@@ -48,7 +48,7 @@ export const schools: School[] = [
   {
     id: "tongji",
     name: "同济大学",
-    logo: "/School-Logos/同济大学.png",
+    logo: "/School-Logos/同济大学.webp",
     groupInfo: {
       name: "幻想乡万有引力",
       number: "928225852",
@@ -63,7 +63,7 @@ export const schools: School[] = [
   {
     id: "shu",
     name: "上海大学",
-    logo: "/School-Logos/上海大学.png",
+    logo: "/School-Logos/上海大学.webp",
     groupInfo: {
       name: "上海大学东方文化研讨",
       number: "805604480",
@@ -73,7 +73,7 @@ export const schools: School[] = [
   {
     id: "shiep",
     name: "上海电力大学",
-    logo: "/School-Logos/上海电力大学.png",
+    logo: "/School-Logos/上海电力大学.webp",
     groupInfo: {
       name: "上电地灵殿托卡马克实验室",
       number: "513758886",
@@ -83,7 +83,7 @@ export const schools: School[] = [
   {
     id: "usst",
     name: "上海理工大学",
-    logo: "/School-Logos/上海理工大学.png",
+    logo: "/School-Logos/上海理工大学.webp",
     groupInfo: {
       name: "上理东方闲聊群",
       number: "910755656",
@@ -93,7 +93,7 @@ export const schools: School[] = [
   {
     id: "dhu",
     name: "东华大学",
-    logo: "/School-Logos/东华大学.png",
+    logo: "/School-Logos/东华大学.webp",
     groupInfo: {
       name: "东华/松江-东方啤酒馆",
       number: "511594207",
@@ -103,7 +103,7 @@ export const schools: School[] = [
   {
     id: "ecust",
     name: "华东理工大学",
-    logo: "/School-Logos/华东理工大学.png",
+    logo: "/School-Logos/华东理工大学.webp",
     groupInfo: {
       name: "华理东方群",
       number: "547764191",
@@ -113,7 +113,7 @@ export const schools: School[] = [
   {
     id: "shnu",
     name: "上海师范大学",
-    logo: "/School-Logos/上海师范大学.png",
+    logo: "/School-Logos/上海师范大学.webp",
     groupInfo: {
       name: "海思路寺子屋",
       number: "459538957",
@@ -123,7 +123,7 @@ export const schools: School[] = [
   {
     id: "sit",
     name: "上海应用技术大学",
-    logo: "/School-Logos/上海应用技术大学.png",
+    logo: "/School-Logos/上海应用技术大学.webp",
     groupInfo: {
       name: "映姬东方project",
       number: "1043620753",
@@ -133,7 +133,7 @@ export const schools: School[] = [
   {
     id: "ecnu",
     name: "华东师范大学",
-    logo: "/School-Logos/华东师范大学.png",
+    logo: "/School-Logos/华东师范大学.webp",
     groupInfo: {
       name: "华师东方众交流群",
       number: "833917518",
@@ -143,7 +143,7 @@ export const schools: School[] = [
   {
     id: "shufe",
     name: "上海财经大学",
-    logo: "/School-Logos/上海财经大学.png",
+    logo: "/School-Logos/上海财经大学.webp",
     groupInfo: {
       name: "上财东方牌麻薯厂兼老黄单推群",
       number: "591679113",
@@ -158,7 +158,7 @@ export const schools: School[] = [
   {
     id: "ecupl",
     name: "华东政法大学",
-    logo: "/School-Logos/华东政法大学.png",
+    logo: "/School-Logos/华东政法大学.webp",
     groupInfo: {
       name: "风依华梦-华政东方闲聊群",
       number: "2167037234",
@@ -168,7 +168,7 @@ export const schools: School[] = [
   {
     id: "shou",
     name: "上海海洋大学",
-    logo: "/School-Logos/上海海洋大学.png",
+    logo: "/School-Logos/上海海洋大学.webp",
     groupInfo: {
       name: "水域东方Project",
       number: "586928891",
@@ -178,7 +178,7 @@ export const schools: School[] = [
   {
     id: "shmtu",
     name: "上海海事大学",
-    logo: "/School-Logos/上海海事大学.png",
+    logo: "/School-Logos/上海海事大学.webp",
     groupInfo: {
       name: "神曲漫协东方同好会 -上海爱海丝幻乐团",
       number: "457747541",
@@ -188,7 +188,7 @@ export const schools: School[] = [
   {
     id: "shcc",
     name: "上海海关学院",
-    logo: "/School-Logos/上海海关学院.png",
+    logo: "/School-Logos/上海海关学院.webp",
     groupInfo: {
       name: "关院东方兴趣小组新手训练营",
       number: "670856523",
@@ -198,7 +198,7 @@ export const schools: School[] = [
   {
     id: "lixin",
     name: "上海立信会计金融学院",
-    logo: "/School-Logos/上海立信会计金融学院.png",
+    logo: "/School-Logos/上海立信会计金融学院.webp",
     groupInfo: {
       name: "超负荷幻想乡",
       number: "698534855",
@@ -208,7 +208,7 @@ export const schools: School[] = [
   {
     id: "sues",
     name: "上海电机学院",
-    logo: "/School-Logos/上海电机学院.png",
+    logo: "/School-Logos/上海电机学院.webp",
     groupInfo: {
       name: "上海电机学院东方project同好会",
       number: "993840410",
@@ -218,7 +218,7 @@ export const schools: School[] = [
   {
     id: "sandau",
     name: "上海杉达学院",
-    logo: "/School-Logos/上海杉达学院.png",
+    logo: "/School-Logos/上海杉达学院.webp",
     groupInfo: {
       name: "上海杉达东方群 ミホ屋社团",
       number: "763759124",
@@ -228,7 +228,7 @@ export const schools: School[] = [
   {
     id: "gench",
     name: "上海建桥学院",
-    logo: "/School-Logos/上海建桥学院.png",
+    logo: "/School-Logos/上海建桥学院.webp",
     groupInfo: {
       name: "桥砖东方同好会",
       number: "171782589",
@@ -238,7 +238,7 @@ export const schools: School[] = [
   {
     id: "shupl",
     name: "上海政法学院",
-    logo: "/School-Logos/上海政法学院.png",
+    logo: "/School-Logos/上海政法学院.webp",
     groupInfo: {
       name: "耀月幻想乡",
       number: "490567412",
@@ -248,7 +248,7 @@ export const schools: School[] = [
   {
     id: "sues-engineering",
     name: "上海工程技术大学",
-    logo: "/School-Logos/上海工程技术大学.png",
+    logo: "/School-Logos/上海工程技术大学.webp",
     groupInfo: {
       name: "上海工程技术大学东方同好会",
       number: "974334274",
@@ -258,7 +258,7 @@ export const schools: School[] = [
   {
     id: "suibe",
     name: "上海对外经贸大学",
-    logo: "/School-Logos/上海对外经贸大学.png",
+    logo: "/School-Logos/上海对外经贸大学.webp",
     groupInfo: {
       name: "上海对外经贸大学东方同好会",
       number: "914878315",
@@ -268,7 +268,7 @@ export const schools: School[] = [
   {
     id: "shanghaitech",
     name: "上海科技大学",
-    logo: "/School-Logos/上海科技大学.png",
+    logo: "/School-Logos/上海科技大学.webp",
     groupInfo: {
       name: "铁科黑车",
       number: "█████████",
@@ -278,7 +278,7 @@ export const schools: School[] = [
   {
     id: "joint-colleges",
     name: "上海电子信息职业技术学院 & 上海中侨职业技术大学 & 上海城建职业学院 & 上海立达学院",
-    logo: "/School-Logos/电子信息&城建&中侨&立达.png",
+    logo: "/School-Logos/电子信息&城建&中侨&立达.webp",
     groupInfo: {
       name: "电子信息×城建×中侨×立达の东方根据地",
       number: "117933986",
@@ -293,17 +293,17 @@ export const schools: School[] = [
   {
     id: "sbs",
     name: "上海商学院",
-    logo: "/School-Logos/上海商学院.png"
+    logo: "/School-Logos/上海商学院.webp"
   },
   {
     id: "shzq",
     name: "上海中侨职业技术大学",
-    logo: "/School-Logos/上海中侨职业技术大学.png"
+    logo: "/School-Logos/上海中侨职业技术大学.webp"
   },
   {
     id: "sisu",
     name:"上海外国语大学",
-    logo: "/School-Logos/上海外国语大学.png",
+    logo: "/School-Logos/上海外国语大学.webp",
     groupInfo:{
       name:"西索国际东方研究院",
       number:"1064822274",
@@ -313,12 +313,12 @@ export const schools: School[] = [
   {
     id: "sumhs",
     name: "上海健康医学院",
-    logo: "/School-Logos/上海健康医学院.png"
+    logo: "/School-Logos/上海健康医学院.webp"
   },
   {
     id: "sisu-xianda",
     name: "上外贤达学院",
-    logo: "/School-Logos/上外贤达学院.png",
+    logo: "/School-Logos/上外贤达学院.webp",
     groupInfo: {
       name: "上外贤达东方Project同好交流群",
       number: "1057600633",

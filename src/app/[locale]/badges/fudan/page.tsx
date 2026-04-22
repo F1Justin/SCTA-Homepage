@@ -161,7 +161,7 @@ export default function FudanBadgePage() {
               {/* 使用学校徽标图片 */}
               <div className="w-[85%] h-[85%] flex items-center justify-center overflow-hidden rounded-full">
                 <Image 
-                  src="/School-Logos/复旦大学.png" 
+                  src="/School-Logos/复旦大学.webp" 
                   alt="复旦大学校徽" 
                   width={200}
                   height={200}

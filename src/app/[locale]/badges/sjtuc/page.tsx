@@ -161,7 +161,7 @@ export default function SJTUCBadgePage() {
               {/* 使用学校徽标图片 */}
               <div className="w-[85%] h-[85%] flex items-center justify-center overflow-hidden rounded-full">
                 <Image 
-                  src="/School-Logos/上海交通大学.png" 
+                  src="/School-Logos/上海交通大学.webp" 
                   alt="上海交通大学校徽" 
                   width={200}
                   height={200}

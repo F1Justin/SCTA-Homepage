@@ -2,7 +2,7 @@
 title: "上海高校东方ONLY：东方明珠宴"
 date: "2024-09-21T10:00+08:00"
 category: "THO"
-image: "/content/activities/上海高校东方only东方明珠宴.jpg"
+image: "/content/activities/上海高校东方only东方明珠宴.webp"
 slug: "上海高校东方only东方明珠宴"
 ---
 

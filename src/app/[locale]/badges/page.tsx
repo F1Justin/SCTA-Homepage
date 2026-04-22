@@ -24,7 +24,7 @@ const badges: Badge[] = [
     schoolName: '同济大学',
     color: '#1a4b9c',
     secondaryColor: '#e2c053',
-    logoPath: '/School-Logos/同济大学.png',
+    logoPath: '/School-Logos/同济大学.webp',
     description: '授予积极参与同济大学东方例会活动的社团成员，表彰其在弹幕文化传播与社团活动组织中的杰出贡献。'
   },
   {
@@ -33,7 +33,7 @@ const badges: Badge[] = [
     schoolName: '复旦大学',
     color: '#8C1515',
     secondaryColor: '#38B2A6',
-    logoPath: '/School-Logos/复旦大学.png',
+    logoPath: '/School-Logos/复旦大学.webp',
     description: '授予在弹幕游戏中展现卓越技巧的复旦大学东方社团成员，表彰其对东方游戏的热爱与精通。'
   },
   {
@@ -42,7 +42,7 @@ const badges: Badge[] = [
     schoolName: '上海交通大学',
     color: '#003876',
     secondaryColor: '#c53330',
-    logoPath: '/School-Logos/上海交通大学.png',
+    logoPath: '/School-Logos/上海交通大学.webp',
     description: '授予在同人创作领域表现突出的上海交通大学东方社团成员，表彰其对东方文化传播的杰出贡献。'
   }
 ];

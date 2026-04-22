@@ -2,7 +2,7 @@
 title: "LIVE | 东方光华语 03"
 date: "2025-10-25T13:00+08:00"
 category: "LIVE"
-image: "/content/activities/live-东方光华语-03.jpeg"
+image: "/content/activities/live-东方光华语-03.webp"
 slug: "live-东方光华语-03"
 ---
 
@@ -22,4 +22,4 @@ slug: "live-东方光华语-03"
 
 
 
-![光华语03节目单](/content/activities/live-东方光华语-03-embed-0.png)
+![光华语03节目单](/content/activities/live-东方光华语-03-embed-0.webp)

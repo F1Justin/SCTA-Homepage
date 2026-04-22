@@ -5,7 +5,10 @@ const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts');
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    unoptimized: false,
+    formats: ['image/avif', 'image/webp'],
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920],
+    imageSizes: [64, 128, 256, 400],
+    minimumCacheTTL: 60 * 60 * 24 * 30, // 30天
   },
   async headers() {
     return [
