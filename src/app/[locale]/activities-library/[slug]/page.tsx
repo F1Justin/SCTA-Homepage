@@ -5,7 +5,7 @@ import Image from 'next/image';
 import TextCoverPlaceholder from '@/components/TextCoverPlaceholder';
 
 interface BlueprintDetailPageProps {
-  params: { slug: string; locale: string };
+  params: Promise<{ slug: string; locale: string }>;
 }
 
 export async function generateStaticParams() {
@@ -14,7 +14,8 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: BlueprintDetailPageProps): Promise<Metadata> {
-  const slug = decodeURIComponent(params.slug);
+  const { slug: rawSlug } = await params;
+  const slug = decodeURIComponent(rawSlug);
   const blueprint = await getBlueprintBySlug(slug);
   if (!blueprint) return { title: '未找到活动方案' };
   return {
@@ -24,9 +25,10 @@ export async function generateMetadata({ params }: BlueprintDetailPageProps): Pr
 }
 
 export default async function BlueprintDetailPage({ params }: BlueprintDetailPageProps) {
+  const { slug, locale } = await params;
   const { setStaticLocale } = await import('@/i18n/static');
-  setStaticLocale(params.locale);
-  const blueprint = await getBlueprintBySlug(decodeURIComponent(params.slug));
+  setStaticLocale(locale);
+  const blueprint = await getBlueprintBySlug(decodeURIComponent(slug));
 
   if (!blueprint) {
     return (

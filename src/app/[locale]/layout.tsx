@@ -1,5 +1,5 @@
 import { NextIntlClientProvider } from 'next-intl';
-import { getMessages, getTranslations, unstable_setRequestLocale } from 'next-intl/server';
+import { getMessages, getTranslations, setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { locales, type Locale } from '@/i18n/config';
 import type { Metadata } from 'next';
@@ -8,7 +8,7 @@ import AppFooter from '@/components/layout/AppFooter';
 
 interface LocaleLayoutProps {
   children: React.ReactNode;
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 }
 
 export function generateStaticParams() {
@@ -16,7 +16,8 @@ export function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: LocaleLayoutProps): Promise<Metadata> {
-  const t = await getTranslations({ locale: params.locale, namespace: 'metadata' });
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: 'metadata' });
   const SITE_URL = 'https://www.scta.cc';
 
   return {
@@ -39,11 +40,13 @@ export async function generateMetadata({ params }: LocaleLayoutProps): Promise<M
 }
 
 export default async function LocaleLayout({ children, params }: LocaleLayoutProps) {
-  if (!locales.includes(params.locale as Locale)) {
+  const { locale } = await params;
+
+  if (!locales.includes(locale as Locale)) {
     notFound();
   }
 
-  unstable_setRequestLocale(params.locale);
+  setRequestLocale(locale);
   const messages = await getMessages();
 
   return (

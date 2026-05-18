@@ -6,7 +6,7 @@ import type { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
 
 interface ActivityPageProps {
-  params: { id: string; locale: string };
+  params: Promise<{ id: string; locale: string }>;
 }
 
 export async function generateStaticParams() {
@@ -15,9 +15,10 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: ActivityPageProps): Promise<Metadata> {
-  const slug = decodeURIComponent(params.id);
+  const { id, locale } = await params;
+  const slug = decodeURIComponent(id);
   const activity = await getActivityBySlug(slug);
-  const t = await getTranslations({ locale: params.locale, namespace: 'activities' });
+  const t = await getTranslations({ locale, namespace: 'activities' });
   if (!activity) return { title: t('notFound') };
   return {
     title: activity.title,
@@ -26,10 +27,11 @@ export async function generateMetadata({ params }: ActivityPageProps): Promise<M
 }
 
 export default async function ActivityPage({ params }: ActivityPageProps) {
+  const { id, locale } = await params;
   const { setStaticLocale } = await import('@/i18n/static');
-  setStaticLocale(params.locale);
-  const activity = await getActivityBySlug(decodeURIComponent(params.id));
-  const t = await getTranslations({ locale: params.locale, namespace: 'activities' });
+  setStaticLocale(locale);
+  const activity = await getActivityBySlug(decodeURIComponent(id));
+  const t = await getTranslations({ locale, namespace: 'activities' });
 
   if (!activity) {
     notFound();
@@ -38,7 +40,7 @@ export default async function ActivityPage({ params }: ActivityPageProps) {
   const localeMap: Record<string, string> = { zh: 'zh-CN', en: 'en-US', ja: 'ja-JP' };
   const formatDate = (dateString: string) => {
     const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
-    return new Date(dateString).toLocaleDateString(localeMap[params.locale] || 'zh-CN', options);
+    return new Date(dateString).toLocaleDateString(localeMap[locale] || 'zh-CN', options);
   };
 
   return (
