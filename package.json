@@ -26,7 +26,7 @@
     "@vercel/speed-insights": "^1.2.0",
     "framer-motion": "^11.18.2",
     "gray-matter": "^4.0.3",
-    "next": "^15.5.16",
+    "next": "^15.5.25",
     "next-intl": "^4.9.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -45,10 +45,13 @@
     "@typescript-eslint/parser": "^8.28.0",
     "autoprefixer": "^10.4.14",
     "eslint": "8.57.1",
-    "eslint-config-next": "^15.5.16",
-    "postcss": "^8.5.14",
-    "sharp": "^0.34.5",
+    "eslint-config-next": "^15.5.25",
+    "postcss": "^8.5.28",
+    "sharp": "^0.35.4",
     "tailwindcss": "^3.3.0",
     "typescript": "^5.4.2"
+  },
+  "overrides": {
+    "postcss": "$postcss"
   }
 }
