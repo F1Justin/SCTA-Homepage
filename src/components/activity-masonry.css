@@ -1,0 +1,70 @@
+.activity-masonry {
+  display: flex;
+}
+
+.activity-masonry[data-activity-masonry="2"] {
+  display: none;
+}
+
+.activity-masonry-column {
+  width: 33.3333333333%;
+}
+
+.activity-card {
+  @apply bg-white dark:bg-gray-800 rounded-lg shadow-sm overflow-hidden;
+  animation: activity-card-enter .5s cubic-bezier(0, 0, .58, 1) var(--card-delay) backwards;
+}
+
+.activity-card-cover {
+  @apply relative rounded-t-lg overflow-hidden bg-gray-100 dark:bg-gray-700;
+}
+
+.activity-card-poster {
+  @apply object-cover transition-all duration-300 hover:scale-105;
+}
+
+.activity-card-category {
+  @apply absolute top-0 right-0 bg-red-50 dark:bg-red-900/30 text-brand-red dark:text-red-400 px-3 py-1 text-sm font-medium rounded-bl-lg z-10;
+}
+
+.activity-card-caption {
+  @apply p-4;
+}
+
+.activity-card-title {
+  @apply text-xl font-bold text-brand-red dark:text-red-400 break-words hyphens-auto mb-2;
+  word-break: break-word;
+}
+
+.activity-card-preview {
+  @apply text-gray-700 dark:text-gray-300 mb-4 line-clamp-2;
+}
+
+.activity-card-meta {
+  @apply flex justify-end sm:justify-between items-center;
+}
+
+@keyframes activity-card-enter {
+  from { opacity: 0; transform: translateY(50px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 640px) {
+  .activity-masonry[data-activity-masonry="2"] {
+    display: flex;
+  }
+
+  .activity-masonry[data-activity-masonry="3"] {
+    display: none;
+  }
+
+  .activity-masonry-column {
+    width: 50%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .activity-card {
+    animation: none;
+  }
+}

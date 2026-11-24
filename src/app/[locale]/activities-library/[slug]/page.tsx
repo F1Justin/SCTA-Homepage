@@ -2,7 +2,7 @@ import { getBlueprintBySlug, getAllBlueprintSlugs } from '@/lib/content';
 import { notFound } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
 import { pageMetadata, siteUrl, SITE_URL } from '@/i18n/metadata';
-import { decodeRouteSegment, setRouteLocale } from '@/i18n/route-locale';
+import { setRouteLocale } from '@/i18n/route-locale';
 import { Link } from '@/i18n/navigation';
 import Image from 'next/image';
 import TextCoverPlaceholder from '@/components/TextCoverPlaceholder';
@@ -12,14 +12,14 @@ interface BlueprintDetailPageProps {
 }
 
 export async function generateStaticParams() {
-  const slugs = getAllBlueprintSlugs();
+  const slugs = await getAllBlueprintSlugs();
   return slugs.map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({ params }: BlueprintDetailPageProps) {
   const { slug, locale: routeLocale } = await params;
   const locale = setRouteLocale(routeLocale);
-  const blueprint = await getBlueprintBySlug(decodeRouteSegment(slug));
+  const blueprint = await getBlueprintBySlug(slug);
   if (!blueprint) {
     const t = await getTranslations({ locale, namespace: 'library' });
     return { title: t('notFound'), robots: { index: false } };
@@ -35,7 +35,7 @@ export async function generateMetadata({ params }: BlueprintDetailPageProps) {
 export default async function BlueprintDetailPage({ params }: BlueprintDetailPageProps) {
   const { slug, locale: routeLocale } = await params;
   const locale = setRouteLocale(routeLocale);
-  const blueprint = await getBlueprintBySlug(decodeRouteSegment(slug));
+  const blueprint = await getBlueprintBySlug(slug);
   if (!blueprint) notFound();
 
   const t = await getTranslations({ locale, namespace: 'library' });

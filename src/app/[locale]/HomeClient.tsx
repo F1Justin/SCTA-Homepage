@@ -1,22 +1,15 @@
 'use client';
 
-import type { Activity } from '@/types/content';
+import type { ReactNode } from 'react';
 import { schools } from '@/data/schools';
-import ActivityCard from '@/components/ActivityCard';
 import SchoolCard from '@/components/SchoolCard';
 import { motion } from 'framer-motion';
 import { Link } from '@/i18n/navigation';
 import Image from 'next/image';
-import Masonry from 'react-masonry-css';
 import { useTranslations } from 'next-intl';
 
-const masonryBreakpointsHomepage = {
-  default: 3,
-  640: 2,
-};
-
 interface HomeClientProps {
-  activities: Activity[];
+  activities: ReactNode;
 }
 
 export default function HomeClient({ activities }: HomeClientProps) {
@@ -246,13 +239,7 @@ export default function HomeClient({ activities }: HomeClientProps) {
           <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 0.8 }} viewport={{ once: true }}>
             <h2 className="section-title dark:text-white mb-12">{act('sectionTitle')}<span className="text-brand-red dark:text-red-400">{act('sectionHighlight')}</span></h2>
             <div className="relative">
-              <Masonry breakpointCols={masonryBreakpointsHomepage} className="flex w-auto -mx-2 sm:-mx-4" columnClassName="px-2 sm:px-4">
-                {activities.map((activity, index) => (
-                  <div key={activity.slug} className="mb-4 sm:mb-8">
-                    <ActivityCard activity={activity} index={index} />
-                  </div>
-                ))}
-              </Masonry>
+              {activities}
               <div className="absolute bottom-0 left-0 right-0 h-[35%] bg-gradient-to-t from-white via-white to-transparent dark:from-gray-900 dark:via-gray-900 pointer-events-none"></div>
               <div className="absolute bottom-48 left-0 right-0 flex justify-center">
                 <Link href="/activities" className="btn-primary z-10">{act('viewMore')}</Link>

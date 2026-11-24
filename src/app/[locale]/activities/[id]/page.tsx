@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
-import { decodeRouteSegment, setRouteLocale } from '@/i18n/route-locale';
+import { setRouteLocale } from '@/i18n/route-locale';
 import { formatActivityDate } from '@/i18n/activity-date';
 import { pageMetadata } from '@/i18n/metadata';
 
@@ -13,14 +13,14 @@ interface ActivityPageProps {
 }
 
 export async function generateStaticParams() {
-  const slugs = getAllActivitySlugs();
+  const slugs = await getAllActivitySlugs();
   return slugs.map((id) => ({ id }));
 }
 
 export async function generateMetadata({ params }: ActivityPageProps): Promise<Metadata> {
   const { id, locale: routeLocale } = await params;
   const locale = setRouteLocale(routeLocale);
-  const activity = await getActivityBySlug(decodeRouteSegment(id));
+  const activity = await getActivityBySlug(id);
   if (!activity) {
     const t = await getTranslations({ locale, namespace: 'activities' });
     return { title: t('notFound'), robots: { index: false } };
@@ -28,15 +28,15 @@ export async function generateMetadata({ params }: ActivityPageProps): Promise<M
 
   return pageMetadata(locale, `/activities/${encodeURIComponent(activity.slug)}`, {
     title: activity.title,
-    description: activity.contentHtml.replace(/<[^>]+>/g, '').slice(0, 160),
-    image: activity.image,
+    description: activity.description,
+    image: activity.poster?.src,
   });
 }
 
 export default async function ActivityPage({ params }: ActivityPageProps) {
   const { id, locale: routeLocale } = await params;
   const locale = setRouteLocale(routeLocale);
-  const activity = await getActivityBySlug(decodeRouteSegment(id));
+  const activity = await getActivityBySlug(id);
   if (!activity) notFound();
 
   const t = await getTranslations({ locale, namespace: 'activities' });
@@ -47,8 +47,17 @@ export default async function ActivityPage({ params }: ActivityPageProps) {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
           <div className="lg:col-span-5">
             <div className="relative w-full overflow-hidden rounded-lg sticky top-8">
-              {activity.image ? (
-                <Image src={activity.image} alt={activity.title} width={800} height={600} className="w-full h-auto object-contain bg-gray-50 dark:bg-gray-800" />
+              {activity.poster ? (
+                <Image
+                  src={activity.poster.src}
+                  alt={activity.title}
+                  width={activity.poster.width}
+                  height={activity.poster.height}
+                  unoptimized={activity.poster.unoptimized}
+                  sizes="(max-width: 639px) calc(100vw - 32px), (max-width: 767px) 608px, (max-width: 1023px) 736px, (max-width: 1279px) 400px, 467px"
+                  className="w-full h-auto object-contain bg-gray-50 dark:bg-gray-800"
+                  priority
+                />
               ) : (
                 <div className="w-full aspect-video bg-gradient-to-br from-brand-red/20 to-brand-blue/20 flex items-center justify-center">
                   <span className="text-2xl font-bold text-gray-400 dark:text-gray-500">{activity.title}</span>

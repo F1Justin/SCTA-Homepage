@@ -1,21 +1,36 @@
-export interface Activity {
+export interface ActivityPoster {
+  src: string;
+  width: number;
+  height: number;
+  unoptimized?: true;
+}
+
+export interface ActivitySummary {
   slug: string;
   title: string;
   date: string;
   category: string;
-  image: string;
-  contentHtml: string;
+  poster: ActivityPoster | null;
+  preview: string;
 }
 
-export interface Blueprint {
+export interface Activity extends Omit<ActivitySummary, 'preview'> {
+  contentHtml: string;
+  description: string;
+}
+
+export interface BlueprintSummary {
   slug: string;
   title: string;
   category: string[];
   summary: string;
   coverImage: string;
   durationPerRound?: string;
-  rounds?: string;
   participantsPerRound?: string;
+}
+
+export interface Blueprint extends BlueprintSummary {
+  rounds?: string;
   participantCriteria?: string;
   hardwareRequirements?: string[];
   softwareRequirements?: string[];

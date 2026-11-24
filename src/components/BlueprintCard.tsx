@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import { Link } from '@/i18n/navigation';
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';
-import type { Blueprint } from '@/types/content';
+import type { BlueprintSummary } from '@/types/content';
 
 const gradients = [
   'bg-gradient-to-r from-brand-red via-brand-red/70 to-brand-gold/50',
@@ -20,7 +20,7 @@ const gradients = [
 ];
 
 interface BlueprintCardProps {
-  blueprint: Blueprint;
+  blueprint: BlueprintSummary;
 }
 
 export default function BlueprintCard({ blueprint }: BlueprintCardProps) {

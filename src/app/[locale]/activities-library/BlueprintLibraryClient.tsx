@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import type { Blueprint } from '@/types/content';
+import type { BlueprintSummary } from '@/types/content';
 import BlueprintCard from '@/components/BlueprintCard';
 import Masonry from 'react-masonry-css';
 import { useTranslations } from 'next-intl';
@@ -12,7 +12,7 @@ const masonryBreakpoints = {
 };
 
 interface BlueprintLibraryClientProps {
-  blueprints: Blueprint[];
+  blueprints: BlueprintSummary[];
   categories: string[];
 }
 

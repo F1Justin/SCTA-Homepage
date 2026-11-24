@@ -1,4 +1,4 @@
-import { getAllBlueprints } from '@/lib/content';
+import { getBlueprintSummaries } from '@/lib/content';
 import BlueprintLibraryClient from './BlueprintLibraryClient';
 import { setRouteLocale, type LocaleParams } from '@/i18n/route-locale';
 import { pageMetadata } from '@/i18n/metadata';
@@ -12,7 +12,7 @@ export async function generateMetadata({ params }: { params: LocaleParams }) {
 
 export default async function ActivityLibraryPage({ params }: { params: LocaleParams }) {
   setRouteLocale((await params).locale);
-  const blueprints = await getAllBlueprints();
+  const blueprints = await getBlueprintSummaries();
 
   const allCategories = new Set<string>();
   blueprints.forEach(bp => bp.category.forEach(cat => allCategories.add(cat)));

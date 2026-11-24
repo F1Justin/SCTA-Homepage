@@ -1,212 +1,172 @@
-import fs from 'fs';
-import path from 'path';
+import { readdir, readFile } from 'node:fs/promises';
+import path from 'node:path';
+import { cache } from 'react';
 import matter from 'gray-matter';
 import { unified } from 'unified';
 import remarkParse from 'remark-parse';
 import remarkRehype from 'remark-rehype';
 import rehypeRaw from 'rehype-raw';
 import rehypeStringify from 'rehype-stringify';
-import type { Activity, Blueprint } from '@/types/content';
+import { parseActivityDate } from '@/i18n/activity-date';
+import { decodeRouteSegment } from '@/i18n/route-locale';
+import type { Activity, ActivitySummary, Blueprint, BlueprintSummary } from '@/types/content';
+import { readActivityPoster } from './posters';
 
-const ACTIVITIES_DIR = path.join(process.cwd(), 'content/activities');
-const BLUEPRINTS_DIR = path.join(process.cwd(), 'content/blueprints');
+const processor = unified()
+  .use(remarkParse)
+  .use(remarkRehype, { allowDangerousHtml: true })
+  .use(rehypeRaw)
+  .use(rehypeStringify)
+  .freeze();
 
-async function markdownToHtml(md: string): Promise<string> {
-  const result = await unified()
-    .use(remarkParse)
-    .use(remarkRehype, { allowDangerousHtml: true })
-    .use(rehypeRaw)
-    .use(rehypeStringify)
-    .process(md);
-  return result.toString();
+async function markdownToHtml(markdown: string) {
+  return (await processor.process(markdown)).toString();
 }
 
-// ── Activities ──
+function once<T>(load: () => Promise<T>) {
+  let pending: Promise<T> | undefined;
+  return () => pending ??= load().catch(error => {
+    pending = undefined;
+    throw error;
+  });
+}
 
-export async function getAllActivities(): Promise<Activity[]> {
-  if (!fs.existsSync(ACTIVITIES_DIR)) return [];
+function contentCache<T>(load: () => Promise<T>) {
+  // Published content belongs to a deployment. Development reads changes on each request.
+  return process.env.NODE_ENV === 'production' ? once(load) : cache(load);
+}
 
-  const files = fs.readdirSync(ACTIVITIES_DIR).filter(f => f.endsWith('.md'));
+async function readCollection<T extends { slug: string }>(
+  directory: string,
+  build: (document: ReturnType<typeof matter>, slug: string) => T,
+) {
+  const directoryPath = path.join(process.cwd(), 'content', directory);
+  const files = await readdir(directoryPath).catch(error => {
+    if (error.code === 'ENOENT') return [];
+    throw error;
+  });
+  const records = await Promise.all(files.filter(file => file.endsWith('.md')).map(async file => {
+    const document = matter(await readFile(path.join(directoryPath, file), 'utf8'));
+    const slug = document.data.slug || path.basename(file, '.md');
+    return build(document, slug);
+  }));
+  const bySlug = new Map(records.map(record => [record.slug, record]));
+  if (bySlug.size !== records.length) throw new Error(`Duplicate slugs in content/${directory}`);
+  return { records, bySlug };
+}
 
-  const activities = await Promise.all(
-    files.map(async (filename) => {
-      const filePath = path.join(ACTIVITIES_DIR, filename);
-      const raw = fs.readFileSync(filePath, 'utf-8');
-      const { data, content } = matter(raw);
+const getActivityIndex = contentCache(async () => {
+  const posters = new Map<string, Promise<ActivitySummary['poster']>>();
+  const index = await readCollection('activities', ({ data, content }, slug) => {
+    const image = String(data.image ?? '');
+    const date = data.date instanceof Date ? data.date.toISOString() : String(data.date ?? '');
+    const meta = { slug, title: String(data.title ?? ''), date, category: String(data.category ?? '') };
+    const width = Number(data.imageWidth);
+    const height = Number(data.imageHeight);
+    const getPoster = () => {
+      const key = `${image}\n${width}\n${height}`;
+      let poster = posters.get(key);
+      if (!poster) {
+        poster = readActivityPoster(image, width, height);
+        posters.set(key, poster);
+      }
+      return poster;
+    };
+    const getBody = once(async () => {
       const contentHtml = await markdownToHtml(content);
-
+      const text = contentHtml.replace(/<[^>]+>/g, '');
       return {
-        slug: data.slug || filename.replace(/\.md$/, ''),
-        title: data.title || '',
-        date: data.date || '',
-        category: data.category || '',
-        image: data.image || '',
         contentHtml,
-      } satisfies Activity;
-    })
-  );
+        description: text.slice(0, 160),
+        preview: text.replace(/\s+/g, ' ').trim().slice(0, 120),
+      };
+    });
+    return { ...meta, timestamp: parseActivityDate(date).getTime(), getPoster, getBody };
+  });
+  return { ...index, sorted: index.records.slice().sort((a, b) => b.timestamp - a.timestamp) };
+});
 
-  return activities.sort(
-    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
-  );
+export async function getActivitySummaries(limit?: number): Promise<ActivitySummary[]> {
+  const { sorted } = await getActivityIndex();
+  const entries = limit === undefined ? sorted : sorted.slice(0, limit);
+  return Promise.all(entries.map(async ({ slug, title, date, category, getPoster, getBody }) => {
+    const [poster, { preview }] = await Promise.all([getPoster(), getBody()]);
+    return { slug, title, date, category, poster, preview };
+  }));
 }
 
 export async function getActivityBySlug(slug: string): Promise<Activity | null> {
-  if (!fs.existsSync(ACTIVITIES_DIR)) return null;
+  const { bySlug } = await getActivityIndex();
+  const entry = bySlug.get(slug) ?? bySlug.get(decodeRouteSegment(slug));
+  if (!entry) return null;
 
-  const files = fs.readdirSync(ACTIVITIES_DIR).filter(f => f.endsWith('.md'));
-
-  for (const filename of files) {
-    const filePath = path.join(ACTIVITIES_DIR, filename);
-    const raw = fs.readFileSync(filePath, 'utf-8');
-    const { data, content } = matter(raw);
-    const fileSlug = data.slug || filename.replace(/\.md$/, '');
-
-    if (fileSlug === slug) {
-      return {
-        slug: fileSlug,
-        title: data.title || '',
-        date: data.date || '',
-        category: data.category || '',
-        image: data.image || '',
-        contentHtml: await markdownToHtml(content),
-      };
-    }
-  }
-
-  return null;
+  const { slug: canonicalSlug, title, date, category, getPoster, getBody } = entry;
+  const [poster, { contentHtml, description }] = await Promise.all([getPoster(), getBody()]);
+  return { slug: canonicalSlug, title, date, category, poster, contentHtml, description };
 }
 
-export function getAllActivitySlugs(): string[] {
-  if (!fs.existsSync(ACTIVITIES_DIR)) return [];
-
-  return fs.readdirSync(ACTIVITIES_DIR)
-    .filter(f => f.endsWith('.md'))
-    .map(filename => {
-      const raw = fs.readFileSync(path.join(ACTIVITIES_DIR, filename), 'utf-8');
-      const { data } = matter(raw);
-      return data.slug || filename.replace(/\.md$/, '');
-    });
+export async function getAllActivitySlugs() {
+  return (await getActivityIndex()).records.map(({ slug }) => slug);
 }
-
-// ── Blueprints ──
 
 function splitBlueprintSections(content: string) {
   const sections: { rules?: string; procedure?: string; tips?: string } = {};
-  const sectionRegex = /^## (.+)$/gm;
-  const parts: { name: string; start: number }[] = [];
-  let match;
+  const headings = Array.from(content.matchAll(/^## (.+)$/gm));
 
-  while ((match = sectionRegex.exec(content)) !== null) {
-    parts.push({ name: match[1].trim(), start: match.index + match[0].length });
-  }
-
-  for (let i = 0; i < parts.length; i++) {
-    const end = i + 1 < parts.length ? parts[i + 1].start - parts[i + 1].name.length - 3 : content.length;
-    const text = content.slice(parts[i].start, end).trim();
-    const name = parts[i].name;
-
+  headings.forEach((heading, index) => {
+    const name = heading[1].trim();
+    const start = heading.index + heading[0].length;
+    const text = content.slice(start, headings[index + 1]?.index).trim();
     if (name.includes('规则')) sections.rules = text;
     else if (name.includes('流程')) sections.procedure = text;
-    else if (name.includes('注意')) sections.tips = text;
-  }
+    else if (name.includes('注意') || name.includes('提示')) sections.tips = text;
+  });
 
   return sections;
 }
 
-export async function getAllBlueprints(): Promise<Blueprint[]> {
-  if (!fs.existsSync(BLUEPRINTS_DIR)) return [];
+const getBlueprintIndex = contentCache(async () => readCollection('blueprints', ({ data, content }, slug) => {
+  const summary: BlueprintSummary = {
+    slug,
+    title: data.title || '',
+    category: Array.isArray(data.category) ? data.category : [data.category].filter(Boolean),
+    summary: data.summary || '',
+    coverImage: data.coverImage || '',
+    durationPerRound: data.durationPerRound,
+    participantsPerRound: data.participantsPerRound == null ? undefined : String(data.participantsPerRound),
+  };
+  const getArticle = once(async (): Promise<Blueprint> => {
+    const parts = splitBlueprintSections(content);
+    const [rules, procedure, tips] = await Promise.all([
+      parts.rules && markdownToHtml(parts.rules),
+      parts.procedure && markdownToHtml(parts.procedure),
+      parts.tips && markdownToHtml(parts.tips),
+    ]);
+    return {
+      ...summary,
+      rounds: data.rounds,
+      participantCriteria: data.participantCriteria,
+      hardwareRequirements: data.hardwareRequirements,
+      softwareRequirements: data.softwareRequirements,
+      materialsNeeded: data.materialsNeeded,
+      rewardSuggestion: data.rewardSuggestion,
+      sections: { rules, procedure, tips },
+    };
+  });
+  return { slug, summary, getArticle };
+}));
 
-  const files = fs.readdirSync(BLUEPRINTS_DIR).filter(f => f.endsWith('.md'));
+export const getBlueprintSummaries = contentCache(async () => {
+  const { records } = await getBlueprintIndex();
+  return records.map(({ summary }) => summary).sort((a, b) => a.title.localeCompare(b.title, 'zh'));
+});
 
-  const blueprints = await Promise.all(
-    files.map(async (filename) => {
-      const filePath = path.join(BLUEPRINTS_DIR, filename);
-      const raw = fs.readFileSync(filePath, 'utf-8');
-      const { data, content } = matter(raw);
-
-      const rawSections = splitBlueprintSections(content);
-      const sections = {
-        rules: rawSections.rules ? await markdownToHtml(rawSections.rules) : undefined,
-        procedure: rawSections.procedure ? await markdownToHtml(rawSections.procedure) : undefined,
-        tips: rawSections.tips ? await markdownToHtml(rawSections.tips) : undefined,
-      };
-
-      const category = Array.isArray(data.category) ? data.category : [data.category].filter(Boolean);
-
-      return {
-        slug: data.slug || filename.replace(/\.md$/, ''),
-        title: data.title || '',
-        category,
-        summary: data.summary || '',
-        coverImage: data.coverImage || '',
-        durationPerRound: data.durationPerRound,
-        rounds: data.rounds,
-        participantsPerRound: data.participantsPerRound,
-        participantCriteria: data.participantCriteria,
-        hardwareRequirements: data.hardwareRequirements,
-        softwareRequirements: data.softwareRequirements,
-        materialsNeeded: data.materialsNeeded,
-        rewardSuggestion: data.rewardSuggestion,
-        sections,
-      } satisfies Blueprint;
-    })
-  );
-
-  return blueprints.sort((a, b) => a.title.localeCompare(b.title, 'zh'));
+export async function getBlueprintBySlug(slug: string) {
+  const { bySlug } = await getBlueprintIndex();
+  const entry = bySlug.get(slug) ?? bySlug.get(decodeRouteSegment(slug));
+  return entry ? entry.getArticle() : null;
 }
 
-export async function getBlueprintBySlug(slug: string): Promise<Blueprint | null> {
-  if (!fs.existsSync(BLUEPRINTS_DIR)) return null;
-
-  const files = fs.readdirSync(BLUEPRINTS_DIR).filter(f => f.endsWith('.md'));
-
-  for (const filename of files) {
-    const filePath = path.join(BLUEPRINTS_DIR, filename);
-    const raw = fs.readFileSync(filePath, 'utf-8');
-    const { data, content } = matter(raw);
-    const fileSlug = data.slug || filename.replace(/\.md$/, '');
-
-    if (fileSlug === slug) {
-      const rawSections = splitBlueprintSections(content);
-      const sections = {
-        rules: rawSections.rules ? await markdownToHtml(rawSections.rules) : undefined,
-        procedure: rawSections.procedure ? await markdownToHtml(rawSections.procedure) : undefined,
-        tips: rawSections.tips ? await markdownToHtml(rawSections.tips) : undefined,
-      };
-
-      const category = Array.isArray(data.category) ? data.category : [data.category].filter(Boolean);
-
-      return {
-        slug: fileSlug,
-        title: data.title || '',
-        category,
-        summary: data.summary || '',
-        coverImage: data.coverImage || '',
-        durationPerRound: data.durationPerRound,
-        rounds: data.rounds,
-        participantsPerRound: data.participantsPerRound,
-        participantCriteria: data.participantCriteria,
-        hardwareRequirements: data.hardwareRequirements,
-        softwareRequirements: data.softwareRequirements,
-        materialsNeeded: data.materialsNeeded,
-        rewardSuggestion: data.rewardSuggestion,
-        sections,
-      };
-    }
-  }
-
-  return null;
-}
-
-export function getAllBlueprintSlugs(): string[] {
-  if (!fs.existsSync(BLUEPRINTS_DIR)) return [];
-
-  return fs.readdirSync(BLUEPRINTS_DIR)
-    .filter(f => f.endsWith('.md'))
-    .map(filename => {
-      const raw = fs.readFileSync(path.join(BLUEPRINTS_DIR, filename), 'utf-8');
-      const { data } = matter(raw);
-      return data.slug || filename.replace(/\.md$/, '');
-    });
+export async function getAllBlueprintSlugs() {
+  return (await getBlueprintIndex()).records.map(({ slug }) => slug);
 }

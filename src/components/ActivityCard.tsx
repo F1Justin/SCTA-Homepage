@@ -1,87 +1,61 @@
-'use client';
-
-import type { Activity } from '@/types/content';
-import { motion } from 'framer-motion';
-import { Link } from '@/i18n/navigation';
+import type { CSSProperties } from 'react';
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
-import { useLocale, useTranslations } from 'next-intl';
+import type { ActivitySummary } from '@/types/content';
 import { formatActivityDate } from '@/i18n/activity-date';
+import { Link } from '@/i18n/navigation';
+import type { Locale } from '@/i18n/routing';
+import './activity-masonry.css';
 
 interface ActivityCardProps {
-  activity: Activity;
+  activity: ActivitySummary;
   index: number;
+  locale: Locale;
+  learnMore: string;
+  sizes: string;
+  priority: boolean;
 }
 
-export default function ActivityCard({ activity, index }: ActivityCardProps) {
-  const t = useTranslations('activities');
-  const locale = useLocale();
-  const [imageAspectRatio, setImageAspectRatio] = useState(3/4);
-
-  useEffect(() => {
-    if (!activity.image) return;
-    const img = new window.Image();
-    img.src = activity.image;
-    img.onload = () => {
-      setImageAspectRatio(img.width / img.height);
-    };
-  }, [activity.image]);
-
-  const plainPreview = activity.contentHtml
-    .replace(/<[^>]+>/g, '')
-    .replace(/\s+/g, ' ')
-    .trim()
-    .slice(0, 120);
+export default function ActivityCard({ activity, index, locale, learnMore, sizes, priority }: ActivityCardProps) {
+  const { poster } = activity;
+  const aspectRatio = poster ? `${poster.width} / ${poster.height}` : '16 / 9';
 
   return (
-    <motion.div
-      className="bg-white dark:bg-gray-800 rounded-lg shadow-sm overflow-hidden"
-      initial={{ opacity: 0, y: 50 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, delay: index * 0.1 }}
-    >
-      <Link href={`/activities/${encodeURIComponent(activity.slug)}`}>
-        <div 
-          className="relative rounded-t-lg overflow-hidden bg-gray-100 dark:bg-gray-700"
-          style={{ 
-            aspectRatio: activity.image ? imageAspectRatio : 16/9
-          }}
-        >
-          {activity.image ? (
+    <div className="activity-card" style={{ '--card-delay': `${index * 100}ms` } as CSSProperties}>
+      <Link href={`/activities/${encodeURIComponent(activity.slug)}`} prefetch={false}>
+        <div className="activity-card-cover" style={{ aspectRatio }}>
+          {poster ? (
             <Image
-              src={activity.image}
+              src={poster.src}
               alt={activity.title}
               fill
-              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-              className="object-cover transition-all duration-300 hover:scale-105"
-              priority={index < 6}
-              loading={index < 6 ? 'eager' : 'lazy'}
+              unoptimized={poster.unoptimized}
+              sizes={sizes}
+              className="activity-card-poster"
+              priority={priority}
             />
           ) : (
             <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-brand-red/20 to-brand-blue/20">
-              <span className="text-2xl font-bold text-gray-400 dark:text-gray-500">{activity.title}</span>
+              <span lang="zh" className="text-2xl font-bold text-gray-400 dark:text-gray-500">{activity.title}</span>
             </div>
           )}
-          <div lang="zh" className="absolute top-0 right-0 bg-red-50 dark:bg-red-900/30 text-brand-red dark:text-red-400 px-3 py-1 text-sm font-medium rounded-bl-lg z-10">
-            {activity.category}
-          </div>
+          <span lang="zh" className="activity-card-category">{activity.category}</span>
         </div>
-        <div className="p-4">
-          <h3 lang="zh" className="text-xl font-bold text-brand-red dark:text-red-400 break-words hyphens-auto mb-2" style={{ wordBreak: 'break-word' }}>{activity.title}</h3>
+        <div className="activity-card-caption">
+          <h3 lang="zh" className="activity-card-title">{activity.title}</h3>
           <div className="hidden sm:block">
-            <p lang="zh" className="text-gray-700 dark:text-gray-300 mb-4 line-clamp-2">{plainPreview}</p>
+            <p lang="zh" className="activity-card-preview">{activity.preview}</p>
           </div>
-          <div className="flex justify-end sm:justify-between items-center">
+          <div className="activity-card-meta">
             <time dateTime={activity.date} className="text-sm text-gray-500 dark:text-gray-400">{formatActivityDate(activity.date, locale)}</time>
             <span className="text-brand-blue dark:text-blue-400 font-medium text-sm items-center hidden sm:inline-flex">
-              {t('learnMore')}
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              {learnMore}
+              <svg aria-hidden="true" className="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>
             </span>
           </div>
         </div>
       </Link>
-    </motion.div>
+    </div>
   );
 }

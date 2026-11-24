@@ -1,4 +1,5 @@
-import { getAllActivities } from '@/lib/content';
+import { getActivitySummaries } from '@/lib/content';
+import ActivityMasonry from '@/components/ActivityMasonry';
 import HomeClient from './HomeClient';
 import { setRouteLocale, type LocaleParams } from '@/i18n/route-locale';
 import { pageMetadata } from '@/i18n/metadata';
@@ -9,9 +10,7 @@ export async function generateMetadata({ params }: { params: LocaleParams }) {
 }
 
 export default async function Home({ params }: { params: LocaleParams }) {
-  setRouteLocale((await params).locale);
-  const allActivities = await getAllActivities();
-  const activities = allActivities.slice(0, 6);
-
-  return <HomeClient activities={activities} />;
+  const locale = setRouteLocale((await params).locale);
+  const activities = await getActivitySummaries(6);
+  return <HomeClient activities={<ActivityMasonry activities={activities} locale={locale} placement="home" />} />;
 }
