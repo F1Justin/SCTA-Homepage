@@ -11,21 +11,25 @@
     "schools": "Member Clubs",
     "about": "About Us",
     "contact": "Join Us",
-    "navigation": "Menu"
+    "navigation": "Menu",
+    "language": "Language",
+    "toggleMenu": "Toggle navigation menu",
+    "closeMenu": "Close menu"
   },
   "hero": {
     "titleLine1Start": "Gensokyo's",
     "titleLine1End": " Danmaku",
     "titleLine2Start": "Real World",
     "titleLine2End": " Connections",
-    "description": "Located in the literal promised land of Shanghai Alice (pun intended), the Shanghai Collegiate Touhou Alliance connects Touhou Project enthusiasts across universities, fostering doujin creation and sharing the magic of Gensokyo.",
+    "description": "Located in the literal promised land of Shanghai Alice (pun intended), the Shanghai Collegiate Touhou Alliance connects Touhou Project enthusiasts across universities, fostering doujin creation and sharing the magic of Gensokyo. ",
     "highlight1": "Gensokyo's gates are open to all",
     "middle": " — not just Shanghai university students, we welcome ",
     "highlight2": "Touhou fans from all over",
     "descEnd": ". Whether you're a student, professional, or indie creator, there's a danmaku world here for you!",
     "learnMore": "Learn More",
     "explore": "Explore Events",
-    "scrollDown": "Scroll Down"
+    "scrollDown": "Scroll Down",
+    "logoAlt": "SCTA logo"
   },
   "about": {
     "title": "About",
@@ -53,12 +57,16 @@
   },
   "schools": {
     "title": "Member",
-    "titleHighlight": " Clubs"
+    "titleHighlight": " Clubs",
+    "close": "Close",
+    "groupNumber": "QQ group: {number}",
+    "logoAlt": "{name} emblem"
   },
   "contact": {
     "title": "Join Us",
     "desc": "Whether you're a veteran Touhou player or just discovering Gensokyo, you're welcome to join us! Let's explore this wonderful world of danmaku together!",
-    "scanQr": "Scan to join the Shanghai Collegiate Touhou Alliance"
+    "scanQr": "Scan to join the Shanghai Collegiate Touhou Alliance",
+    "qrAlt": "QR code for the SCTA QQ group"
   },
   "library": {
     "pageTitle": "Club Event Library",
@@ -85,7 +93,9 @@
     "durationPerRound": "Duration / Round",
     "rounds": "Rounds",
     "participantsPerRound": "Players / Round",
-    "participantCriteria": "Requirements"
+    "participantCriteria": "Requirements",
+    "people": "{count, plural, one {# person} other {# people}}",
+    "peopleRange": "{range} people"
   },
   "footer": {
     "orgName": "Shanghai Collegiate Touhou Alliance",
@@ -95,6 +105,28 @@
     "qqGroup": "QQ Group: 949959173",
     "biliAccount": "Bilibili: 上海高校东方联合会",
     "copyright": "© {year} Shanghai Collegiate Touhou Alliance. All rights reserved.",
-    "mobileDrawerDesc": "Connecting Touhou Project fans across Shanghai's universities for creation and exchange."
+    "mobileDrawerDesc": "Connecting Touhou Project fans across Shanghai's universities for creation and exchange.",
+    "bilibili": "Bilibili",
+    "github": "GitHub"
+  },
+  "errors": {
+    "notFound": "This page could not be found.",
+    "failed": "The page failed to load",
+    "retry": "Try again"
+  },
+  "badges": {
+    "home": "Back to home",
+    "title": "Club Achievement Badges",
+    "intro": "These metal badges recognize achievements and contributions by members of the university Touhou clubs. Each badge honors the enthusiasm and talent that its recipients bring to the community.",
+    "view": "View badge",
+    "notice": "An unlisted page for members to enjoy the collection. More club badges are in the making.",
+    "back": "Back to badges",
+    "emblem": "{name} emblem",
+    "tongjiColor": "Navy · Tongji University color",
+    "tongjiValue": "Gold · Outstanding contribution",
+    "fudanColor": "Crimson · Fudan University color",
+    "fudanValue": "Teal · Mastery of the game",
+    "sjtucColor": "Navy · Shanghai Jiao Tong University color",
+    "sjtucValue": "Red · Creative passion"
   }
 }

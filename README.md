@@ -30,7 +30,7 @@
 
 ## 开发
 
-确保您已安装 Node.js (>= 14.x)
+使用 Node.js 24，和 CI 环境保持一致。
 
 1. 克隆仓库
 ```bash
@@ -49,6 +49,8 @@ npm run dev
 ```
 
 5. 在浏览器中打开 [http://localhost:3000](http://localhost:3000)
+
+字典改动可运行 `npm run check:i18n`，检查三语键名、ICU 参数和复数分支。
 
 ## 构建与部署
 

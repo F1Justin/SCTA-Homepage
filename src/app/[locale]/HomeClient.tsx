@@ -5,7 +5,7 @@ import { schools } from '@/data/schools';
 import ActivityCard from '@/components/ActivityCard';
 import SchoolCard from '@/components/SchoolCard';
 import { motion } from 'framer-motion';
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
 import Image from 'next/image';
 import Masonry from 'react-masonry-css';
 import { useTranslations } from 'next-intl';
@@ -150,7 +150,7 @@ export default function HomeClient({ activities }: HomeClientProps) {
                   >
                     <Image
                       src="/Logos/submark_1栅格版彩色带边距.png"
-                      alt="SCTA Logo"
+                      alt={hero('logoAlt')}
                       width={500}
                       height={500}
                       className="w-full h-auto drop-shadow-xl relative z-10"
@@ -285,7 +285,7 @@ export default function HomeClient({ activities }: HomeClientProps) {
             <div className="bg-white bg-opacity-10 p-8 rounded-lg backdrop-blur-sm">
               <div className="flex flex-col items-center">
                 <div className="bg-white p-4 rounded-lg mb-4">
-                  <Image src="/scta-qrcode.png" alt="QR Code" width={192} height={192} className="object-contain" />
+                  <Image src="/scta-qrcode.png" alt={contact('qrAlt')} width={192} height={192} className="object-contain" />
                 </div>
                 <p className="text-lg opacity-90">{contact('scanQr')}</p>
               </div>

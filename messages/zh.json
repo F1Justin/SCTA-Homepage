@@ -11,7 +11,10 @@
     "schools": "成员社团",
     "about": "关于我们",
     "contact": "加入我们",
-    "navigation": "导航"
+    "navigation": "导航",
+    "language": "语言",
+    "toggleMenu": "切换导航菜单",
+    "closeMenu": "关闭菜单"
   },
   "hero": {
     "titleLine1Start": "幻想乡",
@@ -25,7 +28,8 @@
     "descEnd": "，无论您是学生、上班族还是自由创作者，这里都有属于您的弹幕世界！",
     "learnMore": "了解更多",
     "explore": "探索活动",
-    "scrollDown": "向下滚动"
+    "scrollDown": "向下滚动",
+    "logoAlt": "SCTA 标志"
   },
   "about": {
     "title": "关于",
@@ -53,12 +57,16 @@
   },
   "schools": {
     "title": "成员",
-    "titleHighlight": "社团"
+    "titleHighlight": "社团",
+    "close": "关闭",
+    "groupNumber": "群号：{number}",
+    "logoAlt": "{name} 徽标"
   },
   "contact": {
     "title": "加入我们",
     "desc": "无论你是东方Project的老玩家，还是刚刚了解幻想乡的新人，我们都欢迎你的加入！一起探索这个奇妙的弹幕世界吧！",
-    "scanQr": "扫描二维码加入上海高校东方联合会"
+    "scanQr": "扫描二维码加入上海高校东方联合会",
+    "qrAlt": "上海高校东方联合会 QQ 群二维码"
   },
   "library": {
     "pageTitle": "社团活动方案库",
@@ -85,7 +93,9 @@
     "durationPerRound": "每轮时长",
     "rounds": "活动轮次",
     "participantsPerRound": "每轮人数",
-    "participantCriteria": "参与条件"
+    "participantCriteria": "参与条件",
+    "people": "{count, plural, other {#人}}",
+    "peopleRange": "{range}人"
   },
   "footer": {
     "orgName": "上海高校东方联合会",
@@ -95,6 +105,28 @@
     "qqGroup": "QQ群：949959173",
     "biliAccount": "B站：上海高校东方联合会",
     "copyright": "© {year} 上海高校东方联合会. 保留所有权利.",
-    "mobileDrawerDesc": "连接上海各高校东方Project爱好者，共同交流创作与游戏乐趣"
+    "mobileDrawerDesc": "连接上海各高校东方Project爱好者，共同交流创作与游戏乐趣",
+    "bilibili": "哔哩哔哩",
+    "github": "GitHub"
+  },
+  "errors": {
+    "notFound": "找不到这个页面。",
+    "failed": "页面加载失败",
+    "retry": "重试"
+  },
+  "badges": {
+    "home": "返回首页",
+    "title": "社团成就徽章收藏",
+    "intro": "这些金属徽章代表了各高校东方社团成员在不同领域的卓越成就和贡献。 每个徽章都蕴含着独特的意义和荣誉，是对社团成员热情和才华的肯定。",
+    "view": "点击查看详情",
+    "notice": "这是一个隐藏的私密页面，供内部成员欣赏收藏。更多社团徽章正在制作中...",
+    "back": "返回徽章列表",
+    "emblem": "{name}校徽",
+    "tongjiColor": "深蓝色 - 同济大学校色",
+    "tongjiValue": "金色 - 卓越贡献",
+    "fudanColor": "深红色 - 复旦大学校色",
+    "fudanValue": "青绿色 - 游戏精通",
+    "sjtucColor": "深蓝色 - 上海交通大学校色",
+    "sjtucValue": "红色 - 创作热情"
   }
 }

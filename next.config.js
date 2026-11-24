@@ -4,6 +4,14 @@ const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts');
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  experimental: { globalNotFound: true },
+  async redirects() {
+    return [{
+      source: '/:locale/sitemap.xml',
+      destination: '/sitemap.xml',
+      permanent: true,
+    }];
+  },
   images: {
     formats: ['image/avif', 'image/webp'],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920],

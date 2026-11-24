@@ -18,9 +18,9 @@ interface BlueprintLibraryClientProps {
 
 export default function BlueprintLibraryClient({ blueprints, categories }: BlueprintLibraryClientProps) {
   const t = useTranslations('library');
-  const [selectedCategory, setSelectedCategory] = useState<string>(categories[0] || t('all'));
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
-  const isAll = selectedCategory === categories[0];
+  const isAll = selectedCategory === null;
   const filteredBlueprints = isAll
     ? blueprints
     : blueprints.filter(bp => bp.category.includes(selectedCategory));
@@ -62,9 +62,11 @@ export default function BlueprintLibraryClient({ blueprints, categories }: Bluep
           <>
             <div className="mb-8">
               <div className="flex flex-wrap justify-center gap-2">
-                {categories.map((category) => (
+                {[null, ...categories].map((category) => (
                   <button
-                    key={category}
+                    key={category ?? ''}
+                    type="button"
+                    aria-pressed={selectedCategory === category}
                     onClick={() => setSelectedCategory(category)}
                     className={`px-4 py-2 rounded-full text-sm font-medium transition-colors duration-200
                       ${selectedCategory === category
@@ -72,7 +74,7 @@ export default function BlueprintLibraryClient({ blueprints, categories }: Bluep
                         : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
                       }`}
                   >
-                    {category}
+                    <span lang={category ? 'zh' : undefined}>{category ?? t('all')}</span>
                   </button>
                 ))}
               </div>
@@ -81,10 +83,10 @@ export default function BlueprintLibraryClient({ blueprints, categories }: Bluep
             {filteredBlueprints.length === 0 ? (
               <div className="text-center py-20">
                 <p className="text-xl text-gray-500 dark:text-gray-400 mb-4">
-                  {t('noCategoryResult', { category: selectedCategory })}
+                  {t('noCategoryResult', { category: selectedCategory ?? '' })}
                 </p>
                 <button
-                  onClick={() => setSelectedCategory(categories[0])}
+                  onClick={() => setSelectedCategory(null)}
                   className="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white rounded-md hover:bg-gray-300 dark:hover:bg-gray-600 transition duration-300"
                 >
                   {t('viewAll')}

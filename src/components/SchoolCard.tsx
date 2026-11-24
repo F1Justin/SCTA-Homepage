@@ -2,12 +2,14 @@ import { School } from '@/data/schools';
 import { motion } from 'framer-motion';
 import { useState } from 'react';
 import Image from 'next/image';
+import { useTranslations } from 'next-intl';
 
 interface SchoolCardProps {
   school: School;
 }
 
 export default function SchoolCard({ school }: SchoolCardProps) {
+  const t = useTranslations('schools');
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
@@ -34,13 +36,13 @@ export default function SchoolCard({ school }: SchoolCardProps) {
         <div className="w-32 h-32 relative mb-4 flex items-center justify-center">
           <Image
             src={school.logo}
-            alt={`${school.name} 徽标`}
+            alt={t('logoAlt', { name: school.name })}
             width={128}
             height={128}
             className="object-contain dark:brightness-95"
           />
         </div>
-        <h3 className="text-base sm:text-xl font-bold text-brand-red dark:text-red-400">{school.name}</h3>
+        <h3 lang="zh" className="text-base sm:text-xl font-bold text-brand-red dark:text-red-400">{school.name}</h3>
       </motion.div>
 
       {isModalOpen && (
@@ -55,7 +57,7 @@ export default function SchoolCard({ school }: SchoolCardProps) {
               <button 
                 onClick={() => setIsModalOpen(false)}
                 className="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-colors"
-                aria-label="关闭"
+                aria-label={t('close')}
               >
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
@@ -75,19 +77,19 @@ export default function SchoolCard({ school }: SchoolCardProps) {
                 />
               </div>
               <div className="flex-grow w-full md:w-auto text-center md:text-left">
-                <h2 className="text-2xl sm:text-3xl font-bold text-brand-red dark:text-red-400 mb-6">{school.name}</h2>
+                <h2 lang="zh" className="text-2xl sm:text-3xl font-bold text-brand-red dark:text-red-400 mb-6">{school.name}</h2>
                 {school.groupInfo && (
                   <div className="space-y-6">
                     <div className="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-4">
-                      <p className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-1.5">{school.groupInfo.name}</p>
-                      <p className="text-sm text-gray-500 dark:text-gray-400 mb-3 font-medium">群号：{school.groupInfo.number}</p>
-                      <p className="text-base text-gray-700 dark:text-gray-300 leading-relaxed">{school.groupInfo.description}</p>
+                      <p lang="zh" className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-1.5">{school.groupInfo.name}</p>
+                      <p className="text-sm text-gray-500 dark:text-gray-400 mb-3 font-medium">{t('groupNumber', { number: school.groupInfo.number })}</p>
+                      <p lang="zh" className="text-base text-gray-700 dark:text-gray-300 leading-relaxed">{school.groupInfo.description}</p>
                     </div>
                     {school.groupInfo.extraGroups && school.groupInfo.extraGroups.map((group, idx) => (
                       <div key={idx} className="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-4">
-                        <p className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-1.5">{group.name}</p>
-                        <p className="text-sm text-gray-500 dark:text-gray-400 mb-3 font-medium">群号：{group.number}</p>
-                        <p className="text-base text-gray-700 dark:text-gray-300 leading-relaxed">{group.description}</p>
+                        <p lang="zh" className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-1.5">{group.name}</p>
+                        <p className="text-sm text-gray-500 dark:text-gray-400 mb-3 font-medium">{t('groupNumber', { number: group.number })}</p>
+                        <p lang="zh" className="text-base text-gray-700 dark:text-gray-300 leading-relaxed">{group.description}</p>
                       </div>
                     ))}
                   </div>

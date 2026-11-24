@@ -1,6 +1,9 @@
 import { getBlueprintBySlug, getAllBlueprintSlugs } from '@/lib/content';
-import { Metadata } from 'next';
-import Link from 'next/link';
+import { notFound } from 'next/navigation';
+import { getTranslations } from 'next-intl/server';
+import { pageMetadata, siteUrl, SITE_URL } from '@/i18n/metadata';
+import { decodeRouteSegment, setRouteLocale } from '@/i18n/route-locale';
+import { Link } from '@/i18n/navigation';
 import Image from 'next/image';
 import TextCoverPlaceholder from '@/components/TextCoverPlaceholder';
 
@@ -13,51 +16,47 @@ export async function generateStaticParams() {
   return slugs.map((slug) => ({ slug }));
 }
 
-export async function generateMetadata({ params }: BlueprintDetailPageProps): Promise<Metadata> {
-  const { slug: rawSlug } = await params;
-  const slug = decodeURIComponent(rawSlug);
-  const blueprint = await getBlueprintBySlug(slug);
-  if (!blueprint) return { title: '未找到活动方案' };
-  return {
-    title: `${blueprint.title} | 活动方案库`,
+export async function generateMetadata({ params }: BlueprintDetailPageProps) {
+  const { slug, locale: routeLocale } = await params;
+  const locale = setRouteLocale(routeLocale);
+  const blueprint = await getBlueprintBySlug(decodeRouteSegment(slug));
+  if (!blueprint) {
+    const t = await getTranslations({ locale, namespace: 'library' });
+    return { title: t('notFound'), robots: { index: false } };
+  }
+
+  return pageMetadata(locale, `/activities-library/${encodeURIComponent(blueprint.slug)}`, {
+    title: blueprint.title,
     description: blueprint.summary,
-  };
+    image: blueprint.coverImage,
+  });
 }
 
 export default async function BlueprintDetailPage({ params }: BlueprintDetailPageProps) {
-  const { slug, locale } = await params;
-  const { setStaticLocale } = await import('@/i18n/static');
-  setStaticLocale(locale);
-  const blueprint = await getBlueprintBySlug(decodeURIComponent(slug));
+  const { slug, locale: routeLocale } = await params;
+  const locale = setRouteLocale(routeLocale);
+  const blueprint = await getBlueprintBySlug(decodeRouteSegment(slug));
+  if (!blueprint) notFound();
 
-  if (!blueprint) {
-    return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center p-4">
-        <div className="max-w-md w-full bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8 text-center">
-          <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-4">未找到活动方案</h2>
-          <p className="text-gray-600 dark:text-gray-300 mb-6">您请求的活动方案不存在或已被删除。</p>
-          <Link href="/activities-library" className="inline-block px-5 py-2 bg-brand-red text-white rounded-md hover:bg-opacity-90 transition duration-300">
-            返回活动方案库
-          </Link>
-        </div>
-      </div>
-    );
-  }
+  const t = await getTranslations({ locale, namespace: 'library' });
+  const meta = await getTranslations({ locale, namespace: 'metadata' });
+  const organization = { '@type': 'Organization', name: meta('siteName'), url: SITE_URL };
 
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'TechArticle',
     headline: blueprint.title,
     description: blueprint.summary,
-    author: { '@type': 'Organization', name: '上海高校东方联合会', url: 'https://www.scta.cc' },
-    publisher: { '@type': 'Organization', name: '上海高校东方联合会', url: 'https://www.scta.cc' },
+    author: organization,
+    publisher: organization,
     articleSection: blueprint.category.join(', '),
-    url: `https://www.scta.cc/activities-library/${blueprint.slug}`,
+    url: siteUrl(locale, `/activities-library/${encodeURIComponent(blueprint.slug)}`),
+    inLanguage: 'zh',
   };
 
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c') }} />
 
       <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8 px-4">
         <div className="max-w-[700px] mx-auto">
@@ -66,7 +65,7 @@ export default async function BlueprintDetailPage({ params }: BlueprintDetailPag
               <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
               </svg>
-              返回活动方案库
+              {t('backToLibrary')}
             </Link>
           </div>
 
@@ -93,8 +92,8 @@ export default async function BlueprintDetailPage({ params }: BlueprintDetailPag
                     </svg>
                   </div>
                   <div>
-                    <h3 className="text-xs font-medium text-gray-500 dark:text-gray-400">每轮时长</h3>
-                    <p className="text-sm text-gray-900 dark:text-white font-medium">{blueprint.durationPerRound}</p>
+                    <h3 className="text-xs font-medium text-gray-500 dark:text-gray-400">{t('durationPerRound')}</h3>
+                    <p className="text-sm text-gray-900 dark:text-white font-medium" lang="zh">{blueprint.durationPerRound}</p>
                   </div>
                 </div>
               )}
@@ -106,8 +105,8 @@ export default async function BlueprintDetailPage({ params }: BlueprintDetailPag
                     </svg>
                   </div>
                   <div>
-                    <h3 className="text-xs font-medium text-gray-500 dark:text-gray-400">活动轮次</h3>
-                    <p className="text-sm text-gray-900 dark:text-white font-medium">{blueprint.rounds}</p>
+                    <h3 className="text-xs font-medium text-gray-500 dark:text-gray-400">{t('rounds')}</h3>
+                    <p className="text-sm text-gray-900 dark:text-white font-medium" lang="zh">{blueprint.rounds}</p>
                   </div>
                 </div>
               )}
@@ -119,7 +118,7 @@ export default async function BlueprintDetailPage({ params }: BlueprintDetailPag
                     </svg>
                   </div>
                   <div>
-                    <h3 className="text-xs font-medium text-gray-500 dark:text-gray-400">每轮人数</h3>
+                    <h3 className="text-xs font-medium text-gray-500 dark:text-gray-400">{t('participantsPerRound')}</h3>
                     <p className="text-sm text-gray-900 dark:text-white font-medium">{blueprint.participantsPerRound}</p>
                   </div>
                 </div>
@@ -132,8 +131,8 @@ export default async function BlueprintDetailPage({ params }: BlueprintDetailPag
                     </svg>
                   </div>
                   <div>
-                    <h3 className="text-xs font-medium text-gray-500 dark:text-gray-400">参与条件</h3>
-                    <p className="text-sm text-gray-900 dark:text-white font-medium">{blueprint.participantCriteria}</p>
+                    <h3 className="text-xs font-medium text-gray-500 dark:text-gray-400">{t('participantCriteria')}</h3>
+                    <p className="text-sm text-gray-900 dark:text-white font-medium" lang="zh">{blueprint.participantCriteria}</p>
                   </div>
                 </div>
               )}
@@ -142,7 +141,7 @@ export default async function BlueprintDetailPage({ params }: BlueprintDetailPag
             <div className="p-8">
               <div className="mb-12">
                 <div className="flex items-start mb-4">
-                  <h1 className="text-4xl font-bold text-gray-900 dark:text-white">{blueprint.title}</h1>
+                  <h1 lang="zh" className="text-4xl font-bold text-gray-900 dark:text-white">{blueprint.title}</h1>
                   <div className="flex flex-wrap gap-2 ml-4 mt-1.5">
                     {blueprint.category.map((cat, i) => (
                       <span key={i} className="px-3 py-1 bg-brand-red/20 text-brand-red dark:bg-brand-red/30 dark:text-red-300 rounded-full text-sm font-medium whitespace-nowrap">
@@ -151,54 +150,54 @@ export default async function BlueprintDetailPage({ params }: BlueprintDetailPag
                     ))}
                   </div>
                 </div>
-                <p className="text-lg text-gray-600 dark:text-gray-300">{blueprint.summary}</p>
+                <p className="text-lg text-gray-600 dark:text-gray-300" lang="zh">{blueprint.summary}</p>
               </div>
 
               {blueprint.sections.rules && (
                 <section className="mb-12">
-                  <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">活动规则</h2>
-                  <div className="prose dark:prose-invert max-w-none" dangerouslySetInnerHTML={{ __html: blueprint.sections.rules }} />
+                  <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">{t('rules')}</h2>
+                  <div lang="zh" className="prose dark:prose-invert max-w-none" dangerouslySetInnerHTML={{ __html: blueprint.sections.rules }} />
                 </section>
               )}
 
               {blueprint.sections.procedure && (
                 <section className="mb-12">
-                  <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">活动流程</h2>
-                  <div className="prose dark:prose-invert max-w-none" dangerouslySetInnerHTML={{ __html: blueprint.sections.procedure }} />
+                  <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">{t('procedure')}</h2>
+                  <div lang="zh" className="prose dark:prose-invert max-w-none" dangerouslySetInnerHTML={{ __html: blueprint.sections.procedure }} />
                 </section>
               )}
 
               {/* Requirements */}
               {(blueprint.hardwareRequirements || blueprint.softwareRequirements || blueprint.materialsNeeded) && (
                 <div className="mb-8">
-                  <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">准备事项</h2>
+                  <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">{t('preparation')}</h2>
                   <div className="space-y-4">
                     {blueprint.hardwareRequirements && (
                       <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-4">
-                        <h3 className="text-lg font-medium mb-2 text-gray-900 dark:text-white">硬件需求</h3>
+                        <h3 className="text-lg font-medium mb-2 text-gray-900 dark:text-white">{t('hardware')}</h3>
                         <div className="flex flex-wrap gap-2">
                           {blueprint.hardwareRequirements.map((item, i) => (
-                            <span key={i} className="px-3 py-1 bg-white dark:bg-gray-700 rounded-full text-sm text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-600">{item}</span>
+                            <span key={i} className="px-3 py-1 bg-white dark:bg-gray-700 rounded-full text-sm text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-600" lang="zh">{item}</span>
                           ))}
                         </div>
                       </div>
                     )}
                     {blueprint.softwareRequirements && (
                       <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-4">
-                        <h3 className="text-lg font-medium mb-2 text-gray-900 dark:text-white">软件需求</h3>
+                        <h3 className="text-lg font-medium mb-2 text-gray-900 dark:text-white">{t('software')}</h3>
                         <div className="flex flex-wrap gap-2">
                           {blueprint.softwareRequirements.map((item, i) => (
-                            <span key={i} className="px-3 py-1 bg-white dark:bg-gray-700 rounded-full text-sm text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-600">{item}</span>
+                            <span key={i} className="px-3 py-1 bg-white dark:bg-gray-700 rounded-full text-sm text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-600" lang="zh">{item}</span>
                           ))}
                         </div>
                       </div>
                     )}
                     {blueprint.materialsNeeded && (
                       <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-4">
-                        <h3 className="text-lg font-medium mb-2 text-gray-900 dark:text-white">物料需求</h3>
+                        <h3 className="text-lg font-medium mb-2 text-gray-900 dark:text-white">{t('materials')}</h3>
                         <div className="flex flex-wrap gap-2">
                           {blueprint.materialsNeeded.map((item, i) => (
-                            <span key={i} className="px-3 py-1 bg-white dark:bg-gray-700 rounded-full text-sm text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-600">{item}</span>
+                            <span key={i} className="px-3 py-1 bg-white dark:bg-gray-700 rounded-full text-sm text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-600" lang="zh">{item}</span>
                           ))}
                         </div>
                       </div>
@@ -209,16 +208,16 @@ export default async function BlueprintDetailPage({ params }: BlueprintDetailPag
 
               {blueprint.sections.tips && (
                 <section className="mb-12">
-                  <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">注意事项</h2>
-                  <div className="prose dark:prose-invert max-w-none" dangerouslySetInnerHTML={{ __html: blueprint.sections.tips }} />
+                  <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">{t('tips')}</h2>
+                  <div lang="zh" className="prose dark:prose-invert max-w-none" dangerouslySetInnerHTML={{ __html: blueprint.sections.tips }} />
                 </section>
               )}
 
               {blueprint.rewardSuggestion && (
                 <section>
-                  <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">奖励建议</h2>
+                  <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">{t('rewardSuggestion')}</h2>
                   <div className="bg-gray-50 dark:bg-gray-700/50 p-6 rounded-xl">
-                    <p className="text-gray-700 dark:text-gray-300">{blueprint.rewardSuggestion}</p>
+                    <p className="text-gray-700 dark:text-gray-300" lang="zh">{blueprint.rewardSuggestion}</p>
                   </div>
                 </section>
               )}

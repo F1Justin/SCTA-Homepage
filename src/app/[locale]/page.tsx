@@ -1,10 +1,15 @@
 import { getAllActivities } from '@/lib/content';
 import HomeClient from './HomeClient';
-import { setStaticLocale } from '@/i18n/static';
+import { setRouteLocale, type LocaleParams } from '@/i18n/route-locale';
+import { pageMetadata } from '@/i18n/metadata';
 
-export default async function Home({ params }: { params: Promise<{ locale: string }> }) {
-  const { locale } = await params;
-  setStaticLocale(locale);
+export async function generateMetadata({ params }: { params: LocaleParams }) {
+  const locale = setRouteLocale((await params).locale);
+  return pageMetadata(locale, '/');
+}
+
+export default async function Home({ params }: { params: LocaleParams }) {
+  setRouteLocale((await params).locale);
   const allActivities = await getAllActivities();
   const activities = allActivities.slice(0, 6);
 
