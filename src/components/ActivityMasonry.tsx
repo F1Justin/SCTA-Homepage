@@ -1,4 +1,5 @@
 import { getTranslations } from 'next-intl/server';
+import ResponsiveColumns from '@/components/ResponsiveColumns';
 import ActivityCard from '@/components/ActivityCard';
 import type { Locale } from '@/i18n/routing';
 import type { ActivitySummary } from '@/types/content';
@@ -23,18 +24,10 @@ export default async function ActivityMasonry({ activities, locale, placement }:
         locale={locale}
         learnMore={learnMore}
         sizes={sizes[placement]}
-        priority={placement === 'archive' && index === 0}
+        loading={placement === 'home' || index >= 3 ? 'lazy' : index === 0 ? 'preload' : 'eager'}
       />
     </div>
   ));
 
-  return ([2, 3] as const).map(count => (
-    <div data-activity-masonry={count} className="activity-masonry w-auto -mx-2 sm:-mx-4" key={count}>
-      {Array.from({ length: Math.min(count, cards.length) }, (_, column) => (
-        <div className="px-2 sm:px-4 activity-masonry-column" key={column}>
-          {cards.filter((_, index) => index % count === column)}
-        </div>
-      ))}
-    </div>
-  ));
+  return <ResponsiveColumns cards={cards} className="activity-masonry" />;
 }

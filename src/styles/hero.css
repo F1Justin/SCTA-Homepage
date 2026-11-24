@@ -1,0 +1,91 @@
+@media (min-width: 641px) and (prefers-reduced-motion: no-preference) {
+  .home-hero-graphic {
+    animation: hero-graphic-enter .88s ease-out .3s backwards;
+    /* Samples from the original spring (stiffness 100, damping 15). */
+    animation-timing-function: linear(0, .0653, .2121, .3862, .5547, .7, .8153, .9006, .9592, .9962, 1.0169, 1.0263, 1.0283, 1.0261, 1.0218, 1.0168, 1.0121, 1.0081, 1.0049, 1.0026, 1.001, 1, 1);
+  }
+}
+
+@keyframes hero-graphic-enter {
+  from { opacity: 0; transform: scale(.8) rotate(-5deg); }
+  to { opacity: 1; transform: scale(1) rotate(0); }
+}
+
+.hero-ambient-red {
+  animation: hero-orbit 8s ease-in-out infinite;
+  --hero-shift: rotate(5deg) scale(1.05);
+}
+
+.hero-ambient-gold {
+  animation: hero-orbit 10s ease-in-out 1s infinite;
+  --hero-shift: rotate(-5deg) scale(1.1);
+}
+
+.hero-ambient-blue {
+  animation: hero-orbit 12s ease-in-out 2s infinite;
+  --hero-shift: translateY(15px) scale(1.15);
+}
+
+.hero-ambient-corner-a,
+.hero-ambient-corner-b {
+  animation: hero-glow 3s ease-out infinite;
+}
+
+.hero-ambient-corner-b {
+  animation-delay: 1.5s;
+}
+
+.hero-ambient-ring {
+  animation: hero-ring 120s linear infinite;
+}
+
+.hero-ambient-arrow {
+  animation: hero-arrow 1.5s ease-out infinite;
+}
+
+.hero-offscreen .hero-ambient {
+  animation-play-state: paused;
+}
+
+@keyframes hero-orbit {
+  0%, 100% { transform: none; }
+  50% { transform: var(--hero-shift); }
+}
+
+@keyframes hero-glow {
+  0%, 100% { opacity: .5; }
+  50% { opacity: .8; }
+}
+
+@keyframes hero-ring {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes hero-arrow {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(10px); }
+}
+
+@media (max-width: 640px), (prefers-reduced-motion: reduce) {
+  [data-hero-enter],
+  [data-home-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+@media (hover: none) {
+  .hero-ambient-red,
+  .hero-ambient-gold,
+  .hero-ambient-blue,
+  .hero-ambient-ring {
+    animation-play-state: paused;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-ambient {
+    animation: none;
+  }
+}

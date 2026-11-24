@@ -119,7 +119,7 @@ function splitBlueprintSections(content: string) {
     const text = content.slice(start, headings[index + 1]?.index).trim();
     if (name.includes('规则')) sections.rules = text;
     else if (name.includes('流程')) sections.procedure = text;
-    else if (name.includes('注意') || name.includes('提示')) sections.tips = text;
+    else if (name.includes('注意')) sections.tips = text;
   });
 
   return sections;

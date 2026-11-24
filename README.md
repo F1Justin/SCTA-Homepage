@@ -91,6 +91,10 @@ scta-homepage/
 
 活动和方案内容以 Markdown 文件存储在 `content/` 目录中。编辑内容后 push 到 GitHub，Vercel 会自动构建部署。
 
+本地活动海报以 `/content/activities/…` 引用。生产构建重新读取图片尺寸、EXIF 方向和内容哈希，无需手工维护图片清单。外部海报可提供正数 `imageWidth` 和 `imageHeight`。未提供尺寸时先保留 3:4 版位，本地文件缺失或无法读取时显示文字封面。活动日期优先使用带时区的 ISO 8601，例如 `2026-06-14T13:00+08:00`，前端统一按上海时间展示。
+
+[移动端设计](docs/mobile-design.md) · [工程升级与验收](docs/internal-upgrade.md)
+
 ## 许可
 
 © 2026 上海高校东方联合会. 保留所有权利. 

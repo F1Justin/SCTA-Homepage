@@ -50,7 +50,7 @@ export default function BlueprintCard({ blueprint }: BlueprintCardProps) {
           />
         ) : (
           <div className={`absolute inset-0 ${gradients[gradientIndex]} flex items-center justify-center p-6`}>
-            <h3 lang="zh" style={{ fontFamily: 'SmileySans' }} className="text-4xl md:text-5xl font-normal text-white text-center drop-shadow-lg">
+            <h3 lang="zh" style={{ fontFamily: 'SCTA Covers, SmileySans' }} className="text-4xl md:text-5xl font-normal text-white text-center drop-shadow-lg">
               {blueprint.title}
             </h3>
           </div>

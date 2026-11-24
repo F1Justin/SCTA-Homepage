@@ -44,9 +44,9 @@ export default function TextCoverPlaceholder({ title }: TextCoverPlaceholderProp
 
   return (
     <div className={`absolute inset-0 ${gradients[gradientIndex]} flex items-center justify-center p-8 w-full h-full`}>
-      <h1 lang="zh" style={{ fontFamily: 'SmileySans' }} className="text-4xl md:text-5xl font-normal text-white text-center break-words max-w-2xl drop-shadow-lg">
+      <span lang="zh" aria-hidden="true" style={{ fontFamily: 'SCTA Covers, SmileySans' }} className="text-4xl md:text-5xl font-normal text-white text-center break-words max-w-2xl drop-shadow-lg">
         {title}
-      </h1>
+      </span>
     </div>
   );
 } 

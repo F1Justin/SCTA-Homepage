@@ -1,9 +1,8 @@
 'use client';
 
-import { motion } from 'framer-motion';
 import { Link } from '@/i18n/navigation';
 import { useTranslations } from 'next-intl';
-import { useEffect, useState } from 'react';
+import type { CSSProperties } from 'react';
 import Image from 'next/image';
 
 // 定义徽章数据结构
@@ -50,11 +49,6 @@ const badges: Badge[] = [
 
 export default function BadgesPage() {
   const t = useTranslations('badges');
-  const [loaded, setLoaded] = useState(false);
-
-  useEffect(() => {
-    setLoaded(true);
-  }, []);
 
   return (
     <div className="badge-collection min-h-screen bg-black text-white flex flex-col">
@@ -81,12 +75,7 @@ export default function BadgesPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {badges.map((badge, index) => (
-              <motion.div
-                key={badge.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={loaded ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-              >
+              <div key={badge.id} className="badge-collection-item" style={{ '--badge-delay': `${100 * index}ms` } as CSSProperties}>
                 <Link href={`/badges/${badge.id}`} className="block">
                   <div className="bg-gray-900 rounded-xl overflow-hidden hover:shadow-lg hover:shadow-[#222] transition-all duration-300">
                     <div className="aspect-square relative overflow-hidden" style={{
@@ -168,7 +157,7 @@ export default function BadgesPage() {
                     </div>
                   </div>
                 </Link>
-              </motion.div>
+              </div>
             ))}
           </div>
 

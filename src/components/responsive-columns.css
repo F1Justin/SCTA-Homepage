@@ -1,0 +1,25 @@
+.responsive-columns {
+  display: flex;
+}
+
+.responsive-columns[data-masonry-columns="2"] {
+  display: none;
+}
+
+.responsive-column {
+  width: 33.3333333333%;
+}
+
+@media (max-width: 640px) {
+  .responsive-columns[data-masonry-columns="2"] {
+    display: flex;
+  }
+
+  .responsive-columns[data-masonry-columns="3"] {
+    display: none;
+  }
+
+  .responsive-column {
+    width: 50%;
+  }
+}

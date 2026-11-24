@@ -1,5 +1,5 @@
 import { NextIntlClientProvider } from 'next-intl';
-import { getTranslations } from 'next-intl/server';
+import { getMessages, getTranslations } from 'next-intl/server';
 import type { Metadata, Viewport } from 'next';
 import { SITE_URL } from '@/i18n/metadata';
 import { routing } from '@/i18n/routing';
@@ -46,9 +46,11 @@ export async function generateMetadata({ params }: { params: LocaleParams }): Pr
 export default async function LocaleLayout({ children, params }: LocaleLayoutProps) {
   const locale = setRouteLocale((await params).locale);
 
+  const { nav, footer, errors } = await getMessages({ locale });
+
   return (
     <SiteDocument locale={locale}>
-      <NextIntlClientProvider>
+      <NextIntlClientProvider messages={{ nav, footer, errors }}>
         <AppHeader />
         <main className="min-h-screen">{children}</main>
         <AppFooter />

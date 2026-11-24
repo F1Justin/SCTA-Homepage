@@ -244,8 +244,8 @@
     min-height: 44px;
   }
 
-  .library-masonry .library-masonry-column:only-child {
-    width: 100% !important;
+  .library-masonry .responsive-column:only-child {
+    width: 100%;
   }
 
   .blueprint-detail-copy {
@@ -492,51 +492,93 @@ html:has(dialog[open]) {
   }
 }
 
-.badge-rotation {
-  touch-action: pan-y pinch-zoom;
-  user-select: none;
-}
-
-.badge-rotation img {
-  pointer-events: none;
-}
-
 @media (max-width: 640px) {
-  :is(.badge-collection, .badge-detail) > header {
-    padding: 12px 16px;
+  .home-hero-graphic {
+    margin-bottom: 0;
   }
 
-  :is(.badge-collection, .badge-detail) > header > div {
-    flex-wrap: wrap;
-    gap: 8px 16px;
+  .home-hero .text-brand-blue {
+    color: #246684;
+  }
+}
+
+@media (max-width: 640px) and (prefers-color-scheme: dark) {
+  .home-hero .text-brand-blue {
+    color: #93c5fd;
   }
 
-  :is(.badge-collection, .badge-detail) > header a {
-    min-height: 44px;
+  .home-hero .text-brand-red {
+    color: #fca5a5;
+  }
+}
+
+@media (max-width: 400px) and (max-height: 720px) {
+  .home-hero-copy {
+    display: flex;
+    flex-direction: column;
   }
 
-  :is(.badge-collection, .badge-detail) > header h1 {
-    flex: 1 1 100%;
-    font-size: 1.25rem;
-    line-height: 1.3;
-  }
-
-  .badge-header-spacer {
-    display: none;
-  }
-
-  .badge-collection-content {
-    padding: 18px 16px 28px;
-  }
-
-  .badge-rotation {
-    width: min(20rem, 84vw);
-    height: min(20rem, 84vw);
+  .home-hero-intro {
+    order: 1;
     margin-top: 16px;
   }
 
-  .badge-detail-caption {
-    margin-top: 32px;
-    margin-bottom: 24px;
+  .home-hero-actions {
+    width: 100%;
   }
+}
+
+@media (max-width: 640px) {
+  .site-header-inner {
+    padding-inline: 16px;
+    gap: 8px;
+  }
+
+  .site-header-actions {
+    gap: 6px;
+  }
+
+  .site-brand {
+    padding: 4px;
+  }
+
+  .site-brand > span {
+    display: none;
+  }
+
+  .site-language button {
+    padding-inline: 6px;
+  }
+
+  .site-menu-toggle {
+    display: grid;
+    place-items: center;
+    padding: 0;
+  }
+
+  .site-menu-toggle svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .home-hero-title,
+  .home-about-card h3,
+  .site-footer {
+    overflow-wrap: anywhere;
+  }
+
+  .home-about-card .w-12 {
+    width: 40px;
+    height: 40px;
+    margin-right: 12px;
+  }
+
+  .school-dialog[open] {
+    animation-name: school-dialog-enter-mobile;
+  }
+}
+
+@keyframes school-dialog-enter-mobile {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
 }

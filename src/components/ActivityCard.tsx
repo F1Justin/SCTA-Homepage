@@ -12,10 +12,10 @@ interface ActivityCardProps {
   locale: Locale;
   learnMore: string;
   sizes: string;
-  priority: boolean;
+  loading: 'preload' | 'eager' | 'lazy';
 }
 
-export default function ActivityCard({ activity, index, locale, learnMore, sizes, priority }: ActivityCardProps) {
+export default function ActivityCard({ activity, index, locale, learnMore, sizes, loading }: ActivityCardProps) {
   const { poster } = activity;
   const aspectRatio = poster ? `${poster.width} / ${poster.height}` : '16 / 9';
 
@@ -26,12 +26,14 @@ export default function ActivityCard({ activity, index, locale, learnMore, sizes
           {poster ? (
             <Image
               src={poster.src}
-              alt={activity.title}
+              alt=""
               fill
               unoptimized={poster.unoptimized}
               sizes={sizes}
               className="activity-card-poster"
-              priority={priority}
+              priority={loading === 'preload'}
+              loading={loading === 'preload' ? undefined : loading}
+              fetchPriority={loading === 'preload' ? 'high' : loading === 'lazy' ? 'low' : 'auto'}
             />
           ) : (
             <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-brand-red/20 to-brand-blue/20">
