@@ -28,7 +28,7 @@
     "@vercel/speed-insights": "^1.2.0",
     "framer-motion": "^11.18.2",
     "gray-matter": "^4.0.3",
-    "next": "^15.5.25",
+    "next": "^15.5.29",
     "next-intl": "^4.14.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -36,7 +36,7 @@
     "rehype-stringify": "^10.0.1",
     "remark-parse": "^11.0.0",
     "remark-rehype": "^11.1.2",
-    "sharp": "^0.35.4",
+    "sharp": "^0.35.5",
     "unified": "^11.0.5"
   },
   "devDependencies": {
@@ -54,6 +54,9 @@
     "typescript": "^5.4.2"
   },
   "overrides": {
-    "postcss": "$postcss"
+    "postcss": "$postcss",
+    "@tailwindcss/typography": {
+      "postcss-selector-parser": "^6.1.5"
+    }
   }
 }
