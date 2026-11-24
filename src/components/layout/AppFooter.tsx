@@ -6,9 +6,9 @@ export default function AppFooter() {
   const nav = useTranslations('nav');
 
   return (
-    <footer className="bg-gray-900 dark:bg-gray-950 text-white py-12 transition-colors duration-300">
+    <footer className="site-footer bg-gray-900 dark:bg-gray-950 text-white py-12 transition-colors duration-300">
       <div className="container-custom">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="site-footer-columns grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
             <h3 className="text-xl font-bold mb-4 text-white">{t('orgName')}</h3>
             <p className="text-gray-300 dark:text-gray-400 mb-4">{t('orgDesc')}</p>

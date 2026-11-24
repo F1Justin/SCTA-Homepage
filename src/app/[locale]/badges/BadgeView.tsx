@@ -57,7 +57,7 @@ export default function BadgesPage() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-black text-white flex flex-col">
+    <div className="badge-collection min-h-screen bg-black text-white flex flex-col">
       <header className="py-6 px-8 border-b border-gray-800">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
           <Link href="/" className="text-lg font-semibold text-green-400 flex items-center">
@@ -67,11 +67,11 @@ export default function BadgesPage() {
             {t('home')}
           </Link>
           <h1 className="text-2xl font-bold">{t('title')}</h1>
-          <div className="w-20"></div> {/* 占位元素，保持标题居中 */}
+          <div className="badge-header-spacer w-20"></div> {/* 占位元素，保持标题居中 */}
         </div>
       </header>
 
-      <main className="flex-grow p-8">
+      <section className="badge-collection-content flex-grow p-8">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
             <p className="text-gray-400 max-w-2xl mx-auto">
@@ -178,7 +178,7 @@ export default function BadgesPage() {
             </p>
           </div>
         </div>
-      </main>
+      </section>
     </div>
   );
 }

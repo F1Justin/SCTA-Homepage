@@ -1,9 +1,8 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { getPathname, Link, usePathname } from '@/i18n/navigation';
 import Image from 'next/image';
-import { motion, AnimatePresence } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import { useTranslations, useLocale } from 'next-intl';
 import { routing, type Locale } from '@/i18n/routing';
@@ -17,6 +16,8 @@ const localeLabels: Record<Locale, { short: string; name: string }> = {
 export default function AppHeader() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const menu = useRef<HTMLDialogElement>(null);
+  const menuTrigger = useRef<HTMLButtonElement>(null);
   const pathname = usePathname();
   const router = useRouter();
   const t = useTranslations('nav');
@@ -25,14 +26,23 @@ export default function AppHeader() {
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 10);
-    window.addEventListener('scroll', handleScroll);
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   useEffect(() => {
-    document.body.style.overflow = isMobileMenuOpen ? 'hidden' : 'auto';
-    return () => { document.body.style.overflow = 'auto'; };
-  }, [isMobileMenuOpen]);
+    const dialog = menu.current;
+    if (!isMobileMenuOpen || !dialog) return;
+
+    dialog.showModal();
+    const media = window.matchMedia(locale === 'en' ? '(min-width: 1024px)' : '(min-width: 768px)');
+    const onDesktop = () => { if (media.matches) dialog.close(); };
+    media.addEventListener('change', onDesktop);
+    return () => media.removeEventListener('change', onDesktop);
+  }, [isMobileMenuOpen, locale]);
+
+  const closeMenu = () => menu.current?.close();
 
   const isActive = (href: string) =>
     pathname === href || (href !== '/' && pathname.startsWith(href + '/'));
@@ -59,16 +69,16 @@ export default function AppHeader() {
   }));
 
   return (
-    <header className={`bg-white dark:bg-gray-800 shadow-sm dark:shadow-gray-700/10 sticky top-0 z-50 transition-all duration-300 ${scrolled ? 'py-2' : 'py-3'}`}>
+    <header className={`site-header bg-white dark:bg-gray-800 shadow-sm dark:shadow-gray-700/10 sticky top-0 z-50 transition-all duration-300 ${scrolled ? 'py-2' : 'py-3'}`}>
       <div className="container mx-auto px-4 flex justify-between items-center">
-        <Link href="/" className="flex items-center space-x-3 p-1 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200">
+        <Link href="/" aria-label={ft('orgName')} className="site-brand flex items-center space-x-3 p-1 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200">
           <Image src="/Logos/上海.png" alt="SCTA" width={40} height={40} className="dark:brightness-90 flex-shrink-0" priority />
-          <h1 className="hidden sm:block text-xl font-bold text-gray-900 dark:text-white whitespace-nowrap">{ft('orgName')}</h1>
+          <span className="hidden sm:block text-xl font-bold text-gray-900 dark:text-white whitespace-nowrap">{ft('orgName')}</span>
         </Link>
 
         <div className="flex items-center gap-2">
           {/* Desktop nav */}
-          <nav className="hidden md:flex space-x-1">
+          <nav aria-label={t('navigation')} className="site-nav-desktop hidden md:flex space-x-1">
             {navItems.map((item) => (
               <Link key={item.hash ?? item.href} href={item.link} aria-current={item.active ? 'page' : undefined} className={`nav-link ${item.active ? 'bg-gray-100 dark:bg-gray-700 text-brand-red dark:text-red-400 font-medium' : ''}`}>
                 {item.label}
@@ -77,7 +87,7 @@ export default function AppHeader() {
           </nav>
 
           {/* Language switcher */}
-          <div className="flex items-center border border-gray-200 dark:border-gray-600 rounded-full overflow-hidden" role="group" aria-label={t('language')}>
+          <div className="site-language flex items-center border border-gray-200 dark:border-gray-600 rounded-full overflow-hidden" role="group" aria-label={t('language')}>
             {routing.locales.map((loc) => (
               <button
                 key={loc}
@@ -99,8 +109,10 @@ export default function AppHeader() {
 
           {/* Mobile menu button */}
           <button
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="md:hidden p-2 rounded-full text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-brand-red"
+            ref={menuTrigger}
+            type="button"
+            onClick={() => setIsMobileMenuOpen(true)}
+            className="site-menu-toggle md:hidden p-2 rounded-full text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-brand-red"
             aria-label={t('toggleMenu')}
             aria-expanded={isMobileMenuOpen}
             aria-controls="mobile-menu"
@@ -112,32 +124,26 @@ export default function AppHeader() {
         </div>
       </div>
 
-      {/* Mobile nav drawer */}
-      <AnimatePresence>
-        {isMobileMenuOpen && (
-          <>
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 0.5 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.2 }}
-              className="fixed inset-0 bg-black/50 z-40 md:hidden backdrop-blur-sm"
-              onClick={() => setIsMobileMenuOpen(false)}
-            />
-            <motion.div
-              initial={{ opacity: 0, x: '-100%' }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: '-100%' }}
-              transition={{ type: "spring", stiffness: 300, damping: 30 }}
-              id="mobile-menu"
-              className="fixed inset-y-0 left-0 max-w-[85%] w-80 z-50 md:hidden bg-white dark:bg-gray-800 shadow-xl rounded-r-2xl overflow-hidden flex flex-col"
-            >
+      <dialog
+        id="mobile-menu"
+        ref={menu}
+        aria-labelledby="mobile-menu-title"
+        className="site-menu-drawer bg-white dark:bg-gray-800 shadow-xl rounded-r-2xl"
+        onClick={event => {
+          if (event.target === event.currentTarget && event.clientX > event.currentTarget.getBoundingClientRect().right) closeMenu();
+        }}
+        onClose={() => {
+          setIsMobileMenuOpen(false);
+          menuTrigger.current?.focus({ preventScroll: true });
+        }}
+      >
+        {isMobileMenuOpen && <>
               <div className="p-6 border-b border-gray-100 dark:border-gray-700 flex items-center justify-between">
                 <div className="flex items-center space-x-3">
                   <Image src="/Logos/上海.png" alt="SCTA" width={36} height={36} className="dark:brightness-90" />
-                  <h2 className="text-xl font-bold text-gray-900 dark:text-white">{t('navigation')}</h2>
+                  <h2 id="mobile-menu-title" className="text-xl font-bold text-gray-900 dark:text-white">{t('navigation')}</h2>
                 </div>
-                <button onClick={() => setIsMobileMenuOpen(false)} className="p-2 rounded-full text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700" aria-label={t('closeMenu')}>
+                <button type="button" autoFocus onClick={closeMenu} className="site-menu-close p-2 rounded-full text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700" aria-label={t('closeMenu')}>
                   <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
                 </button>
               </div>
@@ -152,12 +158,12 @@ export default function AppHeader() {
                       className={`flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-200 ${
                         item.active ? 'bg-brand-red/10 text-brand-red dark:text-red-400 font-medium' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
                       }`}
-                      onClick={() => setIsMobileMenuOpen(false)}
+                      onClick={closeMenu}
                     >
                       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d={item.icon} /></svg>
                       <span>{item.label}</span>
                       {item.active && (
-                        <motion.div layoutId="activeIndicator" className="ml-auto h-2 w-2 rounded-full bg-brand-red" initial={{ scale: 0.8 }} animate={{ scale: 1 }} transition={{ type: "spring", stiffness: 300, damping: 30 }} />
+                        <span aria-hidden="true" className="ml-auto h-2 w-2 rounded-full bg-brand-red" />
                       )}
                     </Link>
                   ))}
@@ -175,10 +181,8 @@ export default function AppHeader() {
                   </a>
                 </div>
               </div>
-            </motion.div>
-          </>
-        )}
-      </AnimatePresence>
+        </>}
+      </dialog>
     </header>
   );
 }

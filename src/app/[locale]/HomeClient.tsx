@@ -22,8 +22,8 @@ export default function HomeClient({ activities }: HomeClientProps) {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative min-h-[93vh] bg-white dark:bg-gray-900 overflow-hidden flex items-center justify-center">
-        <div className="absolute inset-0 overflow-hidden">
+      <section id="hero" className="home-hero relative min-h-[93vh] bg-white dark:bg-gray-900 overflow-hidden flex items-center justify-center">
+        <div className="home-hero-background absolute inset-0 overflow-hidden">
           <div className="absolute inset-0 opacity-5 dark:opacity-10">
             <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
               <defs>
@@ -56,16 +56,16 @@ export default function HomeClient({ activities }: HomeClientProps) {
           />
         </div>
 
-        <div className="container mx-auto px-4 md:px-6 relative z-10 -mt-16 sm:-mt-20">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-8 md:gap-12">
+        <div className="home-hero-inner container mx-auto px-4 md:px-6 relative z-10 -mt-16 sm:-mt-20">
+          <div className="home-hero-columns flex flex-col md:flex-row items-center justify-between gap-8 md:gap-12">
             <motion.div
-              className="w-full md:max-w-2xl order-2 md:order-1"
+              className="home-hero-copy w-full md:max-w-2xl order-2 md:order-1"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
             >
               <motion.h1
-                className="text-4xl sm:text-5xl md:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white leading-tight mb-4 sm:mb-6 text-center md:text-left"
+                className="home-hero-title text-4xl sm:text-5xl md:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white leading-tight mb-4 sm:mb-6 text-center md:text-left"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.8, delay: 0.2 }}
@@ -80,7 +80,7 @@ export default function HomeClient({ activities }: HomeClientProps) {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.4 }}
               >
-                <p className="text-base sm:text-lg md:text-xl text-gray-700 dark:text-gray-300 mb-6 sm:mb-8 border-l-4 border-brand-gold pl-4 text-center md:text-left mx-auto md:mx-0 max-w-lg md:max-w-none">
+                <p className="home-hero-description text-base sm:text-lg md:text-xl text-gray-700 dark:text-gray-300 mb-6 sm:mb-8 border-l-4 border-brand-gold pl-4 text-center md:text-left mx-auto md:mx-0 max-w-lg md:max-w-none">
                   {hero('description')}
                   <span className="text-brand-red font-semibold">{hero('highlight1')}</span>
                   {hero('middle')}
@@ -90,7 +90,7 @@ export default function HomeClient({ activities }: HomeClientProps) {
               </motion.div>
 
               <motion.div
-                className="flex flex-row justify-center md:justify-start gap-4"
+                className="home-hero-actions flex flex-row justify-center md:justify-start gap-4"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.6 }}
@@ -120,7 +120,7 @@ export default function HomeClient({ activities }: HomeClientProps) {
               animate={{ opacity: 1, scale: 1, rotate: 0 }}
               transition={{ type: "spring", stiffness: 100, damping: 15, delay: 0.3 }}
             >
-              <div className="p-6 max-w-[220px] sm:max-w-[280px] md:max-w-[320px] lg:max-w-[380px] mx-auto">
+              <div className="home-hero-emblem p-6 max-w-[220px] sm:max-w-[280px] md:max-w-[320px] lg:max-w-[380px] mx-auto">
                 <div className="relative">
                   <motion.div
                     className="absolute -top-4 -left-4 w-16 h-16 sm:w-24 sm:h-24 border-t-4 border-l-4 border-brand-gold opacity-50"
@@ -157,7 +157,7 @@ export default function HomeClient({ activities }: HomeClientProps) {
         </div>
 
         <motion.div
-          className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center"
+          className="home-hero-scroll absolute bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center"
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.5, duration: 0.8 }}
@@ -172,15 +172,15 @@ export default function HomeClient({ activities }: HomeClientProps) {
       </section>
 
       {/* About Section */}
-      <section id="about" className="py-20 bg-gray-50 dark:bg-gray-800 transition-colors duration-300">
+      <section id="about" className="home-about py-20 bg-gray-50 dark:bg-gray-800 transition-colors duration-300">
         <div className="container-custom">
           <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 0.8 }} viewport={{ once: true }}>
             <h2 className="section-title dark:text-white">{about('title')}<span className="text-brand-red dark:text-red-400">{about('titleHighlight')}</span></h2>
             <div className="max-w-4xl mx-auto">
               <p className="text-lg text-center mb-8 text-gray-700 dark:text-gray-300">{about('intro')}</p>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-12">
-                <div className="bg-white dark:bg-gray-700 rounded-xl shadow-lg p-6 md:p-8 transition-all duration-300 hover:shadow-xl">
+              <div className="home-about-links grid grid-cols-1 md:grid-cols-2 gap-6 my-12">
+                <div className="home-about-card bg-white dark:bg-gray-700 rounded-xl shadow-lg p-6 md:p-8 transition-all duration-300 hover:shadow-xl">
                   <div className="flex flex-col h-full">
                     <div className="flex items-center mb-4">
                       <div className="w-12 h-12 bg-brand-red rounded-full flex items-center justify-center mr-4 flex-shrink-0">
@@ -189,7 +189,7 @@ export default function HomeClient({ activities }: HomeClientProps) {
                       <h3 className="text-2xl font-bold text-brand-red dark:text-red-400">{about('libraryTitle')}</h3>
                     </div>
                     <p className="text-gray-700 dark:text-gray-300 mb-6 flex-grow">{about('libraryDesc')}</p>
-                    <div className="flex flex-wrap gap-4 mt-auto">
+                    <div className="home-about-actions flex flex-wrap gap-4 mt-auto">
                       <Link href="/activities-library" className="inline-flex items-center px-4 py-2 bg-brand-red text-white rounded-md hover:bg-opacity-90 transition-all">
                         <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
                         {about('browseLibrary')}
@@ -202,7 +202,7 @@ export default function HomeClient({ activities }: HomeClientProps) {
                   </div>
                 </div>
 
-                <div className="bg-white dark:bg-gray-700 rounded-xl shadow-lg p-6 md:p-8 transition-all duration-300 hover:shadow-xl">
+                <div className="home-about-card bg-white dark:bg-gray-700 rounded-xl shadow-lg p-6 md:p-8 transition-all duration-300 hover:shadow-xl">
                   <div className="flex flex-col h-full">
                     <div className="flex items-center mb-4">
                       <div className="w-12 h-12 bg-brand-blue rounded-full flex items-center justify-center mr-4 flex-shrink-0">
@@ -234,14 +234,14 @@ export default function HomeClient({ activities }: HomeClientProps) {
       </section>
 
       {/* Activities Section */}
-      <section id="activities" className="py-20 bg-white dark:bg-gray-900 relative">
+      <section id="activities" className="home-activities py-20 bg-white dark:bg-gray-900 relative">
         <div className="container-custom">
           <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 0.8 }} viewport={{ once: true }}>
             <h2 className="section-title dark:text-white mb-12">{act('sectionTitle')}<span className="text-brand-red dark:text-red-400">{act('sectionHighlight')}</span></h2>
             <div className="relative">
               {activities}
-              <div className="absolute bottom-0 left-0 right-0 h-[35%] bg-gradient-to-t from-white via-white to-transparent dark:from-gray-900 dark:via-gray-900 pointer-events-none"></div>
-              <div className="absolute bottom-48 left-0 right-0 flex justify-center">
+              <div className="home-activities-fade absolute bottom-0 left-0 right-0 h-[35%] bg-gradient-to-t from-white via-white to-transparent dark:from-gray-900 dark:via-gray-900 pointer-events-none"></div>
+              <div className="home-activities-more absolute bottom-48 left-0 right-0 flex justify-center">
                 <Link href="/activities" className="btn-primary z-10">{act('viewMore')}</Link>
               </div>
             </div>
@@ -250,11 +250,11 @@ export default function HomeClient({ activities }: HomeClientProps) {
       </section>
 
       {/* Schools Section */}
-      <section id="schools" className="py-8 -mt-48 bg-gray-50 dark:bg-gray-800 transition-colors duration-300 relative z-20">
+      <section id="schools" className="home-schools py-8 -mt-48 bg-gray-50 dark:bg-gray-800 transition-colors duration-300 relative z-20">
         <div className="container-custom">
           <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 0.8 }} viewport={{ once: true }} className="pt-8">
             <h2 className="section-title dark:text-white">{sch('title')}<span className="text-brand-blue dark:text-blue-400">{sch('titleHighlight')}</span></h2>
-            <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+            <div className="home-school-grid grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
               {schools.map((school) => (
                 <SchoolCard key={school.id} school={school} />
               ))}
@@ -264,7 +264,7 @@ export default function HomeClient({ activities }: HomeClientProps) {
       </section>
 
       {/* Contact Section */}
-      <section id="contact" className="py-20 bg-gradient-to-r from-brand-blue to-brand-red text-white">
+      <section id="contact" className="home-contact py-20 bg-gradient-to-r from-brand-blue to-brand-red text-white">
         <div className="container-custom">
           <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 0.8 }} viewport={{ once: true }} className="max-w-3xl mx-auto text-center">
             <h2 className="text-3xl md:text-4xl font-bold mb-6">{contact('title')}</h2>

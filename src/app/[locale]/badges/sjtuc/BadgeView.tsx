@@ -1,69 +1,17 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { useEffect, useRef, useState } from 'react';
+import { useBadgeRotation } from '../useBadgeRotation';
 import { Link } from '@/i18n/navigation';
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 
 export default function SJTUCBadgePage() {
   const t = useTranslations('badges');
-  const badgeRef = useRef<HTMLDivElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [rotation, setRotation] = useState({ x: 0, y: 0 });
-  const [isDragging, setIsDragging] = useState(false);
-  const [startPosition, setStartPosition] = useState({ x: 0, y: 0 });
-  const [lastRotation, setLastRotation] = useState({ x: 0, y: 0 });
-  const [shine, setShine] = useState({ x: 50, y: 50 });
-
-  // 处理鼠标按下
-  const handleMouseDown = (e: React.MouseEvent) => {
-    setIsDragging(true);
-    setStartPosition({ x: e.clientX, y: e.clientY });
-    setLastRotation({ ...rotation });
-  };
-
-  // 处理鼠标移动
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (!isDragging || !badgeRef.current) return;
-
-    // 只计算水平方向的旋转
-    const deltaX = e.clientX - startPosition.x;
-
-    setRotation({
-      x: lastRotation.x,
-      y: lastRotation.y + deltaX * 0.5 // 只在水平方向旋转
-    });
-
-    // 设置光泽
-    if (containerRef.current) {
-      const containerRect = containerRef.current.getBoundingClientRect();
-      const shineX = ((e.clientX - containerRect.left) / containerRect.width) * 100;
-      const shineY = ((e.clientY - containerRect.top) / containerRect.height) * 100;
-      setShine({ x: shineX, y: shineY });
-    }
-  };
-
-  // 处理鼠标释放
-  const handleMouseUp = () => {
-    setIsDragging(false);
-  };
-
-  // 处理鼠标离开
-  const handleMouseLeave = () => {
-    setIsDragging(false);
-  };
-
-  // 注册全局鼠标事件
-  useEffect(() => {
-    document.addEventListener('mouseup', handleMouseUp);
-    return () => {
-      document.removeEventListener('mouseup', handleMouseUp);
-    };
-  }, []);
+  const { stage, rotateY, controls } = useBadgeRotation();
 
   return (
-    <div className="min-h-screen bg-black text-white flex flex-col">
+    <div className="badge-detail min-h-screen bg-black text-white flex flex-col">
       <header className="py-6 px-8">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
           <Link href="/badges" className="text-lg font-semibold text-green-400 flex items-center">
@@ -76,35 +24,24 @@ export default function SJTUCBadgePage() {
         </div>
       </header>
 
-      <main
-        ref={containerRef}
+      <section
+        ref={stage}
         className="flex-grow flex flex-col items-center justify-center px-4"
-        onMouseMove={handleMouseMove}
-        onMouseLeave={handleMouseLeave}
         style={{
           background: 'radial-gradient(circle at center, #121212 0%, #000000 100%)'
         }}
       >
         <div
-          ref={badgeRef}
-          className="w-80 h-80 relative cursor-grab active:cursor-grabbing"
-          onMouseDown={handleMouseDown}
+          {...controls}
+          aria-label={t('rotate')}
+          className="badge-rotation w-80 h-80 relative cursor-grab active:cursor-grabbing"
         >
           <motion.div
             className="absolute inset-0 flex items-center justify-center"
             style={{
               perspective: 1200,
-              transformStyle: 'preserve-3d'
-            }}
-            animate={{
-              rotateX: rotation.x,
-              rotateY: rotation.y
-            }}
-            transition={{
-              type: 'spring',
-              stiffness: 300,
-              damping: 30,
-              mass: 1.2
+              transformStyle: 'preserve-3d',
+              rotateY,
             }}
           >
             {/* 徽章侧边厚度部分 */}
@@ -151,7 +88,7 @@ export default function SJTUCBadgePage() {
 
             {/* 光泽效果层 */}
             <div className="absolute w-full h-full rounded-full overflow-hidden pointer-events-none" style={{
-              background: `radial-gradient(circle at ${shine.x}% ${shine.y}%, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0) 60%)`,
+              background: 'radial-gradient(circle at var(--shine-x, 50%) var(--shine-y, 50%), rgba(255,255,255,0.15) 0%, rgba(255,255,255,0) 60%)',
               transform: 'translateZ(1.2px)'
             }}></div>
 
@@ -189,7 +126,7 @@ export default function SJTUCBadgePage() {
           </motion.div>
         </div>
 
-        <div className="mt-16 text-center max-w-md">
+        <div className="badge-detail-caption mt-16 text-center max-w-md">
           <h2 className="text-2xl font-bold mb-3 text-red-500" style={{
             textShadow: '0 0 10px rgba(197, 51, 48, 0.3)'
           }} lang="zh">创作之星勋章</h2>
@@ -208,7 +145,7 @@ export default function SJTUCBadgePage() {
             </div>
           </div>
         </div>
-      </main>
+      </section>
     </div>
   );
 }

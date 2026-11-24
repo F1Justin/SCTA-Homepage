@@ -42,9 +42,9 @@ export default async function ActivityPage({ params }: ActivityPageProps) {
   const t = await getTranslations({ locale, namespace: 'activities' });
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="activity-detail container mx-auto px-4 py-8">
       <div className="max-w-6xl mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        <div className="activity-detail-layout grid grid-cols-1 lg:grid-cols-12 gap-8">
           <div className="lg:col-span-5">
             <div className="relative w-full overflow-hidden rounded-lg sticky top-8">
               {activity.poster ? (
@@ -66,18 +66,20 @@ export default async function ActivityPage({ params }: ActivityPageProps) {
             </div>
           </div>
 
-          <div className="lg:col-span-7">
-            <div className="flex flex-wrap items-start gap-4 mb-4">
-              <div className="flex-1 flex items-start gap-4">
-                <h1 lang="zh" className="text-4xl font-bold text-brand-red dark:text-red-400 break-words hyphens-auto" style={{ wordBreak: 'break-word' }}>{activity.title}</h1>
-                <span lang="zh" className="inline-flex items-center px-4 h-8 bg-red-50 dark:bg-red-900/30 text-brand-red dark:text-red-400 rounded-full text-sm font-medium flex-shrink-0 mt-2">
-                  {activity.category}
-                </span>
+          <div className="activity-detail-copy lg:col-span-7">
+            <div className="activity-detail-meta">
+              <div className="flex flex-wrap items-start gap-4 mb-4">
+                <div className="activity-detail-heading flex-1 flex items-start gap-4">
+                  <h1 lang="zh" className="activity-detail-title text-4xl font-bold text-brand-red dark:text-red-400 break-words hyphens-auto" style={{ wordBreak: 'break-word' }}>{activity.title}</h1>
+                  <span lang="zh" className="inline-flex items-center px-4 h-8 bg-red-50 dark:bg-red-900/30 text-brand-red dark:text-red-400 rounded-full text-sm font-medium flex-shrink-0 mt-2">
+                    {activity.category}
+                  </span>
+                </div>
               </div>
-            </div>
 
-            <div className="flex items-center text-gray-600 dark:text-gray-400 mb-8">
-              <time dateTime={activity.date}>{formatActivityDate(activity.date, locale)}</time>
+              <div className="flex items-center text-gray-600 dark:text-gray-400 mb-8">
+                <time dateTime={activity.date}>{formatActivityDate(activity.date, locale)}</time>
+              </div>
             </div>
 
             <div lang="zh" className="prose prose-lg max-w-none dark:prose-invert" dangerouslySetInnerHTML={{ __html: activity.contentHtml }} />

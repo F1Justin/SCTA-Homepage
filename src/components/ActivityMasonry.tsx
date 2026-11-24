@@ -4,8 +4,8 @@ import type { Locale } from '@/i18n/routing';
 import type { ActivitySummary } from '@/types/content';
 
 const sizes = {
-  home: '(max-width: 639px) calc(50vw - 24px), (max-width: 640px) 288px, (max-width: 767px) 182px, (max-width: 1023px) 219px, (max-width: 1279px) 304px, 390px',
-  archive: '(max-width: 639px) calc(50vw - 24px), (max-width: 640px) 288px, (max-width: 767px) 182px, (max-width: 1023px) 224px, (max-width: 1279px) 310px, (max-width: 1535px) 395px, 480px',
+  home: '(max-width: 640px) calc(50vw - 17px), (max-width: 767px) 182px, (max-width: 1023px) 219px, (max-width: 1279px) 304px, 390px',
+  archive: '(max-width: 640px) calc(50vw - 17px), (max-width: 767px) 182px, (max-width: 1023px) 224px, (max-width: 1279px) 310px, (max-width: 1535px) 395px, 480px',
 };
 
 export default async function ActivityMasonry({ activities, locale, placement }: {

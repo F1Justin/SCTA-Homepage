@@ -58,7 +58,7 @@ export default async function BlueprintDetailPage({ params }: BlueprintDetailPag
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c') }} />
 
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8 px-4">
+      <div className="blueprint-detail min-h-screen bg-gray-50 dark:bg-gray-900 py-8 px-4">
         <div className="max-w-[700px] mx-auto">
           <div className="mb-6">
             <Link href="/activities-library" className="inline-flex items-center text-gray-600 dark:text-gray-400 hover:text-brand-red dark:hover:text-brand-red transition-colors">
@@ -83,7 +83,7 @@ export default async function BlueprintDetailPage({ params }: BlueprintDetailPag
             </div>
 
             {/* Info bar */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 px-4 py-3 bg-gray-50 dark:bg-gray-700/50 border-t border-gray-100 dark:border-gray-600">
+            <div className="blueprint-detail-info grid grid-cols-2 md:grid-cols-4 gap-4 px-4 py-3 bg-gray-50 dark:bg-gray-700/50 border-t border-gray-100 dark:border-gray-600">
               {blueprint.durationPerRound && (
                 <div className="flex items-center gap-2">
                   <div className="flex-shrink-0 w-8 h-8 bg-brand-red/10 dark:bg-brand-red/20 rounded-lg flex items-center justify-center">
@@ -138,11 +138,11 @@ export default async function BlueprintDetailPage({ params }: BlueprintDetailPag
               )}
             </div>
 
-            <div className="p-8">
+            <div className="blueprint-detail-copy p-8">
               <div className="mb-12">
-                <div className="flex items-start mb-4">
+                <div className="blueprint-detail-heading flex items-start mb-4">
                   <h1 lang="zh" className="text-4xl font-bold text-gray-900 dark:text-white">{blueprint.title}</h1>
-                  <div className="flex flex-wrap gap-2 ml-4 mt-1.5">
+                  <div className="blueprint-detail-tags flex flex-wrap gap-2 ml-4 mt-1.5">
                     {blueprint.category.map((cat, i) => (
                       <span key={i} className="px-3 py-1 bg-brand-red/20 text-brand-red dark:bg-brand-red/30 dark:text-red-300 rounded-full text-sm font-medium whitespace-nowrap">
                         {cat}

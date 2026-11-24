@@ -1,4 +1,5 @@
 import '@/styles/globals.css'
+import '@/styles/mobile.css'
 import type { Locale } from '@/i18n/routing'
 import { Noto_Sans_SC } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/react'

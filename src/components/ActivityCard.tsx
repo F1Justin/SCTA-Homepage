@@ -46,8 +46,9 @@ export default function ActivityCard({ activity, index, locale, learnMore, sizes
             <p lang="zh" className="activity-card-preview">{activity.preview}</p>
           </div>
           <div className="activity-card-meta">
+            <span lang="zh" className="activity-card-mobile-category">{activity.category}</span>
             <time dateTime={activity.date} className="text-sm text-gray-500 dark:text-gray-400">{formatActivityDate(activity.date, locale)}</time>
-            <span className="text-brand-blue dark:text-blue-400 font-medium text-sm items-center hidden sm:inline-flex">
+            <span className="activity-card-more text-brand-blue dark:text-blue-400 font-medium text-sm items-center hidden sm:inline-flex">
               {learnMore}
               <svg aria-hidden="true" className="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />

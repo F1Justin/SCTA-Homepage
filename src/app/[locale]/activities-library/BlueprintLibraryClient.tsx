@@ -26,9 +26,9 @@ export default function BlueprintLibraryClient({ blueprints, categories }: Bluep
     : blueprints.filter(bp => bp.category.includes(selectedCategory));
 
   return (
-    <div className="min-h-screen py-12 px-4 sm:px-6 lg:px-8 bg-gray-50 dark:bg-gray-900">
+    <div className="library-page min-h-screen py-12 px-4 sm:px-6 lg:px-8 bg-gray-50 dark:bg-gray-900">
       <div className="max-w-7xl mx-auto">
-        <div className="mb-12">
+        <div className="library-intro mb-12">
           <div className="flex flex-col lg:flex-row gap-8 items-center lg:items-start">
             <div className="w-full lg:w-1/2 text-center lg:text-left lg:pr-4">
               <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">{t('pageTitle')}</h1>
@@ -36,7 +36,7 @@ export default function BlueprintLibraryClient({ blueprints, categories }: Bluep
             </div>
 
             <div className="w-full lg:w-1/2">
-              <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+              <div className="library-contribute bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
                 <h2 className="text-xl font-bold text-brand-red dark:text-red-400 mb-3">{t('contributeTitle')}</h2>
                 <p className="text-gray-700 dark:text-gray-300 mb-4">{t('contributeDesc')}</p>
                 <div className="text-center lg:text-left">
@@ -61,7 +61,7 @@ export default function BlueprintLibraryClient({ blueprints, categories }: Bluep
         ) : (
           <>
             <div className="mb-8">
-              <div className="flex flex-wrap justify-center gap-2">
+              <div className="library-filters flex flex-wrap justify-center gap-2">
                 {[null, ...categories].map((category) => (
                   <button
                     key={category ?? ''}
@@ -93,7 +93,7 @@ export default function BlueprintLibraryClient({ blueprints, categories }: Bluep
                 </button>
               </div>
             ) : (
-              <Masonry breakpointCols={masonryBreakpoints} className="flex w-auto -mx-2 sm:-mx-4" columnClassName="px-2 sm:px-4">
+              <Masonry breakpointCols={masonryBreakpoints} className="library-masonry flex w-auto -mx-2 sm:-mx-4" columnClassName="px-2 sm:px-4 library-masonry-column">
                 {filteredBlueprints.map((blueprint) => (
                   <div key={blueprint.slug} className="mb-4 sm:mb-8">
                     <BlueprintCard blueprint={blueprint} />
