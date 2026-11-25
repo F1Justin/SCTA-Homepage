@@ -1,7 +1,8 @@
 import React, { useMemo } from 'react';
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
 import Image from 'next/image';
-import type { Blueprint } from '@/types/content';
+import { useTranslations } from 'next-intl';
+import type { BlueprintSummary } from '@/types/content';
 
 const gradients = [
   'bg-gradient-to-r from-brand-red via-brand-red/70 to-brand-gold/50',
@@ -19,10 +20,11 @@ const gradients = [
 ];
 
 interface BlueprintCardProps {
-  blueprint: Blueprint;
+  blueprint: BlueprintSummary;
 }
 
 export default function BlueprintCard({ blueprint }: BlueprintCardProps) {
+  const t = useTranslations('library');
   const gradientIndex = useMemo(() => {
     let hash = 0;
     for (let i = 0; i < blueprint.title.length; i++) {
@@ -34,7 +36,7 @@ export default function BlueprintCard({ blueprint }: BlueprintCardProps) {
 
   return (
     <Link 
-      href={`/activities-library/${blueprint.slug}`}
+      href={`/activities-library/${encodeURIComponent(blueprint.slug)}`}
       className="block bg-white dark:bg-gray-800 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden"
     >
       <div className="relative aspect-video w-full">
@@ -48,7 +50,7 @@ export default function BlueprintCard({ blueprint }: BlueprintCardProps) {
           />
         ) : (
           <div className={`absolute inset-0 ${gradients[gradientIndex]} flex items-center justify-center p-6`}>
-            <h3 style={{ fontFamily: 'SmileySans' }} className="text-4xl md:text-5xl font-normal text-white text-center drop-shadow-lg">
+            <h3 lang="zh" style={{ fontFamily: 'SCTA Covers, SmileySans' }} className="text-4xl md:text-5xl font-normal text-white text-center drop-shadow-lg">
               {blueprint.title}
             </h3>
           </div>
@@ -57,6 +59,7 @@ export default function BlueprintCard({ blueprint }: BlueprintCardProps) {
         <div className="absolute top-2 right-2 flex flex-wrap gap-1 justify-end">
           {blueprint.category.map((cat, index) => (
             <span
+              lang="zh"
               key={index}
               className="px-2 py-1 text-xs bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm text-brand-red dark:text-red-400 rounded-full font-medium"
             >
@@ -67,9 +70,9 @@ export default function BlueprintCard({ blueprint }: BlueprintCardProps) {
       </div>
 
       <div className="p-4">
-        <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-2">{blueprint.title}</h3>
+        <h3 lang="zh" className="text-xl font-bold text-gray-800 dark:text-white mb-2">{blueprint.title}</h3>
         {blueprint.summary && (
-          <p className="text-gray-600 dark:text-gray-300 text-sm mb-4 line-clamp-2">{blueprint.summary}</p>
+          <p lang="zh" className="text-gray-600 dark:text-gray-300 text-sm mb-4 line-clamp-2">{blueprint.summary}</p>
         )}
         <div className="flex flex-wrap gap-4 text-sm text-gray-500 dark:text-gray-400">
           {blueprint.durationPerRound && (
@@ -77,7 +80,7 @@ export default function BlueprintCard({ blueprint }: BlueprintCardProps) {
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
-              <span>{blueprint.durationPerRound}</span>
+              <span lang="zh">{blueprint.durationPerRound}</span>
             </div>
           )}
           {blueprint.participantsPerRound && (
@@ -85,7 +88,9 @@ export default function BlueprintCard({ blueprint }: BlueprintCardProps) {
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
               </svg>
-              <span>{blueprint.participantsPerRound}人</span>
+              <span>{/^\d+$/.test(blueprint.participantsPerRound)
+                ? t('people', { count: Number(blueprint.participantsPerRound) })
+                : t('peopleRange', { range: blueprint.participantsPerRound })}</span>
             </div>
           )}
         </div>

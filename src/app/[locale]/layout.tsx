@@ -1,59 +1,60 @@
 import { NextIntlClientProvider } from 'next-intl';
-import { getMessages, getTranslations, setRequestLocale } from 'next-intl/server';
-import { notFound } from 'next/navigation';
-import { locales, type Locale } from '@/i18n/config';
-import type { Metadata } from 'next';
+import { getMessages, getTranslations } from 'next-intl/server';
+import type { Metadata, Viewport } from 'next';
+import { SITE_URL } from '@/i18n/metadata';
+import { routing } from '@/i18n/routing';
+import { setRouteLocale, type LocaleParams } from '@/i18n/route-locale';
 import AppHeader from '@/components/layout/AppHeader';
 import AppFooter from '@/components/layout/AppFooter';
+import SiteDocument from '@/components/layout/SiteDocument';
+
+export const viewport: Viewport = {
+  themeColor: '#ffffff',
+  width: 'device-width',
+  initialScale: 1,
+};
 
 interface LocaleLayoutProps {
   children: React.ReactNode;
-  params: Promise<{ locale: string }>;
+  params: LocaleParams;
 }
 
 export function generateStaticParams() {
-  return locales.map((locale) => ({ locale }));
+  return routing.locales.map(locale => ({ locale }));
 }
 
-export async function generateMetadata({ params }: LocaleLayoutProps): Promise<Metadata> {
-  const { locale } = await params;
+export async function generateMetadata({ params }: { params: LocaleParams }): Promise<Metadata> {
+  const locale = setRouteLocale((await params).locale);
   const t = await getTranslations({ locale, namespace: 'metadata' });
-  const SITE_URL = 'https://www.scta.cc';
-
   return {
+    metadataBase: new URL(SITE_URL),
     title: t('title'),
     description: t('description'),
-    openGraph: {
-      title: t('title'),
-      description: t('description'),
-      siteName: t('siteName'),
+    keywords: ['东方Project', '東方Project', 'Touhou', '上海高校', '同人', '弹幕', '幻想乡', 'SCTA'],
+    icons: {
+      icon: [
+        { url: '/icons/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+        { url: '/icons/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
+      ],
+      apple: [{ url: '/icons/apple-touch-icon.png', sizes: '180x180', type: 'image/png' }],
     },
-    alternates: {
-      canonical: SITE_URL,
-      languages: {
-        'zh': SITE_URL,
-        'en': `${SITE_URL}/en`,
-        'ja': `${SITE_URL}/ja`,
-      },
-    },
+    manifest: '/manifest.json',
+    appleWebApp: { capable: true, statusBarStyle: 'default', title: t('siteName') },
   };
 }
 
 export default async function LocaleLayout({ children, params }: LocaleLayoutProps) {
-  const { locale } = await params;
+  const locale = setRouteLocale((await params).locale);
 
-  if (!locales.includes(locale as Locale)) {
-    notFound();
-  }
-
-  setRequestLocale(locale);
-  const messages = await getMessages();
+  const { nav, footer, errors } = await getMessages({ locale });
 
   return (
-    <NextIntlClientProvider messages={messages}>
-      <AppHeader />
-      <main className="min-h-screen">{children}</main>
-      <AppFooter />
-    </NextIntlClientProvider>
+    <SiteDocument locale={locale}>
+      <NextIntlClientProvider messages={{ nav, footer, errors }}>
+        <AppHeader />
+        <main className="min-h-screen">{children}</main>
+        <AppFooter />
+      </NextIntlClientProvider>
+    </SiteDocument>
   );
 }

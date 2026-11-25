@@ -25,4 +25,5 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm audit --audit-level=low
+      - run: npm run check:i18n
       - run: npm run build

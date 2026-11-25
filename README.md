@@ -30,7 +30,7 @@
 
 ## 开发
 
-确保您已安装 Node.js (>= 14.x)
+使用 Node.js 24，和 CI 环境保持一致。
 
 1. 克隆仓库
 ```bash
@@ -49,6 +49,8 @@ npm run dev
 ```
 
 5. 在浏览器中打开 [http://localhost:3000](http://localhost:3000)
+
+字典改动可运行 `npm run check:i18n`，检查三语键名、ICU 参数和复数分支。
 
 ## 构建与部署
 
@@ -88,6 +90,10 @@ scta-homepage/
 ## 内容管理
 
 活动和方案内容以 Markdown 文件存储在 `content/` 目录中。编辑内容后 push 到 GitHub，Vercel 会自动构建部署。
+
+本地活动海报以 `/content/activities/…` 引用。生产构建重新读取图片尺寸、EXIF 方向和内容哈希，无需手工维护图片清单。外部海报可提供正数 `imageWidth` 和 `imageHeight`。未提供尺寸时先保留 3:4 版位，本地文件缺失或无法读取时显示文字封面。活动日期优先使用带时区的 ISO 8601，例如 `2026-06-14T13:00+08:00`，前端统一按上海时间展示。
+
+[移动端设计](docs/mobile-design.md) · [工程升级与验收](docs/internal-upgrade.md)
 
 ## 许可
 

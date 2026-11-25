@@ -11,7 +11,10 @@
     "schools": "加盟サークル",
     "about": "私たちについて",
     "contact": "参加する",
-    "navigation": "メニュー"
+    "navigation": "メニュー",
+    "language": "表示言語",
+    "toggleMenu": "ナビゲーションメニューを開閉",
+    "closeMenu": "メニューを閉じる"
   },
   "hero": {
     "titleLine1Start": "幻想郷",
@@ -25,7 +28,8 @@
     "descEnd": "を歓迎します。学生でも社会人でもクリエイターでも、あなたの弾幕の世界がここにあります！",
     "learnMore": "詳しく見る",
     "explore": "イベントを探す",
-    "scrollDown": "スクロール"
+    "scrollDown": "スクロール",
+    "logoAlt": "SCTAのロゴ"
   },
   "about": {
     "title": "私たち",
@@ -53,12 +57,16 @@
   },
   "schools": {
     "title": "加盟",
-    "titleHighlight": "サークル"
+    "titleHighlight": "サークル",
+    "close": "閉じる",
+    "groupNumber": "QQグループ番号：{number}",
+    "logoAlt": "{name}の校章"
   },
   "contact": {
     "title": "参加する",
     "desc": "東方Projectのベテランでも、幻想郷を知ったばかりの方でも、大歓迎です！一緒にこの素晴らしい弾幕の世界を探検しましょう！",
-    "scanQr": "QRコードをスキャンして上海高校東方連合会に参加"
+    "scanQr": "QRコードをスキャンして上海高校東方連合会に参加",
+    "qrAlt": "上海高校東方連合会のQQグループのQRコード"
   },
   "library": {
     "pageTitle": "サークル企画ライブラリ",
@@ -85,7 +93,9 @@
     "durationPerRound": "各ラウンド時間",
     "rounds": "ラウンド数",
     "participantsPerRound": "各ラウンド人数",
-    "participantCriteria": "参加条件"
+    "participantCriteria": "参加条件",
+    "people": "{count, plural, other {#人}}",
+    "peopleRange": "{range}人"
   },
   "footer": {
     "orgName": "上海高校東方連合会",
@@ -95,6 +105,29 @@
     "qqGroup": "QQグループ：949959173",
     "biliAccount": "Bilibili：上海高校东方联合会",
     "copyright": "© {year} 上海高校東方連合会. All rights reserved.",
-    "mobileDrawerDesc": "上海各大学の東方Project愛好者をつなぎ、創作と交流を共有します。"
+    "mobileDrawerDesc": "上海各大学の東方Project愛好者をつなぎ、創作と交流を共有します。",
+    "bilibili": "bilibili",
+    "github": "GitHub"
+  },
+  "errors": {
+    "notFound": "ページが見つかりませんでした。",
+    "failed": "ページを読み込めませんでした",
+    "retry": "再試行"
+  },
+  "badges": {
+    "home": "ホームに戻る",
+    "title": "サークル功績徽章コレクション",
+    "intro": "この金属製の徽章は、各大学の東方サークルのメンバーがさまざまな分野で挙げた功績をたたえるものです。一つひとつの徽章に、メンバーの情熱と才能への敬意が込められています。",
+    "view": "徽章の詳細を見る",
+    "notice": "メンバー向けのコレクションページです。新しいサークルの徽章も制作中です。",
+    "back": "徽章一覧に戻る",
+    "emblem": "{name}の校章",
+    "tongjiColor": "紺色 · 同済大学のスクールカラー",
+    "tongjiValue": "金色 · 卓越した貢献",
+    "fudanColor": "深紅 · 復旦大学のスクールカラー",
+    "fudanValue": "青緑 · ゲームの達人",
+    "sjtucColor": "紺色 · 上海交通大学のスクールカラー",
+    "sjtucValue": "赤色 · 創作への情熱",
+    "rotate": "徽章を回転"
   }
 }

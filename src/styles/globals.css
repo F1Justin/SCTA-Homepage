@@ -2,9 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
-@import './fonts.css';
-
 @layer base {
+  @font-face {
+    font-family: 'SCTA Covers';
+    src: url('./type/SctaCovers.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+
   @font-face {
     font-family: 'SmileySans';
     src: url('/fonts/SmileySans-Oblique.ttf') format('truetype');

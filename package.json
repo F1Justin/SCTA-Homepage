@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "eslint src --ext .ts,.tsx --max-warnings 0",
+    "check:i18n": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/check-i18n.mjs",
+    "typecheck": "tsc --noEmit"
   },
   "repository": {
     "type": "git",
@@ -26,18 +28,19 @@
     "@vercel/speed-insights": "^1.2.0",
     "framer-motion": "^11.18.2",
     "gray-matter": "^4.0.3",
-    "next": "^15.5.25",
+    "next": "^15.5.29",
     "next-intl": "^4.14.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-masonry-css": "^1.0.16",
     "rehype-raw": "^7.0.0",
     "rehype-stringify": "^10.0.1",
     "remark-parse": "^11.0.0",
     "remark-rehype": "^11.1.2",
+    "sharp": "^0.35.5",
     "unified": "^11.0.5"
   },
   "devDependencies": {
+    "@formatjs/icu-messageformat-parser": "^3.5.9",
     "@types/node": "20.17.45",
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",
@@ -47,11 +50,13 @@
     "eslint": "8.57.1",
     "eslint-config-next": "^15.5.25",
     "postcss": "^8.5.28",
-    "sharp": "^0.35.4",
     "tailwindcss": "^3.3.0",
     "typescript": "^5.4.2"
   },
   "overrides": {
-    "postcss": "$postcss"
+    "postcss": "$postcss",
+    "@tailwindcss/typography": {
+      "postcss-selector-parser": "^6.1.5"
+    }
   }
 }
